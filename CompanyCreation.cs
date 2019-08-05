@@ -223,6 +223,7 @@ namespace Job_Application_Database
             _ccw.buttonCancel.Click += Button_Click;
             _ccw.buttonAddRep.Click += Button_Click;
             _ccw.buttonAddTitle.Click += Button_Click;
+            _ccw.buttonAddBoard.Click += Button_Click;
             _ccw.Closing += Window_Closing;
             _ccw.Loaded += Window_Loaded;
 
@@ -274,7 +275,7 @@ namespace Job_Application_Database
         private void TextInput_MouseDown(object sender, MouseEventArgs e)
         {
             var tb = sender as TextBox;
-            if(e.OriginalSource.GetType().Name == "TextBoxView")
+            if (e.OriginalSource.GetType().Name == "TextBoxView")
             {
                 e.Handled = true;
                 tb.Focus();
@@ -284,7 +285,7 @@ namespace Job_Application_Database
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            if(Exit == Enum.ExitStatus.Ok)
+            if (Exit == Enum.ExitStatus.Ok)
             {
                 SaveCompanyDetails();
             }
@@ -309,6 +310,10 @@ namespace Job_Application_Database
             else if (e.Source == _ccw.buttonAddTitle)
             {
                 EditJobs();
+            }
+            else if (e.Source == _ccw.buttonAddBoard)
+            {
+                EditBoards();
             }
         }
 
@@ -335,6 +340,12 @@ namespace Job_Application_Database
             Exit = Enum.ExitStatus.Ok;
         }
 
+        private void EditBoards()
+        {
+            new BoardsListWindow().ShowDialog();
+            RefreshBoardCB();
+        }
+
         private void EditJobs()
         {
             new JobsListWindow().ShowDialog();
@@ -347,17 +358,25 @@ namespace Job_Application_Database
             RefreshRepCB();
         }
 
+        private void RefreshBoardCB()
+        {
+            RefereshComboBox(_ccw.comboboxBoard, Boards.Instance);
+        }
+
         private void RefreshJobCB()
         {
-            _ccw.comboboxJob.ItemsSource = Jobs.Instance.AllObjects();
-            ICollectionView view = CollectionViewSource.GetDefaultView(_ccw.comboboxJob.ItemsSource);
-            view.Refresh();
+            RefereshComboBox(_ccw.comboboxJob, Jobs.Instance);
         }
 
         private void RefreshRepCB()
         {
-            _ccw.comboboxRep.ItemsSource = Reps.Instance.AllObjects();
-            ICollectionView view = CollectionViewSource.GetDefaultView(_ccw.comboboxRep.ItemsSource);
+            RefereshComboBox(_ccw.comboboxRep, Reps.Instance);
+        }
+
+        private void RefereshComboBox(ComboBox cb, BaseSingleton bs)
+        {
+            cb.ItemsSource = bs.AllObjects();
+            ICollectionView view = CollectionViewSource.GetDefaultView(cb.ItemsSource);
             view.Refresh();
         }
 

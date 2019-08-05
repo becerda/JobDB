@@ -1,11 +1,6 @@
 ﻿using Job_Application_Database.IO;
 using Job_Application_Database.Singleton;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 
@@ -27,8 +22,8 @@ namespace Job_Application_Database.Classes
             if (bc.Exit == Enum.ExitStatus.Ok)
             {
                 Boards.Instance.AddObject(bc.Info);
-                Files.Instance.SaveJobFile();
-                RefreshListView();
+                Files.Instance.SaveBoardFile();
+                RefreshListView(Boards.Instance);
             }
         }
 
@@ -40,8 +35,8 @@ namespace Job_Application_Database.Classes
             {
                 BoardCreation bc = new BoardCreation(b);
                 bc.ShowDialog();
-                Files.Instance.SaveJobFile();
-                RefreshListView();
+                Files.Instance.SaveBoardFile();
+                RefreshListView(Boards.Instance);
             }
         }
 
@@ -66,18 +61,11 @@ namespace Job_Application_Database.Classes
                     {
                         Boards.Instance.RemoveObject(info);
                     }
-                    Files.Instance.SaveJobFile();
-                    RefreshListView();
+                    Files.Instance.SaveBoardFile();
+                    RefreshListView(Boards.Instance);
                 }
             }
         }
-
-        // Refreshes The List View
-        protected override void RefreshListView()
-        {
-            _blw.listviewCurrent.ItemsSource = Jobs.Instance.AllObjects();
-            ICollectionView view = CollectionViewSource.GetDefaultView(_blw.listviewCurrent.ItemsSource);
-            view.Refresh();
-        }
     }
+
 }
