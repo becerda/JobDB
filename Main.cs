@@ -25,13 +25,17 @@ namespace Job_Application_Database
         // Reference To Files Singleton
         private Files _fm;
 
-        // To keep track Of Saved State
+        // To Keep Track Of Saved State
         private bool _saved = true;
 
-        // To keep track Of Sorted Column
+        // To Keep Track Of Sorted Column
         private GridViewColumnHeader _sortCol;
-        // To keep track of sorted direction
+
+        // To Keep Track Of Sorted Direction
         private ListSortDirection _sortDir;
+
+        // To Keep Track Of Current Sort Header
+        private string _sortHeader = "Company";
 
         // Current Title Of Application
         private string _title = Properties.Settings.Default.MainWindowTitle;
@@ -112,8 +116,6 @@ namespace Job_Application_Database
             ICollectionView result = CollectionViewSource.GetDefaultView(_mw.listviewCompanies.ItemsSource);
             result.SortDescriptions.Clear();
             result.SortDescriptions.Add(new SortDescription(b.Path.Path, ListSortDirection.Ascending));
-            _mw.gridviewcolCompany.HeaderTemplate = _mw.Resources["ArrowUp"] as DataTemplate;
-            _sortDir = ListSortDirection.Ascending;
         }
 
         // On Window Closing Handler
@@ -258,17 +260,17 @@ namespace Job_Application_Database
                 col.Column.HeaderTemplate = _mw.Resources["ArrowDown"] as DataTemplate;
             }
 
-            string header = string.Empty;
+            _sortHeader = string.Empty;
 
             Binding b = _sortCol.Column.DisplayMemberBinding as Binding;
             if (b != null)
             {
-                header = b.Path.Path;
+                _sortHeader = b.Path.Path;
             }
 
             ICollectionView result = CollectionViewSource.GetDefaultView(_mw.listviewCompanies.ItemsSource);
             result.SortDescriptions.Clear();
-            result.SortDescriptions.Add(new SortDescription(header, _sortDir));
+            result.SortDescriptions.Add(new SortDescription(_sortHeader, _sortDir));
         }
 
         // List View Item Double Click Handler
@@ -316,6 +318,7 @@ namespace Job_Application_Database
                 _mw.listviewCompanies.ItemsSource = source;
                 ICollectionView view = CollectionViewSource.GetDefaultView(_mw.listviewCompanies.ItemsSource);
                 view.Refresh();
+                view.SortDescriptions.Add(new SortDescription(_sortHeader, _sortDir));
                 _mw.labelCount.Content = "Count: " + source.ToList<BaseInfo>().Count;
             }
         }
@@ -357,8 +360,11 @@ namespace Job_Application_Database
             {
                 CompanyCreation aec = new CompanyCreation(ref c, Enum.EditMode.Edit);
                 aec.ShowDialog();
-                RefreshListView();
-                MarkUnsaved();
+                if (aec.Exit == Enum.ExitStatus.Ok)
+                {
+                    RefreshListView();
+                    MarkUnsaved();
+                }
             }
         }
 

@@ -75,6 +75,16 @@ namespace Job_Application_Database
             }
         }
 
+        private Board Board
+        {
+            get
+            {
+                int idx = _ccw.comboboxBoard.SelectedIndex;
+                if (idx < 0) idx = 0;
+                return Boards.Instance.NamesToTable(idx) as Board;
+            }
+        }
+
         private string Location
         {
             get
@@ -315,6 +325,7 @@ namespace Job_Application_Database
             Company.WebSite = Website;
             Company.Rep = Rep;
             Company.Job = Job;
+            Company.Board = Board;
             Company.Location = Location;
             Company.AppDate = Date;
             Company.Status = Status;
