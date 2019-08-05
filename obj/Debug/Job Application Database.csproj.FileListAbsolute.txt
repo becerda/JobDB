@@ -1,0 +1,26 @@
+Z:\Development\C#\Job Application Database\Job Application Database\bin\Debug\Job Application Database.exe.config
+Z:\Development\C#\Job Application Database\Job Application Database\bin\Debug\Job Application Database.exe
+Z:\Development\C#\Job Application Database\Job Application Database\bin\Debug\Job Application Database.pdb
+Z:\Development\C#\Job Application Database\Job Application Database\bin\Debug\Newtonsoft.Json.dll
+Z:\Development\C#\Job Application Database\Job Application Database\bin\Debug\Newtonsoft.Json.Schema.dll
+Z:\Development\C#\Job Application Database\Job Application Database\bin\Debug\Newtonsoft.Json.xml
+Z:\Development\C#\Job Application Database\Job Application Database\bin\Debug\Newtonsoft.Json.Schema.xml
+Z:\Development\C#\Job Application Database\Job Application Database\obj\Debug\BaseListWindow.g.cs
+Z:\Development\C#\Job Application Database\Job Application Database\obj\Debug\MainWindow.g.cs
+Z:\Development\C#\Job Application Database\Job Application Database\obj\Debug\BaseCreationWindow.g.cs
+Z:\Development\C#\Job Application Database\Job Application Database\obj\Debug\App.g.cs
+Z:\Development\C#\Job Application Database\Job Application Database\obj\Debug\Job Application Database_MarkupCompile.cache
+Z:\Development\C#\Job Application Database\Job Application Database\obj\Debug\Job Application Database_MarkupCompile.lref
+Z:\Development\C#\Job Application Database\Job Application Database\obj\Debug\BaseListWindow.baml
+Z:\Development\C#\Job Application Database\Job Application Database\obj\Debug\MainWindow.baml
+Z:\Development\C#\Job Application Database\Job Application Database\obj\Debug\BaseCreationWindow.baml
+Z:\Development\C#\Job Application Database\Job Application Database\obj\Debug\Job Application Database.g.resources
+Z:\Development\C#\Job Application Database\Job Application Database\obj\Debug\Job_Application_Database.Properties.Resources.resources
+Z:\Development\C#\Job Application Database\Job Application Database\obj\Debug\Job Application Database.csproj.GenerateResource.cache
+Z:\Development\C#\Job Application Database\Job Application Database\obj\Debug\Job Application Database.csproj.CoreCompileInputs.cache
+Z:\Development\C#\Job Application Database\Job Application Database\obj\Debug\Job Application Database.csproj.CopyComplete
+Z:\Development\C#\Job Application Database\Job Application Database\obj\Debug\Job Application Database.exe
+Z:\Development\C#\Job Application Database\Job Application Database\obj\Debug\Job Application Database.pdb
+Z:\Development\C#\Job Application Database\Job Application Database\obj\Debug\Job Application Database.csprojAssemblyReference.cache
+Z:\Development\C#\Job Application Database\Job Application Database\obj\Debug\CompanyCreationWindow.g.cs
+Z:\Development\C#\Job Application Database\Job Application Database\obj\Debug\CompanyCreationWindow.baml

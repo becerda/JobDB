@@ -1,0 +1,43 @@
+﻿<Window x:Class="Job_Application_Database.BaseListWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen" 
+        ResizeMode="NoResize"
+        Title="Edit Jobs" SizeToContent="WidthAndHeight">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <ListView x:Name="listviewCurrent" Margin="10" Width="200" Height="400" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Job Title" Width="200" DisplayMemberBinding="{Binding Name}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <Grid Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Button x:Name="buttonAdd" Content="Add Job" Margin="10,10,20,10" Grid.Column="2" Grid.Row="0" Width="100" Height="Auto" VerticalAlignment="Center"/>
+            <Button x:Name="buttonDelete" Content="Delete Job" Margin="10,10,20,10" Grid.Column="2" Grid.Row="1" Width="100" Height="Auto" VerticalAlignment="Center"/>
+            <Button x:Name="buttonEdit" Content="Edit Job" Margin="10,10,20,10" Grid.Column="2" Grid.Row="2" Width="100" Height="Auto" VerticalAlignment="Center"/>
+        </Grid>
+        
+        
+    </Grid>
+</Window>
