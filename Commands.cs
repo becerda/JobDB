@@ -1,11 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
 namespace Job_Application_Database.Commands
 {
+    /// <summary>
+    /// Menu Commands (Not In Use)
+    /// </summary>
     public static class MenuCommands
     {
+        // New Menu Command
         public static readonly RoutedUICommand New = new RoutedUICommand
         (
             "_New",
@@ -17,6 +19,7 @@ namespace Job_Application_Database.Commands
             }
         );
 
+        // Open Menu Command
         public static readonly RoutedUICommand Open = new RoutedUICommand
         (
             "_Open",
@@ -28,6 +31,7 @@ namespace Job_Application_Database.Commands
             }
         );
 
+        // Save Menu Command
         public static readonly RoutedUICommand Save = new RoutedUICommand
         (
             "_Save",
@@ -39,6 +43,7 @@ namespace Job_Application_Database.Commands
             }
         );
 
+        // Exit Menu Command
         public static readonly RoutedUICommand Exit = new RoutedUICommand
         (
             "Exit",
@@ -50,6 +55,7 @@ namespace Job_Application_Database.Commands
             }
         );
 
+        // Add Company Menu Command
         public static readonly RoutedUICommand Add = new RoutedUICommand
         (
             "_Add",
@@ -61,6 +67,7 @@ namespace Job_Application_Database.Commands
             }
         );
 
+        // Delete Company Menu Command
         public static readonly RoutedUICommand Delete = new RoutedUICommand
         (
             "Delete",
@@ -72,5 +79,6 @@ namespace Job_Application_Database.Commands
             }
         );
     }
+
 }
 

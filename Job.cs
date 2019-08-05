@@ -33,4 +33,5 @@ namespace Job_Application_Database.Classes
             ID = Job_ID++;
         }
     }
+
 }

@@ -1,11 +1,7 @@
 ﻿using Job_Application_Database.Classes;
 using Job_Application_Database.Singleton;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -359,4 +355,5 @@ namespace Job_Application_Database
             _ccw.ShowDialog();
         }
     }
+
 }

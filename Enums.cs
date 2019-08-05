@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Job_Application_Database.Enum
 {
-
+    // Current Position Status With A Company
     [Flags]
     public enum Status
     {
@@ -21,6 +17,7 @@ namespace Job_Application_Database.Enum
         Rejected = 128    // Company Rejected my application
     }
 
+    // Position Type
     public enum PositionType
     {
         NA = 0,        // Not Applicable / Blank
@@ -29,18 +26,24 @@ namespace Job_Application_Database.Enum
         Contract = 3    // Contract
     }
 
+    // Window Exit Status
     public enum ExitStatus
     {
         Ok, Cancel
     }
 
+    // Creation Window Mode
     public enum EditMode
     {
         New, Edit
     }
 
+    /// <summary>
+    /// Enum Class With Helper Functions
+    /// </summary>
     public static class Enums
     {
+        // Parse An Int To A Status Flag
         public static Status ParseStatus(int status)
         {
             Status s = Status.NA;
@@ -57,6 +60,7 @@ namespace Job_Application_Database.Enum
             return s;
         }
 
+        // Parse An Int To A Position Type
         public static PositionType ParsePositionType(int type)
         {
             if (type == 1) return PositionType.Part;
@@ -65,4 +69,5 @@ namespace Job_Application_Database.Enum
             return PositionType.NA;
         }
     }
+
 }

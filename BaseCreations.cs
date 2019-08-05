@@ -126,4 +126,5 @@ namespace Job_Application_Database.Classes
             _bcw.ShowDialog();
         }
     }
+
 }

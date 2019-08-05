@@ -19,20 +19,21 @@ namespace Job_Application_Database
         // The Main Window
         private MainWindow _mw;
 
-        // Reference to Companies singleton
+        // Reference To Companies Singleton
         private Companies _cm;
-        // Reference to Files singleton
+
+        // Reference To Files Singleton
         private Files _fm;
 
-        // To keep track of saved state
+        // To keep track Of Saved State
         private bool _saved = true;
 
-        // To keep track of sorted column
+        // To keep track Of Sorted Column
         private GridViewColumnHeader _sortCol;
         // To keep track of sorted direction
         private ListSortDirection _sortDir;
 
-        // Current Title of Application
+        // Current Title Of Application
         private string _title = Properties.Settings.Default.MainWindowTitle;
 
         // Default Constructor
@@ -428,4 +429,5 @@ namespace Job_Application_Database
         }
 
     }
+
 }

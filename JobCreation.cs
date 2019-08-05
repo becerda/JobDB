@@ -16,4 +16,5 @@ namespace Job_Application_Database.Classes
         // Base Constructor
         public JobCreation(Job job, EditMode mode) : base(job, mode, "Job", "Salary") { }
     }
+
 }

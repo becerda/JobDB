@@ -75,4 +75,5 @@ namespace Job_Application_Database.Classes
             view.Refresh();
         }
     }
+
 }

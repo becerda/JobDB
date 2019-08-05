@@ -1,6 +1,4 @@
-﻿
-
-using Job_Application_Database.Enum;
+﻿using Job_Application_Database.Enum;
 
 namespace Job_Application_Database.Classes
 {
@@ -18,4 +16,5 @@ namespace Job_Application_Database.Classes
         // Base Constructor
         public BoardCreation(Board board, EditMode mode) : base(board, mode, "Job Board", "Website") { }
     }
+
 }

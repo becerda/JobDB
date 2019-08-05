@@ -1,11 +1,6 @@
 ﻿using Job_Application_Database.Singleton;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Schema;
-using Newtonsoft.Json.Schema.Generation;
 using System;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace Job_Application_Database.Classes
 {
@@ -134,6 +129,7 @@ namespace Job_Application_Database.Classes
             Position = type;
             Notes = notes;
             ID = Comp_ID++;
+        }
     }
-    }
+
 }
