@@ -8,8 +8,8 @@
     <Setting Name="AutoLoadLastFile" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="JobTitles" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+    <Setting Name="MainWindowTitle" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Job Application Database</Value>
     </Setting>
     <Setting Name="AutoSave" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>

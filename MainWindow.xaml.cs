@@ -17,7 +17,7 @@ namespace Job_Application_Database
     public partial class MainWindow : Window
     {
 
-        private Companies _cm;
+        /*private Companies _cm;
         private Jobs _jm;
         private Reps _rm;
         private Files _fm;
@@ -27,20 +27,25 @@ namespace Job_Application_Database
         private GridViewColumnHeader _sortCol;
         private ListSortDirection _sortDir;
 
-        private string _title = "Job Application Database";
+        private string _title = "Job Application Database";*/
+
+        public Enum.ExitStatus Exit { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
+            Exit = Enum.ExitStatus.Cancel;
 
+            /*
             _cm = Companies.Instance;
             _jm = Jobs.Instance;
             _rm = Reps.Instance;
             _fm = Files.Instance;
 
             this.KeyDown += new KeyEventHandler(MainWindow_KeyDown);
+            */
         }
-
+        /*
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             _fm.LoadRepFile();
@@ -246,11 +251,18 @@ namespace Job_Application_Database
                 else
                     Properties.Settings.Default.AutoLoadLastFile = false;
             }
+            else if (e.Source == menuItemAutoSave)
+            {
+                if (menuItemAutoSave.IsChecked)
+                    Properties.Settings.Default.AutoSave = true;
+                else
+                    Properties.Settings.Default.AutoSave = false;
+            }
         }
 
         private void OpenFile()
         {
-            
+
             _fm.OpenCompanyFile();
             listviewCompanies.ItemsSource = _cm.AllObjects();
             RefreshListView();
@@ -358,6 +370,6 @@ namespace Job_Application_Database
                 view.Refresh();
                 labelCount.Content = "Count: " + source.ToList<BaseInfo>().Count;
             }
-        }
+        }*/
     }
 }

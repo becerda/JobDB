@@ -23,7 +23,6 @@ namespace Job_Application_Database
     /// </summary>
     public partial class BaseListWindow : Window
     {
-
         public Enum.ExitStatus Exit { get; set; }
 
         public BaseListWindow()
