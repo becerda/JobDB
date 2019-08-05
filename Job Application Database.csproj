@@ -79,6 +79,7 @@
     <Compile Include="BaseCreations.cs" />
     <Compile Include="BaseList.cs" />
     <Compile Include="BaseInfo.cs" />
+    <Compile Include="BoardCreation.cs" />
     <Compile Include="CompanyCreation.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="BaseListWindow.xaml.cs">
@@ -88,7 +89,11 @@
       <DependentUpon>BaseCreationWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Files.cs" />
+    <Compile Include="JobCreation.cs" />
+    <Compile Include="JobsList.cs" />
     <Compile Include="Main.cs" />
+    <Compile Include="RepCreation.cs" />
+    <Compile Include="RepsList.cs" />
     <Compile Include="Singletons.cs" />
     <Page Include="CompanyCreationWindow.xaml">
       <SubType>Designer</SubType>

@@ -4,10 +4,15 @@ using System.Windows.Input;
 
 namespace Job_Application_Database.Classes
 {
+    /// <summary>
+    /// Job Board creation window extended from BaseCreation
+    /// </summary>
     public abstract class BaseCreation
     {
+        // The Base Creation Window
         private BaseCreationWindow _bcw;
 
+        // The Exit Status Of Base Creation Window
         public Enum.ExitStatus Exit
         {
             get
@@ -20,8 +25,10 @@ namespace Job_Application_Database.Classes
             }
         }
 
+        // The Information That Is Being Edited
         public BaseInfo Info { get; }
 
+        // The Text In The Base Creation Window's Name Text Box
         private string Name
         {
             get
@@ -34,6 +41,7 @@ namespace Job_Application_Database.Classes
             }
         }
 
+        // The Extra string In The Base Creation's Extra Text Box
         private string Extra
         {
             get
@@ -46,12 +54,12 @@ namespace Job_Application_Database.Classes
             }
         }
 
+        // Default Constructor
         public BaseCreation(BaseInfo info, Enum.EditMode mode, string title, string label)
         {
             Info = info;
             _bcw = new BaseCreationWindow();
             string _title = string.Empty;
-            string _label = string.Empty;
             string _button = string.Empty;
             if (mode == EditMode.New)
             {
@@ -68,27 +76,10 @@ namespace Job_Application_Database.Classes
             }
 
             _title = title;
-            _label = label;
-
-            /*if (info.GetType() == typeof(Job))
-            {
-                _title += "Job";
-                _label = "Salary";
-            }
-            else if (info.GetType() == typeof(Rep))
-            {
-                _title += "Representative";
-                _label = "Email";
-            }
-            else if (info.GetType() == typeof(Board))
-            {
-                _title += "Job Board";
-                _label = "Website";
-            }*/
-
+            
             _bcw.Title = _title;
-            _bcw.labelExtra.Content = _label;
-            _bcw.textboxExtra.Text = _label;
+            _bcw.labelExtra.Content = label;
+            _bcw.textboxExtra.Text = label;
             _bcw.buttonOk.Content = _button;
 
             _bcw.buttonCancel.Click += Button_Click;
@@ -96,6 +87,7 @@ namespace Job_Application_Database.Classes
             _bcw.Closing += Window_Closing;
         }
 
+        // On Button Clicked Handler
         protected void Button_Click(object sender, RoutedEventArgs e)
         {
             if (e.Source == _bcw.buttonOk)
@@ -106,6 +98,7 @@ namespace Job_Application_Database.Classes
             _bcw.Close();
         }
 
+        // On Window Closing Handler
         public void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (Exit == Enum.ExitStatus.Ok)
@@ -114,46 +107,23 @@ namespace Job_Application_Database.Classes
             }
         }
 
+        // Extra Text Box Text Input Handler
         protected void TextboxExtra_TextInput(object sender, TextCompositionEventArgs e) { }
 
+        // Extra Text Box Text Pasting Handler
         protected void TextboxExtra_Pasting(object sender, DataObjectPastingEventArgs e) { }
 
+        // Saves Text Box Details To Info
         protected void SaveBaseDetails()
         {
             Info.Name = Name;
             Info.Extra = Extra;
         }
 
+        // Shows The Base Creation Window
         public void ShowDialog()
         {
             _bcw.ShowDialog();
         }
-    }
-
-    public class JobCreation : BaseCreation
-    {
-        public JobCreation() : this(new Job(), Enum.EditMode.New) { }
-
-        public JobCreation(Job job) : this(job, Enum.EditMode.Edit) { }
-
-        public JobCreation(Job job, EditMode mode) : base(job, mode, "Job", "Salary") { }
-    }
-
-    public class RepCreation : BaseCreation
-    {
-        public RepCreation() : this(new Rep(), Enum.EditMode.New) { }
-
-        public RepCreation(Rep rep) : this(rep, Enum.EditMode.Edit) { }
-
-        public RepCreation(Rep rep, EditMode mode) : base(rep, mode, "Representative", "Email") { }
-    }
-
-    public class BoardCreation : BaseCreation
-    {
-        public BoardCreation() : this(new Board(), Enum.EditMode.New) { }
-
-        public BoardCreation(Board board) : this(board, Enum.EditMode.Edit) { }
-
-        public BoardCreation(Board board, EditMode mode) : base(board, mode, "Job Board", "Website") { }
     }
 }

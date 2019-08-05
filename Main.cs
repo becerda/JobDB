@@ -45,7 +45,7 @@ namespace Job_Application_Database
             _mw.KeyDown += MainWindow_KeyDown;
         }
 
-        // On Window Loaded
+        // On Window Loaded Handler
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             // Set Singleton References
@@ -115,7 +115,7 @@ namespace Job_Application_Database
             _sortDir = ListSortDirection.Ascending;
         }
 
-        // On Window Closing
+        // On Window Closing Handler
         private void MainWindow_Closing(object sender, CancelEventArgs e)
         {
             if (!_saved)
@@ -276,7 +276,7 @@ namespace Job_Application_Database
             EditCompany();
         }
 
-        // Any Button Click Handler
+        // On Button Click Handler
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (e.Source == _mw.buttonNewCompany)

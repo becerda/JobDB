@@ -1,7 +1,4 @@
-﻿using Job_Application_Database.Classes;
-using Job_Application_Database.IO;
-using Job_Application_Database.Singleton;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
@@ -9,16 +6,17 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace Job_Application_Database
+namespace Job_Application_Database.Classes
 {
     /// <summary>
-    /// Interaction logic for AddEditJobTitleWindow.xaml
+    /// Base Class For Displaying Singleton Lists
     /// </summary>
     public abstract class BaseList
     {
+        // The Base List Window
         protected BaseListWindow _blw;
 
-
+        // The Exit Status Of Base List Window
         public Enum.ExitStatus Exit
         {
             get
@@ -31,6 +29,7 @@ namespace Job_Application_Database
             }
         }
 
+        // Default Constructor
         public BaseList(String title, List<BaseInfo> info)
         {
 
@@ -53,8 +52,10 @@ namespace Job_Application_Database
             _blw.KeyDown += new KeyEventHandler(JobTitleWindow_KeyDown);
         }
 
+        // On Window Closing Handler
         private void Window_Closing(object sender, CancelEventArgs e) { }
 
+        // Key Down Event Handler (Hot Keys)
         private void JobTitleWindow_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.N && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
@@ -75,6 +76,7 @@ namespace Job_Application_Database
             }
         }
 
+        // On Button Clicked Handler
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (e.Source == _blw.buttonAdd)
@@ -93,17 +95,22 @@ namespace Job_Application_Database
             Exit = Enum.ExitStatus.Ok;
         }
 
+        // List View Item Double Click Handler
         private void ListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             Edit();
         }
 
+        // Adds A New BaseInfo To A Singleton
         protected abstract void Add();
 
+        // Deletes A BaseInfo From A Singleton
         protected abstract void Delete();
 
+        // Edits A BaseInfo From A Singleton
         protected abstract void Edit();
 
+        // Refreshes The List View
         protected virtual void RefreshListView()
         {
             ICollectionView view = CollectionViewSource.GetDefaultView(_blw.listviewCurrent.ItemsSource);
@@ -111,135 +118,11 @@ namespace Job_Application_Database
 
         }
 
+        // Shows The Base List Window Dialog
         public void ShowDialog()
         {
             _blw.ShowDialog();
         }
     }
 
-
-
-    public class JobsListWindow : BaseList
-    {
-        public JobsListWindow() : base("Job", Jobs.Instance.AllObjects()) { }
-
-        protected override void Add()
-        {
-            JobCreation jcw = new JobCreation();
-            jcw.ShowDialog();
-            if (jcw.Exit == Enum.ExitStatus.Ok)
-            {
-                Jobs.Instance.AddObject(jcw.Info);
-                Files.Instance.SaveJobFile();
-                RefreshListView();
-            }
-        }
-
-        protected override void Edit()
-        {
-            Job j = _blw.listviewCurrent.SelectedItem as Job;
-            if (j != null)
-            {
-                JobCreation jcw = new JobCreation(j);
-                jcw.ShowDialog();
-                Files.Instance.SaveJobFile();
-                RefreshListView();
-            }
-        }
-
-        protected override void Delete()
-        {
-            if (_blw.listviewCurrent.SelectedItem != null)
-            {
-                string msg;
-                if (_blw.listviewCurrent.SelectedItems.Count > 1)
-                {
-                    msg = "these " + _blw.listviewCurrent.SelectedItems.Count + " Jobs?";
-                }
-                else
-                {
-                    msg = (_blw.listviewCurrent.SelectedItems[0] as IBaseInfo).Name + "?";
-                }
-
-                if (MessageBox.Show("Are you sure you want to delete " + msg, "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
-                {
-                    foreach (BaseInfo info in _blw.listviewCurrent.SelectedItems)
-                    {
-                        Jobs.Instance.RemoveObject(info);
-                    }
-                    Files.Instance.SaveJobFile();
-                    RefreshListView();
-                }
-            }
-        }
-
-        protected override void RefreshListView()
-        {
-            _blw.listviewCurrent.ItemsSource = Jobs.Instance.AllObjects();
-            ICollectionView view = CollectionViewSource.GetDefaultView(_blw.listviewCurrent.ItemsSource);
-            view.Refresh();
-        }
-    }
-
-    public class RepsListWindow : BaseList
-    {
-        public RepsListWindow() : base("Rep", Reps.Instance.AllObjects()) { }
-
-        protected override void Add()
-        {
-            RepCreation jcw = new RepCreation();
-            jcw.ShowDialog();
-            if (jcw.Exit == Enum.ExitStatus.Ok)
-            {
-                Reps.Instance.AddObject(jcw.Info);
-                Files.Instance.SaveRepFile();
-                RefreshListView();
-            }
-        }
-
-        protected override void Edit()
-        {
-            Rep r = _blw.listviewCurrent.SelectedItem as Rep;
-            if (r != null)
-            {
-                RepCreation jcw = new RepCreation(r);
-                jcw.ShowDialog();
-                Files.Instance.SaveRepFile();
-                RefreshListView();
-            }
-        }
-
-        protected override void Delete()
-        {
-            if (_blw.listviewCurrent.SelectedItem != null)
-            {
-                string msg;
-                if (_blw.listviewCurrent.SelectedItems.Count > 1)
-                {
-                    msg = "these " + _blw.listviewCurrent.SelectedItems.Count + " Reps?";
-                }
-                else
-                {
-                    msg = (_blw.listviewCurrent.SelectedItems[0] as IBaseInfo).Name + "?";
-                }
-
-                if (MessageBox.Show("Are you sure you want to delete " + msg, "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
-                {
-                    foreach (BaseInfo info in _blw.listviewCurrent.SelectedItems)
-                    {
-                        Reps.Instance.RemoveObject(info);
-                    }
-                    Files.Instance.SaveRepFile();
-                    RefreshListView();
-                }
-            }
-        }
-
-        protected override void RefreshListView()
-        {
-            _blw.listviewCurrent.ItemsSource = Reps.Instance.AllObjects();
-            ICollectionView view = CollectionViewSource.GetDefaultView(_blw.listviewCurrent.ItemsSource);
-            view.Refresh();
-        }
-    }
 }

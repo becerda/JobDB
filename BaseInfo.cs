@@ -1,28 +1,40 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 
-namespace Job_Application_Database
+namespace Job_Application_Database.Classes
 {
-
+    /// <summary>
+    /// Interface For BaseInfo Object
+    /// </summary>
     public interface IBaseInfo
     {
+        // The Name Of The Object
         string Name { get; set; }
 
+        // A String Extra Of The Object
         string Extra { get; set; }
 
+        // The ID Of The Object
         int ID { get; }
 
+        // Hash Code Override
         int GetHashCode();
     }
 
+    /// <summary>
+    /// Base Implimentation of IBaseInfo
+    /// </summary>
     public abstract class BaseInfo : IBaseInfo, IEquatable<BaseInfo>, IComparable<BaseInfo>
     {
+        // The Name Of The Object
         public abstract string Name { get; set; }
 
+        // A String Extra Of The Object
         public abstract string Extra { get; set; }
 
+        // The ID Of The Object
         public int ID { get; set; }
 
+        // Equals(object) Override
         public override bool Equals(object obj)
         {
             if (obj == null) return false;
@@ -31,12 +43,7 @@ namespace Job_Application_Database
             else return Equals(other);
         }
 
-        public int SortByNameAscending(string name1, string name2)
-        {
-            return name1.CompareTo(name2);
-        }
-
-
+        // CompareTo() Override
         public int CompareTo(BaseInfo other)
         {
             if (other == null)
@@ -45,17 +52,20 @@ namespace Job_Application_Database
                 return this.ID.CompareTo(other.ID);
         }
 
+        // GetHashCode() Override
         public override int GetHashCode()
         {
             return ID;
         }
 
+        // Equals(BaseInfo) Override
         public bool Equals(BaseInfo other)
         {
             if (other == null) return false;
             return this.ID.Equals(other.ID);
         }
 
+        // == Operator Override
         public static bool operator ==(BaseInfo r1, BaseInfo r2)
         {
             if (ReferenceEquals(r1, r2)) return true;
@@ -64,76 +74,11 @@ namespace Job_Application_Database
             return r1.ID == r2.ID;
         }
 
+        // != Operator Override
         public static bool operator !=(BaseInfo r1, BaseInfo r2)
         {
             return !(r1 == r2);
         }
     }
 
-    public class Board : BaseInfo
-    {
-        public static int Board_ID = 0;
-
-        [JsonProperty("Name")]
-        public override string Name { get; set; }
-
-        [JsonProperty("Website")]
-        public override string Extra { get; set; }
-
-        public Board() : this(" ") { }
-
-        public Board(string name) : this(name, " ") { }
-
-        public Board(string name, string website)
-        {
-            Name = name;
-            Extra = website;
-            ID = Board_ID++;
-        }
-    }
-
-    public class Rep : BaseInfo
-    {
-        public static int Rep_ID = 0;
-
-        [JsonProperty("Name")]
-        public override string Name { get; set; }
-
-        [JsonProperty("Email")]
-        public override string Extra { get; set; }
-
-        public Rep() : this(" ") { }
-
-        public Rep(string name) : this(name, " ") { }
-
-        public Rep(string name, string email)
-        {
-            Name = name;
-            Extra = email;
-            ID = Rep_ID++;
-        }
-    }
-
-    public class Job : BaseInfo
-    {
-        public static int Job_ID = 0;
-
-        [JsonProperty("Title")]
-        public override string Name { get; set; }
-
-        [JsonProperty("Salary")]
-        public override string Extra { get; set; }
-
-        public Job() : this(" ") { }
-
-        public Job(string title) : this(title, "0") { }
-
-        [JsonConstructor]
-        public Job(string title, string salery)
-        {
-            Name = title;
-            Extra = salery;
-            ID = Job_ID++;
-        }
-    }
 }
