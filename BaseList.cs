@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Job_Application_Database.Singleton;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
@@ -111,11 +112,11 @@ namespace Job_Application_Database.Classes
         protected abstract void Edit();
 
         // Refreshes The List View
-        protected virtual void RefreshListView()
+        protected void RefreshListView(BaseSingleton bs)
         {
+            _blw.listviewCurrent.ItemsSource = bs.AllObjects();
             ICollectionView view = CollectionViewSource.GetDefaultView(_blw.listviewCurrent.ItemsSource);
             view.Refresh();
-
         }
 
         // Shows The Base List Window Dialog

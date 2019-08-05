@@ -83,6 +83,7 @@
     <Compile Include="Board.cs" />
     <Compile Include="BoardCreation.cs" />
     <Compile Include="Boards.cs" />
+    <Compile Include="BoardsList.cs" />
     <Compile Include="Companies.cs" />
     <Compile Include="CompanyCreation.cs" />
     <Compile Include="Enums.cs" />

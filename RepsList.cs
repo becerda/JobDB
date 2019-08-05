@@ -23,7 +23,7 @@ namespace Job_Application_Database.Classes
             {
                 Reps.Instance.AddObject(jcw.Info);
                 Files.Instance.SaveRepFile();
-                RefreshListView();
+                RefreshListView(Reps.Instance);
             }
         }
 
@@ -36,7 +36,7 @@ namespace Job_Application_Database.Classes
                 RepCreation jcw = new RepCreation(r);
                 jcw.ShowDialog();
                 Files.Instance.SaveRepFile();
-                RefreshListView();
+                RefreshListView(Reps.Instance);
             }
         }
 
@@ -62,17 +62,9 @@ namespace Job_Application_Database.Classes
                         Reps.Instance.RemoveObject(info);
                     }
                     Files.Instance.SaveRepFile();
-                    RefreshListView();
+                    RefreshListView(Reps.Instance);
                 }
             }
-        }
-
-        // Refreshes The List View
-        protected override void RefreshListView()
-        {
-            _blw.listviewCurrent.ItemsSource = Reps.Instance.AllObjects();
-            ICollectionView view = CollectionViewSource.GetDefaultView(_blw.listviewCurrent.ItemsSource);
-            view.Refresh();
         }
     }
 
