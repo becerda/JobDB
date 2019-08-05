@@ -88,6 +88,7 @@
       <DependentUpon>BaseCreationWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Files.cs" />
+    <Compile Include="Main.cs" />
     <Compile Include="Singletons.cs" />
     <Page Include="CompanyCreationWindow.xaml">
       <SubType>Designer</SubType>

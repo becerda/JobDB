@@ -47,15 +47,12 @@ namespace Job_Application_Database.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string JobTitles {
+        [global::System.Configuration.DefaultSettingValueAttribute("Job Application Database")]
+        public string MainWindowTitle {
             get {
-                return ((string)(this["JobTitles"]));
-            }
-            set {
-                this["JobTitles"] = value;
+                return ((string)(this["MainWindowTitle"]));
             }
         }
         
