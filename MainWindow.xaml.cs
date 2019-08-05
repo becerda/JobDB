@@ -17,4 +17,5 @@ namespace Job_Application_Database
             Exit = Enum.ExitStatus.Cancel;
         }
     }
+
 }

@@ -19,20 +19,21 @@ namespace Job_Application_Database
         // The Main Window
         private MainWindow _mw;
 
-        // Reference to Companies singleton
+        // Reference To Companies Singleton
         private Companies _cm;
-        // Reference to Files singleton
+
+        // Reference To Files Singleton
         private Files _fm;
 
-        // To keep track of saved state
+        // To keep track Of Saved State
         private bool _saved = true;
 
-        // To keep track of sorted column
+        // To keep track Of Sorted Column
         private GridViewColumnHeader _sortCol;
         // To keep track of sorted direction
         private ListSortDirection _sortDir;
 
-        // Current Title of Application
+        // Current Title Of Application
         private string _title = Properties.Settings.Default.MainWindowTitle;
 
         // Default Constructor
@@ -45,7 +46,7 @@ namespace Job_Application_Database
             _mw.KeyDown += MainWindow_KeyDown;
         }
 
-        // On Window Loaded
+        // On Window Loaded Handler
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             // Set Singleton References
@@ -115,7 +116,7 @@ namespace Job_Application_Database
             _sortDir = ListSortDirection.Ascending;
         }
 
-        // On Window Closing
+        // On Window Closing Handler
         private void MainWindow_Closing(object sender, CancelEventArgs e)
         {
             if (!_saved)
@@ -276,7 +277,7 @@ namespace Job_Application_Database
             EditCompany();
         }
 
-        // Any Button Click Handler
+        // On Button Click Handler
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (e.Source == _mw.buttonNewCompany)
@@ -428,4 +429,5 @@ namespace Job_Application_Database
         }
 
     }
+
 }
