@@ -8,12 +8,15 @@ using System.Linq;
 using Job_Application_Database.IO;
 using Job_Application_Database.Singleton;
 using System.Collections.Generic;
-using System;
 
 namespace Job_Application_Database
 {
+    /// <summary>
+    /// Starting Point For Program
+    /// </summary>
     class Main
     {
+        // The Main Window
         private MainWindow _mw;
 
         // Reference to Companies singleton
