@@ -59,14 +59,17 @@ namespace Job_Application_Database.Singleton
         // Refreshes The Names List
         protected void Refresh()
         {
-            _allobjectnames.Clear();
-            foreach (DictionaryEntry de in _table)
+            if (_needsRefresh)
             {
-                BaseInfo c = de.Value as BaseInfo;
-                _allobjectnames.Add(c.Name);
+                _allobjectnames.Clear();
+                foreach (DictionaryEntry de in _table)
+                {
+                    BaseInfo c = de.Value as BaseInfo;
+                    _allobjectnames.Add(c.Name);
+                }
+                _allobjectnames.Sort();
+                _needsRefresh = false;
             }
-            _allobjectnames.Sort();
-            _needsRefresh = false;
         }
 
         // Gets All Of The BaseInfo As A List
@@ -109,7 +112,7 @@ namespace Job_Application_Database.Singleton
         // Gets All BaseInfo Names As A List
         public List<string> AllObjectNames()
         {
-            if (_needsRefresh) Refresh();
+            Refresh();
             return _allobjectnames;
         }
 
@@ -130,6 +133,7 @@ namespace Job_Application_Database.Singleton
         // Gets The BaseInfo In _table From It's Location in _allobjectnames
         public BaseInfo NamesToTable(int index)
         {
+            Refresh();
             string name = _allobjectnames[index];
             foreach (DictionaryEntry d in _table)
             {

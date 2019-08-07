@@ -76,7 +76,7 @@ namespace Job_Application_Database.Classes
             }
 
             _title = title;
-            
+
             _bcw.Title = _title;
             _bcw.labelExtra.Content = label;
             _bcw.textboxExtra.Text = label;
@@ -85,6 +85,21 @@ namespace Job_Application_Database.Classes
             _bcw.buttonCancel.Click += Button_Click;
             _bcw.buttonOk.Click += Button_Click;
             _bcw.Closing += Window_Closing;
+            _bcw.KeyDown += BaseCreationWindow_KeyDown;
+        }
+
+        private void BaseCreationWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                _bcw.Exit = ExitStatus.Cancel;
+            }
+            else if (e.Key == Key.Enter)
+            {
+                SaveBaseDetails();
+                _bcw.Exit = ExitStatus.Ok;
+            }
+            _bcw.Close();
         }
 
         // On Button Clicked Handler

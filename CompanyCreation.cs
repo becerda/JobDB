@@ -264,12 +264,13 @@ namespace Job_Application_Database
             if (e.Key == Key.Enter)
             {
                 SaveCompanyDetails();
-                _ccw.Close();
+                Exit = Enum.ExitStatus.Ok;
             }
-            if (e.Key == Key.Escape)
+            else if (e.Key == Key.Escape)
             {
-                _ccw.Close();
+                Exit = Enum.ExitStatus.Cancel;
             }
+            _ccw.Close();
         }
 
         private void TextInput_MouseDown(object sender, MouseEventArgs e)
@@ -336,8 +337,6 @@ namespace Job_Application_Database
             Company.Status = Status;
             Company.Position = Position;
             Company.Notes = Notes;
-
-            Exit = Enum.ExitStatus.Ok;
         }
 
         private void EditBoards()
@@ -348,7 +347,7 @@ namespace Job_Application_Database
 
         private void EditJobs()
         {
-            new JobsListWindow().ShowDialog();
+            new JobsList().ShowDialog();
             RefreshJobCB();
         }
 

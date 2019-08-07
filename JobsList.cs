@@ -9,10 +9,10 @@ namespace Job_Application_Database.Classes
     /// <summary>
     /// Class For Displaying Jobs Lists
     /// </summary>
-    public class JobsListWindow : BaseList
+    public class JobsList : BaseList
     {
         // Base Constructor
-        public JobsListWindow() : base("Job", Jobs.Instance.AllObjects()) { }
+        public JobsList() : base("Job", Jobs.Instance.AllObjects()) { }
 
         // Add Job To Jobs List
         protected override void Add()
