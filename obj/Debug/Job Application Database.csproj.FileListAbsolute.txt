@@ -24,3 +24,9 @@ Z:\Development\C#\Job Application Database\Job Application Database\obj\Debug\Jo
 Z:\Development\C#\Job Application Database\Job Application Database\obj\Debug\Job Application Database.csprojAssemblyReference.cache
 Z:\Development\C#\Job Application Database\Job Application Database\obj\Debug\CompanyCreationWindow.g.cs
 Z:\Development\C#\Job Application Database\Job Application Database\obj\Debug\CompanyCreationWindow.baml
+Z:\Development\C#\Job Application Database\Job Application Database\obj\Debug\BaseGraphWindow.g.cs
+Z:\Development\C#\Job Application Database\Job Application Database\obj\Debug\BaseGraphWindow.baml
+Z:\Development\C#\Job Application Database\Job Application Database\bin\Debug\system.windows.controls.datavisualization.toolkit.dll
+Z:\Development\C#\Job Application Database\Job Application Database\bin\Debug\WPFToolkit.dll
+Z:\Development\C#\Job Application Database\Job Application Database\bin\Debug\System.Windows.Controls.Input.Toolkit.dll
+Z:\Development\C#\Job Application Database\Job Application Database\bin\Debug\System.Windows.Controls.Layout.Toolkit.dll
