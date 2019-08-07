@@ -397,7 +397,7 @@ namespace Job_Application_Database
         // Opens The Edit Job Window
         private void EditJobs()
         {
-            new JobsListWindow().ShowDialog();
+            new JobsList().ShowDialog();
         }
 
         // Opens The Edit Rep Window

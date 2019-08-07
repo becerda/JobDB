@@ -50,14 +50,14 @@ namespace Job_Application_Database.Classes
             _blw.buttonDelete.Click += Button_Click;
             _blw.buttonEdit.Click += Button_Click;
             _blw.Closing += Window_Closing;
-            _blw.KeyDown += new KeyEventHandler(JobTitleWindow_KeyDown);
+            _blw.KeyDown += new KeyEventHandler(BaseListWindow_KeyDown);
         }
 
         // On Window Closing Handler
         private void Window_Closing(object sender, CancelEventArgs e) { }
 
         // Key Down Event Handler (Hot Keys)
-        private void JobTitleWindow_KeyDown(object sender, KeyEventArgs e)
+        private void BaseListWindow_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.N && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
             {
