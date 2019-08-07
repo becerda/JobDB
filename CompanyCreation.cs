@@ -265,12 +265,13 @@ namespace Job_Application_Database
             {
                 SaveCompanyDetails();
                 Exit = Enum.ExitStatus.Ok;
+                _ccw.Close();
             }
             else if (e.Key == Key.Escape)
             {
                 Exit = Enum.ExitStatus.Cancel;
+                _ccw.Close();
             }
-            _ccw.Close();
         }
 
         private void TextInput_MouseDown(object sender, MouseEventArgs e)

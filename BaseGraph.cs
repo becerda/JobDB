@@ -1,46 +1,82 @@
-﻿using Job_Application_Database.Singleton;
-using System;
+﻿using Job_Application_Database.Factories;
+using Job_Application_Database.Singleton;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls.DataVisualization.Charting;
-using System.Windows.Data;
 using System.Windows.Media;
-using System.Windows.Shapes;
 
 namespace Job_Application_Database.Classes
 {
     class BaseGraph
     {
-        private BaseGraphWindow _bgw;
 
-        private readonly int LEFT_MARGIN = 5;
-        private readonly int RIGHT_MARGIN = 5;
-        private readonly int TOP_MARGIN = 5;
-        private readonly int BOTTOM_MARGIN = 5;
+        private DataPointSeries _diag;
 
-        public BaseGraph()
+        private string _title;
+        private int _height;
+        private int _width;
+        private Brush _color;
+
+        // Default Margin Values
+        protected static readonly int LEFT_MARGIN = 5;
+        protected static readonly int RIGHT_MARGIN = 5;
+        protected static readonly int TOP_MARGIN = 5;
+        protected static readonly int BOTTOM_MARGIN = 5;
+
+        // Default Height And Width
+        protected static readonly int DEFAULT_WIDTH = 500;
+        protected static readonly int DEFAULT_HEIGHT = 500;
+
+        // Default Item Spacing
+        protected static readonly int ITEM_SPACING = 35;
+
+        // Reference To The Base Graph Window
+        protected BaseGraphWindow Wind { get; private set; }
+
+        public BaseGraph(DataPointSeries diagram, string title) : this(diagram, title, Brushes.LightSteelBlue) { }
+
+        public BaseGraph(DataPointSeries diagram, string title, Brush color) : this(diagram, title, color, ITEM_SPACING * ((List<KeyValuePair<string, int>>)diagram.ItemsSource).Count, DEFAULT_WIDTH) { }
+        public BaseGraph(DataPointSeries diagram, string title, Brush color, int height, int width)
         {
-            _bgw = new BaseGraphWindow();
+            Wind = new BaseGraphWindow();
 
-            _bgw.Loaded += BaseGraphWindow_Loaded;
+            _diag = diagram;
+            _title = title;
+            _color = color;
+            _height = height;
+            _width = width;
+
+            Wind.Loaded += BaseGraphWindow_Loaded;
         }
 
         private void BaseGraphWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            Chart c = NewChart(_title,
+                _height,
+                _width,
+                _color,
+                _diag);
+
+            Wind.gridBase.Children.Add(c);
+        }
+
+        public void ShowDialog()
+        {
+            Wind.ShowDialog();
+        }
+
+        protected Chart NewChart(string title, int height, int width, Brush background, Series diagram)
+        {
             Chart c = new Chart
             {
-                HorizontalAlignment = HorizontalAlignment.Left,
-                Background = Brushes.LightSteelBlue,
-                Title = "Job Application Status",
+                Title = title,
+                Height = height,
+                Width = width,
+                Background = background,
                 VerticalAlignment = VerticalAlignment.Bottom,
-                Width = 500
-        };
+                HorizontalAlignment = HorizontalAlignment.Left
+            };
+
             Thickness margin = c.Margin;
             margin.Left = LEFT_MARGIN;
             margin.Top = TOP_MARGIN;
@@ -48,102 +84,10 @@ namespace Job_Application_Database.Classes
             margin.Bottom = BOTTOM_MARGIN;
             c.Margin = margin;
 
-            BarSeries cs = new BarSeries
-            {
-                DependentValueBinding = new Binding("Value"),
-                IndependentValueBinding = new Binding("Key"),
-                ItemsSource = Companies.Instance.JobKeyValue(),
-                
-            };
-            c.Height = 35 * ((List<KeyValuePair<string, int>>)cs.ItemsSource).Count;
-            cs.Title = "Jobs (" + Companies.Instance.Count + ")";
-            c.Series.Add(cs);
-            
-            _bgw.gridBase.Children.Add(c);
-        }
+            c.Series.Add(diagram);
 
-        public void ShowDialog()
-        {
-            _bgw.ShowDialog();
+            return c;
         }
     }
 
-    public class RecordCollection : ObservableCollection<Record>
-    {
-        public RecordCollection(List<Bar> bars)
-        {
-            //Random rand = new Random();
-            //BrushCollection brushes = new BrushCollection();
-
-            foreach(Bar bar in bars)
-            {
-                //int num = rand.Next(brushes.Count / 3);
-                Add(new Record(bar.Value, Brushes.Black, bar.Name));
-            }
-        }
-    }
-
-    public class BrushCollection : ObservableCollection<Brush>
-    {
-        public BrushCollection()
-        {
-            Type _bursh = typeof(Brushes);
-            PropertyInfo[] props = _bursh.GetProperties();
-            foreach (PropertyInfo prop in props)
-            {
-                Brush _color = (Brush)prop.GetValue(null, null);
-                if (_color != Brushes.LightSteelBlue && 
-                    _color != Brushes.White && 
-                    _color != Brushes.WhiteSmoke && 
-                    _color != Brushes.LightCyan && 
-                    _color != Brushes.LightYellow && 
-                    _color != Brushes.Linen)
-                    Add(_color);
-            }
-        }
-    }
-
-    public class Bar
-    {
-        public string Name { get; set; }
-
-        public int Value { get; set; }
-    }
-
-    public class Record : INotifyPropertyChanged
-    {
-        private int _data;
-
-        public Brush Color { get; set; }
-
-        public string Name { get; set; }
-
-        public int Data
-        {
-            get
-            {
-                return _data;
-            }
-            set
-            {
-                if (_data != value)
-                    _data = value;
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public Record(int value, Brush color, string name)
-        {
-            Data = value;
-            Color = color;
-            Name = name;
-        }
-
-        protected void PropertyOnChange(string propname)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propname));
-        }
-    }
 }

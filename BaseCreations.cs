@@ -93,13 +93,14 @@ namespace Job_Application_Database.Classes
             if (e.Key == Key.Escape)
             {
                 _bcw.Exit = ExitStatus.Cancel;
+                _bcw.Close();
             }
             else if (e.Key == Key.Enter)
             {
                 SaveBaseDetails();
                 _bcw.Exit = ExitStatus.Ok;
+                _bcw.Close();
             }
-            _bcw.Close();
         }
 
         // On Button Clicked Handler
