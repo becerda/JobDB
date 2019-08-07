@@ -9,10 +9,10 @@ namespace Job_Application_Database.Classes
     /// <summary>
     /// Class For Displaying Job Boards Lists
     /// </summary>
-    public class BoardsListWindow : BaseList
+    public class BoardsList : BaseList
     {
         // Base Constructor
-        public BoardsListWindow() : base("Job Board", Boards.Instance.AllObjects()) { }
+        public BoardsList() : base("Job Board", Boards.Instance.AllObjects()) { }
 
         // Add Job Board To Boards List
         protected override void Add()
