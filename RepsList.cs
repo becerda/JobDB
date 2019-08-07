@@ -9,10 +9,10 @@ namespace Job_Application_Database.Classes
     /// <summary>
     /// Class For Displaying Reps Lists
     /// </summary>
-    public class RepsListWindow : BaseList
+    public class RepsList : BaseList
     {
         // Base Constructor
-        public RepsListWindow() : base("Rep", Reps.Instance.AllObjects()) { }
+        public RepsList() : base("Rep", Reps.Instance.AllObjects()) { }
 
         // Add Rep To Reps List
         protected override void Add()

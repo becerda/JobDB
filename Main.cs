@@ -85,6 +85,7 @@ namespace Job_Application_Database
             _mw.buttonDeleteCompany.Click += Button_Click;
             _mw.buttonEditJobs.Click += Button_Click;
             _mw.buttonEditReps.Click += Button_Click;
+            _mw.buttonEditBoards.Click += Button_Click;
 
 
             // Start Up Functionality
@@ -302,6 +303,10 @@ namespace Job_Application_Database
             {
                 EditReps();
             }
+            else if (e.Source == _mw.buttonEditBoards)
+            {
+                EditBoards();
+            }
         }
 
         // Refreshes The List View
@@ -403,7 +408,13 @@ namespace Job_Application_Database
         // Opens The Edit Rep Window
         private void EditReps()
         {
-            new RepsListWindow().ShowDialog();
+            new RepsList().ShowDialog();
+        }
+
+        // Opens The Edit Job Boards Window
+        private void EditBoards()
+        {
+            new BoardsList().ShowDialog();
         }
 
         // Makes Note That Current Company Edits Are Not Saved

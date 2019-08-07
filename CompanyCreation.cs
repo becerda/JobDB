@@ -341,7 +341,7 @@ namespace Job_Application_Database
 
         private void EditBoards()
         {
-            new BoardsListWindow().ShowDialog();
+            new BoardsList().ShowDialog();
             RefreshBoardCB();
         }
 
@@ -353,7 +353,7 @@ namespace Job_Application_Database
 
         private void EditReps()
         {
-            new RepsListWindow().ShowDialog();
+            new RepsList().ShowDialog();
             RefreshRepCB();
         }
 
