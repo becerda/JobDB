@@ -28,5 +28,5 @@ Z:\Development\C#\Job Application Database\Job Application Database\obj\Debug\Ba
 Z:\Development\C#\Job Application Database\Job Application Database\obj\Debug\BaseGraphWindow.baml
 Z:\Development\C#\Job Application Database\Job Application Database\bin\Debug\system.windows.controls.datavisualization.toolkit.dll
 Z:\Development\C#\Job Application Database\Job Application Database\bin\Debug\WPFToolkit.dll
-Z:\Development\C#\Job Application Database\Job Application Database\bin\Debug\system.windows.controls.datavisualization.toolkit.pdb
-Z:\Development\C#\Job Application Database\Job Application Database\bin\Debug\WPFToolkit.pdb
+Z:\Development\C#\Job Application Database\Job Application Database\bin\Debug\System.Windows.Controls.Input.Toolkit.dll
+Z:\Development\C#\Job Application Database\Job Application Database\bin\Debug\System.Windows.Controls.Layout.Toolkit.dll

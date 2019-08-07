@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Job_Application_Database.Singleton;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -18,10 +19,10 @@ namespace Job_Application_Database.Classes
     {
         private BaseGraphWindow _bgw;
 
-        private readonly int LEFT_MARGIN = 50;
-        private readonly int RIGHT_MARGIN = 0;
-        private readonly int TOP_MARGIN = 50;
-        private readonly int BOTTOM_MARGIN = 50;
+        private readonly int LEFT_MARGIN = 5;
+        private readonly int RIGHT_MARGIN = 5;
+        private readonly int TOP_MARGIN = 5;
+        private readonly int BOTTOM_MARGIN = 5;
 
         public BaseGraph()
         {
@@ -32,31 +33,32 @@ namespace Job_Application_Database.Classes
 
         private void BaseGraphWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            List<KeyValuePair<string, int>> valueList = new List<KeyValuePair<string, int>>();
-            valueList.Add(new KeyValuePair<string, int>("Developer", 60));
-            valueList.Add(new KeyValuePair<string, int>("Misc", 20));
-            valueList.Add(new KeyValuePair<string, int>("Tester", 50));
-            valueList.Add(new KeyValuePair<string, int>("QA", 30));
-            valueList.Add(new KeyValuePair<string, int>("Project Manager", 40));
-
-            Chart c = new Chart();
-            c.Height = 262;
-            c.HorizontalAlignment = HorizontalAlignment.Left;
+            Chart c = new Chart
+            {
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Background = Brushes.LightSteelBlue,
+                Title = "Job Application Status",
+                VerticalAlignment = VerticalAlignment.Bottom,
+                Width = 500
+        };
             Thickness margin = c.Margin;
             margin.Left = LEFT_MARGIN;
             margin.Top = TOP_MARGIN;
             margin.Right = RIGHT_MARGIN;
             margin.Bottom = BOTTOM_MARGIN;
             c.Margin = margin;
-            c.Title = "Column Series";
-            c.VerticalAlignment = VerticalAlignment.Bottom;
-            c.Width = 360;
 
-            ColumnSeries cs = new ColumnSeries();
-            cs.DependentValueBinding = new Binding("Value");
-            cs.IndependentValueBinding = new Binding("Key");
-            cs.ItemsSource = valueList;
+            BarSeries cs = new BarSeries
+            {
+                DependentValueBinding = new Binding("Value"),
+                IndependentValueBinding = new Binding("Key"),
+                ItemsSource = Companies.Instance.JobKeyValue(),
+                
+            };
+            c.Height = 35 * ((List<KeyValuePair<string, int>>)cs.ItemsSource).Count;
+            cs.Title = "Jobs (" + Companies.Instance.Count + ")";
             c.Series.Add(cs);
+            
             _bgw.gridBase.Children.Add(c);
         }
 

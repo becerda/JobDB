@@ -7,7 +7,7 @@
         xmlns:charting="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
         mc:Ignorable="d"
         x:Name="basebraphwindow"
-        Title="Graph" Height="Auto" Width="Auto" Background="Gray"
+        Title="Graph" SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterScreen" 
         ResizeMode="CanMinimize" >
     <Grid x:Name="gridBase">
