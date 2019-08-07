@@ -86,6 +86,7 @@ namespace Job_Application_Database
             _mw.buttonEditJobs.Click += Button_Click;
             _mw.buttonEditReps.Click += Button_Click;
             _mw.buttonEditBoards.Click += Button_Click;
+            _mw.buttonShowGraph.Click += Button_Click;
 
 
             // Start Up Functionality
@@ -102,7 +103,7 @@ namespace Job_Application_Database
                 _mw.menuItemAutoload.IsChecked = true;
                 if (Properties.Settings.Default.LastLoadedFile.Length > 1)
                 {
-                    _fm.LoadCompanyFile(Properties.Settings.Default.LastLoadedFile);
+                    _fm.LoadCompanyFile(Properties.Settings.Default.LastLoadedFile);   
                 }
             }
 
@@ -307,6 +308,10 @@ namespace Job_Application_Database
             {
                 EditBoards();
             }
+            else if (e.Source == _mw.buttonShowGraph)
+            {
+                ShowGraph();
+            }
         }
 
         // Refreshes The List View
@@ -415,6 +420,12 @@ namespace Job_Application_Database
         private void EditBoards()
         {
             new BoardsList().ShowDialog();
+        }
+
+        private void ShowGraph()
+        {
+            BaseGraph bg = new BaseGraph();
+            bg.ShowDialog();
         }
 
         // Makes Note That Current Company Edits Are Not Saved

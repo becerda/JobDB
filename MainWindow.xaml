@@ -90,6 +90,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -113,6 +114,9 @@
 
                     <Button x:Name="buttonEditBoards" Content="Edit Job Boards" HorizontalContentAlignment="Center" 
                                 Margin="10" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="5"/>
+
+                    <Button x:Name="buttonShowGraph" Content="Show Graph" HorizontalContentAlignment="Center" 
+                                Margin="10" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="6"/>
                 </Grid>
 
             </Grid>

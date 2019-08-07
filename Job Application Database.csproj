@@ -58,6 +58,10 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="system.windows.controls.datavisualization.toolkit">
+      <HintPath>packages\WPFToolKit\system.windows.controls.datavisualization.toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -77,6 +81,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BaseCreations.cs" />
+    <Compile Include="BaseGraph.cs" />
     <Compile Include="BaseList.cs" />
     <Compile Include="BaseInfo.cs" />
     <Compile Include="BaseSingleton.cs" />
@@ -104,6 +109,9 @@
     <Compile Include="Reps.cs" />
     <Compile Include="RepsList.cs" />
     <Compile Include="Singletons.cs" />
+    <Compile Include="BaseGraphWindow.xaml.cs">
+      <DependentUpon>BaseGraphWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="CompanyCreationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -129,6 +137,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="BaseCreationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BaseGraphWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
