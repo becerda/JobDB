@@ -108,7 +108,6 @@
       <DependentUpon>BaseCreationWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Files.cs" />
-    <Compile Include="HashTable.cs" />
     <Compile Include="Job.cs" />
     <Compile Include="JobCreation.cs" />
     <Compile Include="Jobs.cs" />
