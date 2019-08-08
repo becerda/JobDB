@@ -8,7 +8,7 @@ using System.Linq;
 using Job_Application_Database.IO;
 using Job_Application_Database.Singleton;
 using System.Collections.Generic;
-using Job_Application_Database.Factories;
+using Job_Application_Database.Enum;
 
 namespace Job_Application_Database
 {
@@ -425,8 +425,9 @@ namespace Job_Application_Database
 
         private void ShowGraph()
         {
-            BaseGraph bg = new BaseGraph(SeriesFactory.CreateInstance(Enum.SeriesType.Bar, "Job Titles", Companies.Instance.JobKeyValue()));
+            BaseGraph bg = new BaseGraph("Job Titles", "Jobs", "Job", Companies.Instance.JobKeyValue(), SeriesType.Area);
             bg.ShowDialog();
+            
         }
 
         // Makes Note That Current Company Edits Are Not Saved

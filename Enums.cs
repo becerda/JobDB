@@ -42,13 +42,13 @@ namespace Job_Application_Database.Enum
 
     public enum SeriesType
     {
+        Area,           // AreaSeries
         Bar,            // BarSeries
         Column,         // ColumnSeries
-        Pie,            // PieSeries
         Line,           // LineSeries
-        Scatter,        // ScatterSeries
-        Area            // AreaSeries
-
+        Pie,            // PieSeries
+        Scatter         // ScatterSeries
+        
     }
 
     /// <summary>

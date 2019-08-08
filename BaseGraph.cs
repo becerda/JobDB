@@ -1,63 +1,114 @@
-﻿using Job_Application_Database.Factories;
-using Job_Application_Database.Singleton;
+﻿using Job_Application_Database.Enum;
+using System.Collections;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls.DataVisualization.Charting;
-using System.Windows.Media;
 
 namespace Job_Application_Database.Classes
 {
     class BaseGraph
     {
+        public static int DefaultHeight = 500;
+        public static int DefaultWidth = 600;
+        public static int DefaultItemSpacing = 50;
 
-        private DataPointSeries _diag;
+        private Chart _cchart;
+        private DataPointSeries _graph;
 
-        private string _title;
-        private int _height;
-        private int _width;
-        private Brush _color;
+        private AxisOrientation _orientation;
 
-        // Default Margin Values
-        protected static readonly int LEFT_MARGIN = 5;
-        protected static readonly int RIGHT_MARGIN = 5;
-        protected static readonly int TOP_MARGIN = 5;
-        protected static readonly int BOTTOM_MARGIN = 5;
+        private Hashtable _charts;
 
-        // Default Height And Width
-        protected static readonly int DEFAULT_WIDTH = 500;
-        protected static readonly int DEFAULT_HEIGHT = 500;
+        protected GraphWindow Wind { get; set; }
 
-        // Default Item Spacing
-        protected static readonly int ITEM_SPACING = 35;
+        public SeriesType Type { get; }
 
-        // Reference To The Base Graph Window
-        protected BaseGraphWindow Wind { get; private set; }
-
-        public BaseGraph(DataPointSeries diagram, string title) : this(diagram, title, Brushes.LightSteelBlue) { }
-
-        public BaseGraph(DataPointSeries diagram, string title, Brush color) : this(diagram, title, color, ITEM_SPACING * ((List<KeyValuePair<string, int>>)diagram.ItemsSource).Count, DEFAULT_WIDTH) { }
-        public BaseGraph(DataPointSeries diagram, string title, Brush color, int height, int width)
+        public BaseGraph(string ctitle, string ltitle, string gtitle, List<KeyValuePair<string, int>> source, SeriesType type)
         {
-            Wind = new BaseGraphWindow();
+            Wind = new GraphWindow();
+            _charts = new Hashtable
+            {
+                { SeriesType.Area, Wind.AreaChart },
+                { SeriesType.Bar, Wind.BarChart },
+                { SeriesType.Column, Wind.ColumnChart },
+                { SeriesType.Line, Wind.LineChart },
+                { SeriesType.Pie, Wind.PieChart },
+                { SeriesType.Scatter, Wind.ScatterChart }
+            };
+            HideAllCharts();
 
-            _diag = diagram;
-            _title = title;
-            _color = color;
-            _height = height;
-            _width = width;
+            Type = type;
 
-            Wind.Loaded += BaseGraphWindow_Loaded;
+            switch (type)
+            {
+                case SeriesType.Area:
+                    Wind.AreaSeries.DataContext = source;
+                    _cchart = Wind.AreaChart;
+                    _graph = Wind.AreaSeries;
+                    _orientation = AxisOrientation.X;
+                    break;
+                case SeriesType.Bar:
+                    Wind.BarSeries.DataContext = source;
+                    _cchart = Wind.BarChart;
+                    _graph = Wind.BarSeries;
+                    _orientation = AxisOrientation.Y;
+                    break;
+                case SeriesType.Column:
+                    Wind.ColumnSeries.DataContext = source;
+                    _cchart = Wind.ColumnChart;
+                    _graph = Wind.ColumnSeries;
+                    _orientation = AxisOrientation.X;
+                    break;
+                case SeriesType.Line:
+                    Wind.LineSeries.DataContext = source;
+                    _cchart = Wind.LineChart;
+                    _graph = Wind.LineSeries;
+                    _orientation = AxisOrientation.X;
+                    break;
+                case SeriesType.Pie:
+                    Wind.PieSeries.DataContext = source;
+                    _cchart = Wind.PieChart;
+                    _graph = Wind.PieSeries;
+                    break;
+                case SeriesType.Scatter:
+                    Wind.ScatterSeries.DataContext = source;
+                    _cchart = Wind.ScatterChart;
+                    _graph = Wind.ScatterSeries;
+                    _orientation = AxisOrientation.X;
+                    break;
+            }
+
+            if(_orientation == AxisOrientation.X)
+            {
+                _cchart.Height = DefaultHeight;
+                _cchart.Width = DefaultItemSpacing * source.Count;
+            }
+            else if(_orientation == AxisOrientation.Y)
+            {
+                _cchart.Height = DefaultItemSpacing * source.Count;
+                _cchart.Width = DefaultWidth;
+            } else
+            {
+                _cchart.Height = DefaultHeight;
+                _cchart.Width = DefaultWidth;
+            }
+
+            
+            _cchart.Title = ctitle;
+            _cchart.LegendTitle = ltitle;
+
+            _graph.Title = gtitle;
+
+            ShowChart();
         }
 
-        private void BaseGraphWindow_Loaded(object sender, RoutedEventArgs e)
+        public void SetMaximum(int max)
         {
-            Chart c = NewChart(_title,
-                _height,
-                _width,
-                _color,
-                _diag);
-
-            Wind.gridBase.Children.Add(c);
+            if(Type != SeriesType.Pie)
+            {
+                
+            }
+            
         }
 
         public void ShowDialog()
@@ -65,29 +116,40 @@ namespace Job_Application_Database.Classes
             Wind.ShowDialog();
         }
 
-        protected Chart NewChart(string title, int height, int width, Brush background, Series diagram)
+        public void HideAllCharts()
         {
-            Chart c = new Chart
+            foreach (DictionaryEntry de in _charts)
             {
-                Title = title,
-                Height = height,
-                Width = width,
-                Background = background,
-                VerticalAlignment = VerticalAlignment.Bottom,
-                HorizontalAlignment = HorizontalAlignment.Left
-            };
+                HideChart(((SeriesType)de.Key));
+            }
+        }
 
-            Thickness margin = c.Margin;
-            margin.Left = LEFT_MARGIN;
-            margin.Top = TOP_MARGIN;
-            margin.Right = RIGHT_MARGIN;
-            margin.Bottom = BOTTOM_MARGIN;
-            c.Margin = margin;
+        public void ShowAllCharts()
+        {
+            foreach (DictionaryEntry de in _charts)
+            {
+                ShowChart(((SeriesType)de.Key));
+            }
+        }
 
-            c.Series.Add(diagram);
+        public void ShowChart()
+        {
+            ShowChart(Type);
+        }
 
-            return c;
+        public void ShowChart(SeriesType type)
+        {
+            ((Chart)_charts[type]).Visibility = Visibility.Visible;
+        }
+
+        public void HideChart()
+        {
+            HideChart(Type);
+        }
+
+        public void HideChart(SeriesType type)
+        {
+            ((Chart)_charts[type]).Visibility = Visibility.Hidden;
         }
     }
-
 }

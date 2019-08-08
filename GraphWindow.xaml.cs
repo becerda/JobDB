@@ -15,13 +15,14 @@ using System.Windows.Shapes;
 namespace Job_Application_Database
 {
     /// <summary>
-    /// Interaction logic for Window1.xaml
+    /// Interaction logic for BaseGraphWindow.xaml
     /// </summary>
-    public partial class BaseGraphWindow : Window
+    public partial class GraphWindow : Window
     {
-        public BaseGraphWindow()
+        public GraphWindow()
         {
             InitializeComponent();
         }
+
     }
 }
