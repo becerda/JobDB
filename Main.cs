@@ -9,6 +9,7 @@ using Job_Application_Database.IO;
 using Job_Application_Database.Singleton;
 using System.Collections.Generic;
 using Job_Application_Database.Enum;
+using System.Windows.Media;
 
 namespace Job_Application_Database
 {
@@ -49,6 +50,7 @@ namespace Job_Application_Database
             _mw.Loaded += MainWindow_Loaded;
             _mw.Closing += MainWindow_Closing;
             _mw.KeyDown += MainWindow_KeyDown;
+            //_mw.Closed += (sender, e) => _mw.Dispatcher.InvokeShutdown();
         }
 
         // On Window Loaded Handler
@@ -425,9 +427,22 @@ namespace Job_Application_Database
 
         private void ShowGraph()
         {
-            //SeriesType type = SeriesType.Pie;
-            ColumnGraph cg = new ColumnGraph("Companies With Specified Job Titles", "Jobs", "Job", Companies.Instance.JobKeyValue());
-            cg.ShowDialog();
+            
+            string title = "Companies With Specified Job Titles";
+            GraphInfo col = new ColumnGraphInfo("Jobs", Companies.Instance.JobKeyValue());
+            GraphInfo pie = new GraphInfo(SeriesType.Pie, "", "Legend", Companies.Instance.StatusKeyValue(), null);
+
+            ChartInfo ci = new ChartInfo(title, ChartInfo.DefaultHeight, ChartInfo.DefaultItemSpacing * col.Source.Count, col);
+            GraphWindowHolder bg = new GraphWindowHolder("Statistics");
+            bg.AddGraph(ci);
+
+            ci.Graph = pie;
+            ci.Height = ChartInfo.DefaultHeight;
+            ci.Width = ChartInfo.DefaultWidth;
+            ci.Title = "Application Status Percentage";
+            bg.AddGraph(ci);
+
+            bg.ShowDialog();
         }
 
         // Makes Note That Current Company Edits Are Not Saved
@@ -456,6 +471,11 @@ namespace Job_Application_Database
         public void ShowDialog()
         {
             _mw.ShowDialog();
+        }
+
+        public void Show()
+        {
+            _mw.Show();
         }
 
     }

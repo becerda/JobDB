@@ -10,8 +10,20 @@
     <ScrollViewer HorizontalScrollBarVisibility="Auto" 
 	VerticalScrollBarVisibility="Auto" Margin="0,0,0,0">
         <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
             <!-- Area Graph -->
-            <c:Chart x:Name="AreaChart" Margin="10" Background="LightSteelBlue">
+            <c:Chart x:Name="AreaChart" Margin="0" Background="LightSteelBlue" Width="0" Height="0">
                 <c:AreaSeries 
                     Title="Area"
                     x:Name="AreaSeries"
@@ -42,8 +54,8 @@
             </c:Chart>
 
             <!-- Bar Graph -->
-            <c:Chart x:Name="BarChart" Margin="10" Background="LightSteelBlue">
-                <c:BarSeries 
+            <c:Chart x:Name="BarChart" Margin="0" Background="LightSteelBlue" Width="0" Height="0">
+                <c:BarSeries
                     Title="Bar"
                     x:Name="BarSeries"
                     DependentValuePath="Value"
@@ -52,7 +64,7 @@
             </c:Chart>
 
             <!-- Column Graph -->
-            <c:Chart x:Name="ColumnChart" Margin="10" Background="LightSteelBlue">
+            <c:Chart x:Name="ColumnChart" Margin="0" Background="LightSteelBlue" Width="0" Height="0">
                 <c:ColumnSeries
                     Title="Column"
                     x:Name="ColumnSeries"
@@ -83,7 +95,7 @@
             </c:Chart>
 
             <!-- Line Graph -->
-            <c:Chart x:Name="LineChart" Margin="10" Background="LightSteelBlue">
+            <c:Chart x:Name="LineChart" Margin="0" Background="LightSteelBlue" Width="0" Height="0">
                 <c:LineSeries 
                     Title="Line"
                     x:Name="LineSeries"
@@ -114,7 +126,7 @@
             </c:Chart>
 
             <!-- Pie Graph -->
-            <c:Chart x:Name="PieChart" Margin="10" Background="LightSteelBlue">
+            <c:Chart x:Name="PieChart" Margin="0" Background="LightSteelBlue" Width="0" Height="0">
                 <c:PieSeries 
                     Title="Pie"
                     x:Name="PieSeries"
@@ -124,7 +136,7 @@
             </c:Chart>
 
             <!-- Scatter Graph -->
-            <c:Chart x:Name="ScatterChart" Margin="10" Background="LightSteelBlue">
+            <c:Chart x:Name="ScatterChart" Margin="0" Background="LightSteelBlue" Width="0" Height="0">
                 <c:ScatterSeries 
                     Title="Scatter"
                     x:Name="ScatterSeries"

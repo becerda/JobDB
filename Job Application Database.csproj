@@ -91,12 +91,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AreaGraphInfo.cs" />
+    <Compile Include="BarGraphInfo.cs" />
+    <Compile Include="ChartInfo.cs" />
     <Compile Include="ColumnGraph.cs" />
     <Compile Include="BaseCreations.cs" />
+    <Compile Include="ColumnGraphInfo.cs" />
+    <Compile Include="GraphInfo.cs" />
     <Compile Include="GraphWindow.xaml.cs">
       <DependentUpon>GraphWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BaseGraph.cs" />
+    <Compile Include="GraphWindowHolder.cs" />
     <Compile Include="BaseList.cs" />
     <Compile Include="BaseInfo.cs" />
     <Compile Include="BaseSingleton.cs" />
@@ -118,11 +123,14 @@
     <Compile Include="JobCreation.cs" />
     <Compile Include="Jobs.cs" />
     <Compile Include="JobsList.cs" />
+    <Compile Include="LineGraphInfo.cs" />
     <Compile Include="Main.cs" />
+    <Compile Include="PieGraphInfo.cs" />
     <Compile Include="Rep.cs" />
     <Compile Include="RepCreation.cs" />
     <Compile Include="Reps.cs" />
     <Compile Include="RepsList.cs" />
+    <Compile Include="ScatterGraphInfo.cs" />
     <Compile Include="Singletons.cs" />
     <Page Include="GraphWindow.xaml">
       <SubType>Designer</SubType>
