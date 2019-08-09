@@ -104,7 +104,7 @@ namespace Job_Application_Database
                 _mw.menuItemAutoload.IsChecked = true;
                 if (Properties.Settings.Default.LastLoadedFile.Length > 1)
                 {
-                    _fm.LoadCompanyFile(Properties.Settings.Default.LastLoadedFile);   
+                    _fm.LoadCompanyFile(Properties.Settings.Default.LastLoadedFile);
                 }
             }
 
@@ -425,9 +425,9 @@ namespace Job_Application_Database
 
         private void ShowGraph()
         {
-            BaseGraph bg = new BaseGraph("Job Titles", "Jobs", "Job", Companies.Instance.JobKeyValue(), SeriesType.Area);
-            bg.ShowDialog();
-            
+            //SeriesType type = SeriesType.Pie;
+            ColumnGraph cg = new ColumnGraph("Companies With Specified Job Titles", "Jobs", "Job", Companies.Instance.JobKeyValue());
+            cg.ShowDialog();
         }
 
         // Makes Note That Current Company Edits Are Not Saved

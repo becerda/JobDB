@@ -2,31 +2,46 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.DataVisualization.Charting;
+using System.Windows.Media;
 
 namespace Job_Application_Database.Classes
 {
+    /// <summary>
+    /// Class That Controls Graph Usage
+    /// </summary>
     class BaseGraph
     {
+        // Default Height Of Chart
         public static int DefaultHeight = 500;
+
+        // Default Width Of Chart
         public static int DefaultWidth = 600;
+
+        // Default Item Spacing Of Chart
         public static int DefaultItemSpacing = 50;
 
-        private Chart _cchart;
-        private DataPointSeries _graph;
+        // The Referance To The Current Chart
+        private Chart Chart { get; set; }
 
-        private AxisOrientation _orientation;
+        // The Reference To The Current Graph
+        private DataPointSeries Graph { get; set; }
 
-        private Hashtable _charts;
+        // All Of The Charts
+        private Hashtable Charts;
 
+        // The Reference To GraphWindow
         protected GraphWindow Wind { get; set; }
 
+        // The SeriesType Of The Graph
         public SeriesType Type { get; }
 
-        public BaseGraph(string ctitle, string ltitle, string gtitle, List<KeyValuePair<string, int>> source, SeriesType type)
+        // Default Constructor
+        public BaseGraph(string ctitle, string ltitle, string gtitle, List<KeyValuePair<string, int>> source, SeriesType type, int height, int width, Brush chartcolor, Brush barcolor)
         {
             Wind = new GraphWindow();
-            _charts = new Hashtable
+            Charts = new Hashtable
             {
                 { SeriesType.Area, Wind.AreaChart },
                 { SeriesType.Bar, Wind.BarChart },
@@ -43,113 +58,100 @@ namespace Job_Application_Database.Classes
             {
                 case SeriesType.Area:
                     Wind.AreaSeries.DataContext = source;
-                    _cchart = Wind.AreaChart;
-                    _graph = Wind.AreaSeries;
-                    _orientation = AxisOrientation.X;
+                    Chart = Wind.AreaChart;
+                    Graph = Wind.AreaSeries;
                     break;
                 case SeriesType.Bar:
                     Wind.BarSeries.DataContext = source;
-                    _cchart = Wind.BarChart;
-                    _graph = Wind.BarSeries;
-                    _orientation = AxisOrientation.Y;
+                    Chart = Wind.BarChart;
+                    Graph = Wind.BarSeries;
                     break;
                 case SeriesType.Column:
                     Wind.ColumnSeries.DataContext = source;
-                    _cchart = Wind.ColumnChart;
-                    _graph = Wind.ColumnSeries;
-                    _orientation = AxisOrientation.X;
+                    Chart = Wind.ColumnChart;
+                    Graph = Wind.ColumnSeries;
                     break;
                 case SeriesType.Line:
                     Wind.LineSeries.DataContext = source;
-                    _cchart = Wind.LineChart;
-                    _graph = Wind.LineSeries;
-                    _orientation = AxisOrientation.X;
+                    Chart = Wind.LineChart;
+                    Graph = Wind.LineSeries;
                     break;
                 case SeriesType.Pie:
                     Wind.PieSeries.DataContext = source;
-                    _cchart = Wind.PieChart;
-                    _graph = Wind.PieSeries;
+                    Chart = Wind.PieChart;
+                    Graph = Wind.PieSeries;
                     break;
                 case SeriesType.Scatter:
                     Wind.ScatterSeries.DataContext = source;
-                    _cchart = Wind.ScatterChart;
-                    _graph = Wind.ScatterSeries;
-                    _orientation = AxisOrientation.X;
+                    Chart = Wind.ScatterChart;
+                    Graph = Wind.ScatterSeries;
                     break;
             }
 
-            if(_orientation == AxisOrientation.X)
-            {
-                _cchart.Height = DefaultHeight;
-                _cchart.Width = DefaultItemSpacing * source.Count;
-            }
-            else if(_orientation == AxisOrientation.Y)
-            {
-                _cchart.Height = DefaultItemSpacing * source.Count;
-                _cchart.Width = DefaultWidth;
-            } else
-            {
-                _cchart.Height = DefaultHeight;
-                _cchart.Width = DefaultWidth;
-            }
 
-            
-            _cchart.Title = ctitle;
-            _cchart.LegendTitle = ltitle;
+            Chart.Height = height;
+            Chart.Width = width;
+            Chart.Background = chartcolor;
 
-            _graph.Title = gtitle;
+            Chart.Title = ctitle;
+            Chart.LegendTitle = ltitle;
+
+            Graph.Title = gtitle;
+
+            Style style = new Style(typeof(DataPoint));
+            Setter setter = new Setter(DataPointSeries.BackgroundProperty, barcolor);
+            style.Setters.Add(setter);
+            Graph.DataPointStyle = style;
 
             ShowChart();
         }
 
-        public void SetMaximum(int max)
-        {
-            if(Type != SeriesType.Pie)
-            {
-                
-            }
-            
-        }
-
+        // Shows GraphWindow's Dialog
         public void ShowDialog()
         {
             Wind.ShowDialog();
         }
 
+        // Hides All Of The Charts
         public void HideAllCharts()
         {
-            foreach (DictionaryEntry de in _charts)
+            foreach (DictionaryEntry de in Charts)
             {
                 HideChart(((SeriesType)de.Key));
             }
         }
 
+        // Shows All Of The Charts
         public void ShowAllCharts()
         {
-            foreach (DictionaryEntry de in _charts)
+            foreach (DictionaryEntry de in Charts)
             {
                 ShowChart(((SeriesType)de.Key));
             }
         }
 
+        // Shows The Current Chart
         public void ShowChart()
         {
             ShowChart(Type);
         }
 
+        // Shows The Selected Chart
         public void ShowChart(SeriesType type)
         {
-            ((Chart)_charts[type]).Visibility = Visibility.Visible;
+            ((Chart)Charts[type]).Visibility = Visibility.Visible;
         }
 
+        // Hides All Of The Charts
         public void HideChart()
         {
             HideChart(Type);
         }
 
+        // Hides The Selected Chart
         public void HideChart(SeriesType type)
         {
-            ((Chart)_charts[type]).Visibility = Visibility.Hidden;
+            ((Chart)Charts[type]).Visibility = Visibility.Hidden;
         }
     }
 }
