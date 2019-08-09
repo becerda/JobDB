@@ -272,7 +272,7 @@ namespace Job_Application_Database
                 Exit = Enum.ExitStatus.Cancel;
                 _ccw.Close();
             }
-            
+
         }
 
         private void TextInput_MouseDown(object sender, MouseEventArgs e)

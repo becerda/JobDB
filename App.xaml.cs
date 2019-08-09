@@ -16,7 +16,8 @@ namespace Job_Application_Database
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            new Main().ShowDialog();
+            Main m = new Main();
+            m.Show();
         }
     }
 }

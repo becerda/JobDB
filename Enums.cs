@@ -20,7 +20,7 @@ namespace Job_Application_Database.Enum
     // Position Type
     public enum PositionType
     {
-        NA = 0,        // Not Applicable / Blank
+        NA = 0,         // Not Applicable / Blank
         Part = 1,       // Part-Time
         Full = 2,       // Full-Time
         Contract = 3    // Contract
@@ -29,13 +29,26 @@ namespace Job_Application_Database.Enum
     // Window Exit Status
     public enum ExitStatus
     {
-        Ok, Cancel
+        Ok,             // Status Ok
+        Cancel          // Status Cancel
     }
 
     // Creation Window Mode
     public enum EditMode
     {
-        New, Edit
+        New,            // Window Mode New
+        Edit            // Window Mode Edit
+    }
+
+    public enum SeriesType
+    {
+        Area,           // AreaSeries
+        Bar,            // BarSeries
+        Column,         // ColumnSeries
+        Line,           // LineSeries
+        Pie,            // PieSeries
+        Scatter         // ScatterSeries
+        
     }
 
     /// <summary>

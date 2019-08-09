@@ -8,6 +8,8 @@ using System.Linq;
 using Job_Application_Database.IO;
 using Job_Application_Database.Singleton;
 using System.Collections.Generic;
+using Job_Application_Database.Enum;
+using System.Windows.Media;
 
 namespace Job_Application_Database
 {
@@ -48,6 +50,7 @@ namespace Job_Application_Database
             _mw.Loaded += MainWindow_Loaded;
             _mw.Closing += MainWindow_Closing;
             _mw.KeyDown += MainWindow_KeyDown;
+            //_mw.Closed += (sender, e) => _mw.Dispatcher.InvokeShutdown();
         }
 
         // On Window Loaded Handler
@@ -103,7 +106,7 @@ namespace Job_Application_Database
                 _mw.menuItemAutoload.IsChecked = true;
                 if (Properties.Settings.Default.LastLoadedFile.Length > 1)
                 {
-                    _fm.LoadCompanyFile(Properties.Settings.Default.LastLoadedFile);   
+                    _fm.LoadCompanyFile(Properties.Settings.Default.LastLoadedFile);
                 }
             }
 
@@ -424,8 +427,37 @@ namespace Job_Application_Database
 
         private void ShowGraph()
         {
-            BaseGraph bg = new BaseGraph();
-            bg.ShowDialog();
+            GraphInfo area = new AreaGraphInfo("Area Graph", Companies.Instance.StatusKeyValue(), Brushes.Purple);
+            GraphInfo bar = new BarGraphInfo("Bar Graph", Companies.Instance.StatusKeyValue(), Brushes.Green);
+            GraphInfo column = new ColumnGraphInfo("Column Graph", Companies.Instance.StatusKeyValue(), Brushes.Red);
+            GraphInfo line = new LineGraphInfo("Line Graph", Companies.Instance.StatusKeyValue());
+            GraphInfo pie = new PieGraphInfo(Companies.Instance.StatusKeyValue());
+            GraphInfo scatter = new ScatterGraphInfo("Scatter Graph", Companies.Instance.StatusKeyValue(), Brushes.Black);
+
+            ChartInfo ac = new ChartInfo("Area Chart");
+            ac.AddGraph(area);
+            ChartInfo bc = new ChartInfo("Bar Chart");
+            bc.AddGraph(bar);
+            ChartInfo cc = new ChartInfo("Column Chart");
+            cc.AddGraph(column);
+            ChartInfo lc = new ChartInfo("Line Chart");
+            lc.AddGraph(line);
+            ChartInfo pc = new ChartInfo("Pie Chart");
+            pc.AddGraph(pie);
+            ChartInfo sc = new ChartInfo("Scatter Chart");
+            sc.AddGraph(scatter);
+
+            GraphWindowHolder bg = new GraphWindowHolder("Statistics");
+            GraphWindowHolder bg2 = new GraphWindowHolder("Window 2");
+            bg.AddChart(ac);
+            bg.AddChart(bc);
+            bg.AddChart(cc);
+            bg2.AddChart(lc);
+            bg2.AddChart(pc);
+            bg2.AddChart(sc);
+            bg.Show();
+            bg2.Show();
+
         }
 
         // Makes Note That Current Company Edits Are Not Saved
@@ -454,6 +486,11 @@ namespace Job_Application_Database
         public void ShowDialog()
         {
             _mw.ShowDialog();
+        }
+
+        public void Show()
+        {
+            _mw.Show();
         }
 
     }
