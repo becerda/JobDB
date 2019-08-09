@@ -1,47 +1,96 @@
-﻿using System.Windows.Media;
+﻿using System.Windows.Controls.DataVisualization.Charting;
+using System.Windows.Media;
 
 namespace Job_Application_Database.Classes
 {
+    /// <summary>
+    /// Wrapper Class For A Chart
+    /// </summary>
     class ChartInfo
     {
-        // Default Height Of Chart
+        /// <summary>
+        /// Default Height Of Chart
+        /// </summary>
         public static int DefaultHeight = 500;
 
-        // Default Width Of Chart
+        /// <summary>
+        /// Default Width Of Chart
+        /// </summary>
         public static int DefaultWidth = 500;
 
-        // Default Item Spacing Of Chart
+        /// <summary>
+        /// Default Item Spacing Of Chart
+        /// </summary>
         public static int DefaultItemSpacing = 50;
 
-        public GraphInfo Graph { get; set; }
+        /// <summary>
+        /// The Reference To The Chart To Display
+        /// </summary>
+        public Chart Chart { get; set; }
 
-        public string Title { get; set; }
+        /// <summary>
+        /// The Reference To The Graph Info
+        /// </summary>
+        public GraphInfo GraphInfo { get; set; }
 
-        public int Height { get; set; }
+        /// <summary>
+        /// Constructor To Set Up The Graph
+        /// </summary>
+        public ChartInfo()
+            : this("") { }
 
-        public int Width { get; set; }
+        /// <summary>
+        /// Constructor To Set Up The Title, And Graph
+        /// </summary>
+        /// <param name="title">The Title Of The Graph</param>
+        public ChartInfo(string title)
+            : this(title, "Legend") { }
 
-        public Brush Color { get; set; }
+        /// <summary>
+        /// Constructor To Set Up The Title, Legend Title, And Graph
+        /// </summary>
+        /// <param name="title">The Title Of The Graph</param>
+        /// <param name="ltitle">The Title Of The Legend</param>
+        public ChartInfo(string title, string ltitle)
+            : this(title, ltitle, DefaultHeight, DefaultWidth, Brushes.LightSteelBlue) { }
 
-        public ChartInfo() { }
+        /// <summary>
+        /// Constructor To Set Up The Title, Legend Title, Height, Width, And Graph
+        /// </summary>
+        /// <param name="title">The Title Of The Graph</param>
+        /// <param name="ltitle">The Title Of The Legend</param>
+        /// <param name="height">The Height Of The Chart</param>
+        /// <param name="width">The Width Of The Chart</param>
+        public ChartInfo(string title, string ltitle, int height, int width)
+            : this(title, ltitle, height, width, Brushes.LightSteelBlue) { }
 
-        public ChartInfo(GraphInfo graph)
-            : this("", graph) { }
-
-        public ChartInfo(string title, GraphInfo graph)
-        : this(title, DefaultHeight, DefaultWidth, Brushes.LightSteelBlue, graph) { }
-
-        public ChartInfo(string title, int height, int width, GraphInfo graph)
-        : this(title, height, width, Brushes.LightSteelBlue, graph) { }
-
-
-        public ChartInfo(string title, int height, int width, Brush color, GraphInfo graph)
+        /// <summary>
+        /// Constructor To Set Up The Title, Legend Title, Height, Width, Color And Graph
+        /// </summary>
+        /// <param name="title">The Title Of The Graph</param>
+        /// <param name="ltitle">The Title Of The Legend</param>
+        /// <param name="height">The Height Of The Chart</param>
+        /// <param name="width">The Width Of The Chart</param>
+        /// <param name="color">The Color Of The Chart</param>
+        public ChartInfo(string title, string ltitle, int height, int width, Brush color)
         {
-            Title = title;
-            Height = height;
-            Width = width;
-            Color = color;
-            Graph = graph;
+            Chart = new Chart
+            {
+                Title = title,
+                LegendTitle = ltitle,
+                Height = height,
+                Width = width,
+                Background = color
+            };
+        }
+
+        /// <summary>
+        /// Wrapper Method To Add A Graph To The Chart
+        /// </summary>
+        /// <param name="graph">The Graph To Add</param>
+        public void AddGraph(GraphInfo graph)
+        {
+            Chart.Series.Add(graph.Graph);
         }
     }
 }

@@ -94,7 +94,6 @@
     <Compile Include="AreaGraphInfo.cs" />
     <Compile Include="BarGraphInfo.cs" />
     <Compile Include="ChartInfo.cs" />
-    <Compile Include="ColumnGraph.cs" />
     <Compile Include="BaseCreations.cs" />
     <Compile Include="ColumnGraphInfo.cs" />
     <Compile Include="GraphInfo.cs" />

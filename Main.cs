@@ -427,22 +427,37 @@ namespace Job_Application_Database
 
         private void ShowGraph()
         {
-            
-            string title = "Companies With Specified Job Titles";
-            GraphInfo col = new ColumnGraphInfo("Jobs", Companies.Instance.JobKeyValue());
-            GraphInfo pie = new GraphInfo(SeriesType.Pie, "", "Legend", Companies.Instance.StatusKeyValue(), null);
+            GraphInfo area = new AreaGraphInfo("Area Graph", Companies.Instance.StatusKeyValue(), Brushes.Purple);
+            GraphInfo bar = new BarGraphInfo("Bar Graph", Companies.Instance.StatusKeyValue(), Brushes.Green);
+            GraphInfo column = new ColumnGraphInfo("Column Graph", Companies.Instance.StatusKeyValue(), Brushes.Red);
+            GraphInfo line = new LineGraphInfo("Line Graph", Companies.Instance.StatusKeyValue());
+            GraphInfo pie = new PieGraphInfo(Companies.Instance.StatusKeyValue());
+            GraphInfo scatter = new ScatterGraphInfo("Scatter Graph", Companies.Instance.StatusKeyValue(), Brushes.Black);
 
-            ChartInfo ci = new ChartInfo(title, ChartInfo.DefaultHeight, ChartInfo.DefaultItemSpacing * col.Source.Count, col);
+            ChartInfo ac = new ChartInfo("Area Chart");
+            ac.AddGraph(area);
+            ChartInfo bc = new ChartInfo("Bar Chart");
+            bc.AddGraph(bar);
+            ChartInfo cc = new ChartInfo("Column Chart");
+            cc.AddGraph(column);
+            ChartInfo lc = new ChartInfo("Line Chart");
+            lc.AddGraph(line);
+            ChartInfo pc = new ChartInfo("Pie Chart");
+            pc.AddGraph(pie);
+            ChartInfo sc = new ChartInfo("Scatter Chart");
+            sc.AddGraph(scatter);
+
             GraphWindowHolder bg = new GraphWindowHolder("Statistics");
-            bg.AddGraph(ci);
+            GraphWindowHolder bg2 = new GraphWindowHolder("Window 2");
+            bg.AddChart(ac);
+            bg.AddChart(bc);
+            bg.AddChart(cc);
+            bg2.AddChart(lc);
+            bg2.AddChart(pc);
+            bg2.AddChart(sc);
+            bg.Show();
+            bg2.Show();
 
-            ci.Graph = pie;
-            ci.Height = ChartInfo.DefaultHeight;
-            ci.Width = ChartInfo.DefaultWidth;
-            ci.Title = "Application Status Percentage";
-            bg.AddGraph(ci);
-
-            bg.ShowDialog();
         }
 
         // Makes Note That Current Company Edits Are Not Saved
