@@ -1,46 +1,52 @@
 ﻿using Job_Application_Database.IO;
 using Job_Application_Database.Singleton;
-using System.ComponentModel;
 using System.Windows;
-using System.Windows.Data;
 
 namespace Job_Application_Database.Classes
 {
     /// <summary>
     /// Class For Displaying Job Boards Lists
     /// </summary>
-    public class BoardsList : BaseList
+    public class JobBoardsList : BaseList
     {
-        // Base Constructor
-        public BoardsList() : base("Job Board", Boards.Instance.AllObjects()) { }
+        /// <summary>
+        /// Base Constructor
+        /// </summary>
+        public JobBoardsList() : base("Job Board", JobBoards.Instance.AllObjects()) { }
 
-        // Add Job Board To Boards List
+        /// <summary>
+        /// Add Job Board To Boards List
+        /// </summary>
         protected override void Add()
         {
-            BoardCreation bc = new BoardCreation();
+            JobBoardCreation bc = new JobBoardCreation();
             bc.ShowDialog();
             if (bc.Exit == Enum.ExitStatus.Ok)
             {
-                Boards.Instance.AddObject(bc.Info);
+                JobBoards.Instance.AddObject(bc.Info);
                 Files.Instance.SaveBoardFile();
-                RefreshListView(Boards.Instance);
+                RefreshListView(JobBoards.Instance);
             }
         }
 
-        // Edit Board From Job Boards List
+        /// <summary>
+        /// Edit Board From Job Boards List
+        /// </summary>
         protected override void Edit()
         {
-            Board b = _blw.listviewCurrent.SelectedItem as Board;
+            JobBoard b = _blw.listviewCurrent.SelectedItem as JobBoard;
             if (b != null)
             {
-                BoardCreation bc = new BoardCreation(b);
+                JobBoardCreation bc = new JobBoardCreation(b);
                 bc.ShowDialog();
                 Files.Instance.SaveBoardFile();
-                RefreshListView(Boards.Instance);
+                RefreshListView(JobBoards.Instance);
             }
         }
 
-        // Delete Board From Job Boards List
+        /// <summary>
+        /// Delete Board From Job Boards List
+        /// </summary>
         protected override void Delete()
         {
             if (_blw.listviewCurrent.SelectedItem != null)
@@ -59,10 +65,10 @@ namespace Job_Application_Database.Classes
                 {
                     foreach (BaseInfo info in _blw.listviewCurrent.SelectedItems)
                     {
-                        Boards.Instance.RemoveObject(info);
+                        JobBoards.Instance.RemoveObject(info);
                     }
                     Files.Instance.SaveBoardFile();
-                    RefreshListView(Boards.Instance);
+                    RefreshListView(JobBoards.Instance);
                 }
             }
         }

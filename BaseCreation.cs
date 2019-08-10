@@ -9,10 +9,14 @@ namespace Job_Application_Database.Classes
     /// </summary>
     public abstract class BaseCreation
     {
-        // The Base Creation Window
+        /// <summary>
+        /// Reference To The Base Creation Window
+        /// </summary>
         private BaseCreationWindow _bcw;
 
-        // The Exit Status Of Base Creation Window
+        /// <summary>
+        /// The Exit Status Of Base Creation Window
+        /// </summary>
         public Enum.ExitStatus Exit
         {
             get
@@ -25,10 +29,14 @@ namespace Job_Application_Database.Classes
             }
         }
 
-        // The Information That Is Being Edited
+        /// <summary>
+        /// The Information That Is Being Edited
+        /// </summary>
         public BaseInfo Info { get; }
 
-        // The Text In The Base Creation Window's Name Text Box
+        /// <summary>
+        /// The Text In The Base Creation Window's Name TextBoxes
+        /// </summary>
         private string Name
         {
             get
@@ -41,7 +49,9 @@ namespace Job_Application_Database.Classes
             }
         }
 
-        // The Extra string In The Base Creation's Extra Text Box
+        /// <summary>
+        /// The Extra String In The Base Creation's Extra TextBox
+        /// </summary>
         private string Extra
         {
             get
@@ -54,7 +64,13 @@ namespace Job_Application_Database.Classes
             }
         }
 
-        // Default Constructor
+        /// <summary>
+        /// Constructor To Create A New BaseCreationWindow
+        /// </summary>
+        /// <param name="info">The Info To Be Edited</param>
+        /// <param name="mode">The Editing Mode</param>
+        /// <param name="title">The Title Of The Window</param>
+        /// <param name="label">The Label Of The Extra String</param>
         public BaseCreation(BaseInfo info, Enum.EditMode mode, string title, string label)
         {
             Info = info;
@@ -88,6 +104,12 @@ namespace Job_Application_Database.Classes
             _bcw.KeyDown += BaseCreationWindow_KeyDown;
         }
 
+        /// <summary>
+        /// Window Key Down Event Method
+        /// Handles Enter And Escape Key Presses
+        /// </summary>
+        /// <param name="sender">Object Which Called This Function</param>
+        /// <param name="e">The Arguments</param>
         private void BaseCreationWindow_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
@@ -103,7 +125,12 @@ namespace Job_Application_Database.Classes
             }
         }
 
-        // On Button Clicked Handler
+        /// <summary>
+        /// Window Button Click Method
+        /// Handles Button Presses
+        /// </summary>
+        /// <param name="sender">Object Which Called This Function</param>
+        /// <param name="e">The Arguments</param>
         protected void Button_Click(object sender, RoutedEventArgs e)
         {
             if (e.Source == _bcw.buttonOk)
@@ -114,7 +141,12 @@ namespace Job_Application_Database.Classes
             _bcw.Close();
         }
 
-        // On Window Closing Handler
+        /// <summary>
+        /// Window Closing Event Method
+        /// Handles Exit Status Flow
+        /// </summary>
+        /// <param name="sender">Object Which Called This Function</param>
+        /// <param name="e">The Arguments</param>
         public void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (Exit == Enum.ExitStatus.Ok)
@@ -123,20 +155,18 @@ namespace Job_Application_Database.Classes
             }
         }
 
-        // Extra Text Box Text Input Handler
-        protected void TextboxExtra_TextInput(object sender, TextCompositionEventArgs e) { }
-
-        // Extra Text Box Text Pasting Handler
-        protected void TextboxExtra_Pasting(object sender, DataObjectPastingEventArgs e) { }
-
-        // Saves Text Box Details To Info
+        /// <summary>
+        /// Takes Info From Window And Saves To Info
+        /// </summary>
         protected void SaveBaseDetails()
         {
             Info.Name = Name;
             Info.Extra = Extra;
         }
 
-        // Shows The Base Creation Window
+        /// <summary>
+        /// Calls CompanyCreationWindow's ShowDialog Method
+        /// </summary>
         public void ShowDialog()
         {
             _bcw.ShowDialog();

@@ -8,9 +8,14 @@ namespace Job_Application_Database
     /// 
     public partial class CompanyCreationWindow : Window
     {
-
+        /// <summary>
+        /// The Exit Status Of This Window
+        /// </summary>
         public Enum.ExitStatus Exit { get; set; }
 
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
         public CompanyCreationWindow()
         {
             InitializeComponent();

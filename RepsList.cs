@@ -1,8 +1,6 @@
 ﻿using Job_Application_Database.IO;
 using Job_Application_Database.Singleton;
-using System.ComponentModel;
 using System.Windows;
-using System.Windows.Data;
 
 namespace Job_Application_Database.Classes
 {
@@ -11,10 +9,14 @@ namespace Job_Application_Database.Classes
     /// </summary>
     public class RepsList : BaseList
     {
-        // Base Constructor
+        /// <summary>
+        /// Base Constructor
+        /// </summary>
         public RepsList() : base("Rep", Reps.Instance.AllObjects()) { }
 
-        // Add Rep To Reps List
+        /// <summary>
+        /// Add Rep To Reps List
+        /// </summary>
         protected override void Add()
         {
             RepCreation jcw = new RepCreation();
@@ -27,7 +29,9 @@ namespace Job_Application_Database.Classes
             }
         }
 
-        // Edit Rep From Reps List
+        /// <summary>
+        /// Edit Rep From Reps List
+        /// </summary>
         protected override void Edit()
         {
             Rep r = _blw.listviewCurrent.SelectedItem as Rep;
@@ -40,7 +44,9 @@ namespace Job_Application_Database.Classes
             }
         }
 
-        // Delete Rep From Reps List
+        /// <summary>
+        /// Delete Rep From Reps List
+        /// </summary>
         protected override void Delete()
         {
             if (_blw.listviewCurrent.SelectedItem != null)

@@ -7,24 +7,39 @@ namespace Job_Application_Database.Classes
     /// </summary>
     public class Rep : BaseInfo
     {
-        // Static ID For Tracking All Reps
+        /// <summary>
+        /// Static ID For Tracking All Reps
+        /// </summary>
         public static int Rep_ID = 0;
 
-        // Name Of Rep
+        /// <summary>
+        /// Name Of Rep
+        /// </summary>
         [JsonProperty("Name")]
         public override string Name { get; set; }
 
-        // Email Of Rep
+        /// <summary>
+        /// Email Of Rep
+        /// </summary>
         [JsonProperty("Email")]
         public override string Extra { get; set; }
 
-        // Default Constructor
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
         public Rep() : this(" ") { }
 
-        // String Param Constructor
+        /// <summary>
+        /// String Constructor
+        /// </summary>
+        /// <param name="name">The Name Of The Rep</param>
         public Rep(string name) : this(name, " ") { }
 
-        // String, String Param Constructor
+        /// <summary>
+        /// String, String Constructor
+        /// </summary>
+        /// <param name="name">The Name Of The Rep</param>
+        /// /// <param name="email">The Email Of The Rep</param>
         public Rep(string name, string email)
         {
             Name = name;

@@ -1,8 +1,6 @@
 ﻿using Job_Application_Database.IO;
 using Job_Application_Database.Singleton;
-using System.ComponentModel;
 using System.Windows;
-using System.Windows.Data;
 
 namespace Job_Application_Database.Classes
 {
@@ -11,10 +9,14 @@ namespace Job_Application_Database.Classes
     /// </summary>
     public class JobsList : BaseList
     {
-        // Base Constructor
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
         public JobsList() : base("Job", Jobs.Instance.AllObjects()) { }
 
-        // Add Job To Jobs List
+        /// <summary>
+        /// Add Job To Jobs List
+        /// </summary>
         protected override void Add()
         {
             JobCreation jcw = new JobCreation();
@@ -27,7 +29,9 @@ namespace Job_Application_Database.Classes
             }
         }
 
-        // Edit Job From Jobs List
+        /// <summary>
+        /// Edit Job From Jobs List
+        /// </summary>
         protected override void Edit()
         {
             Job j = _blw.listviewCurrent.SelectedItem as Job;
@@ -40,7 +44,9 @@ namespace Job_Application_Database.Classes
             }
         }
 
-        // Delete Job From Jobs List
+        /// <summary>
+        /// Delete Job From Jobs List
+        /// </summary>
         protected override void Delete()
         {
             if (_blw.listviewCurrent.SelectedItem != null)

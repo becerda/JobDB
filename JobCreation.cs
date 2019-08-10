@@ -7,14 +7,23 @@ namespace Job_Application_Database.Classes
     /// </summary>
     public class JobCreation : BaseCreation
     {
-        // Default Constructor
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
         public JobCreation() : this(new Job(), EditMode.New) { }
 
-        // Editing Constructor
+        /// <summary>
+        /// Editing Constructor
+        /// </summary>
+        /// <param name="job">The Job To Edit</param>
         public JobCreation(Job job) : this(job, EditMode.Edit) { }
 
-        // Base Constructor
-        public JobCreation(Job job, EditMode mode) : base(job, mode, "Job", "Salary") { }
+        /// <summary>
+        /// Base Constructor
+        /// </summary>
+        /// <param name="job">The Job To Edit</param>
+        /// <param name="mode">The Editing Mode</param>
+        private JobCreation(Job job, EditMode mode) : base(job, mode, "Job", "Salary") { }
     }
 
 }

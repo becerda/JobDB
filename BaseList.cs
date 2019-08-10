@@ -14,10 +14,14 @@ namespace Job_Application_Database.Classes
     /// </summary>
     public abstract class BaseList
     {
-        // The Base List Window
+        /// <summary>
+        /// Reference To The Base List Window
+        /// </summary>
         protected BaseListWindow _blw;
 
-        // The Exit Status Of Base List Window
+        /// <summary>
+        /// The Exit Status Of Base List Window
+        /// </summary>
         public Enum.ExitStatus Exit
         {
             get
@@ -30,7 +34,11 @@ namespace Job_Application_Database.Classes
             }
         }
 
-        // Default Constructor
+        /// <summary>
+        /// Construtor To Create A New BaseListWindow
+        /// </summary>
+        /// <param name="title">The Title Of The Window</param>
+        /// <param name="info">The Source</param>
         public BaseList(String title, List<BaseInfo> info)
         {
 
@@ -50,14 +58,24 @@ namespace Job_Application_Database.Classes
             _blw.buttonDelete.Click += Button_Click;
             _blw.buttonEdit.Click += Button_Click;
             _blw.Closing += Window_Closing;
-            _blw.KeyDown += new KeyEventHandler(BaseListWindow_KeyDown);
+            _blw.KeyDown += new KeyEventHandler(Window_KeyDown);
         }
 
-        // On Window Closing Handler
+        /// <summary>
+        /// Window Closing Event Method
+        /// Handles Exit Status Flow
+        /// </summary>
+        /// <param name="sender">Object Which Called This Function</param>
+        /// <param name="e">The Arguments</param>
         private void Window_Closing(object sender, CancelEventArgs e) { }
 
-        // Key Down Event Handler (Hot Keys)
-        private void BaseListWindow_KeyDown(object sender, KeyEventArgs e)
+        /// <summary>
+        /// Window Key Down Event Method
+        /// Handles Enter And Escape Key Presses
+        /// </summary>
+        /// <param name="sender">Object Which Called This Function</param>
+        /// <param name="e">The Arguments</param>
+        private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.N && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
             {
@@ -77,7 +95,12 @@ namespace Job_Application_Database.Classes
             }
         }
 
-        // On Button Clicked Handler
+        /// <summary>
+        /// Window Button Click Method
+        /// Handles Button Presses
+        /// </summary>
+        /// <param name="sender">Object Which Called This Function</param>
+        /// <param name="e">The Arguments</param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (e.Source == _blw.buttonAdd)
@@ -96,22 +119,36 @@ namespace Job_Application_Database.Classes
             Exit = Enum.ExitStatus.Ok;
         }
 
-        // List View Item Double Click Handler
+        /// <summary>
+        /// ListView Double Click Method
+        /// Handles Mouse Double Click On listviewCurrent
+        /// </summary>
+        /// <param name="sender">Object Which Called This Function</param>
+        /// <param name="e">The Arguments</param>
         private void ListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             Edit();
         }
 
-        // Adds A New BaseInfo To A Singleton
+        /// <summary>
+        /// Adds A New BaseInfo To A Singleton
+        /// </summary>
         protected abstract void Add();
 
-        // Deletes A BaseInfo From A Singleton
+        /// <summary>
+        /// Deletes A BaseInfo From A Singleton
+        /// </summary>
         protected abstract void Delete();
 
-        // Edits A BaseInfo From A Singleton
+        /// <summary>
+        /// Edits A BaseInfo From A Singleton
+        /// </summary>
         protected abstract void Edit();
 
-        // Refreshes The List View
+        /// <summary>
+        /// Refreshes The List View
+        /// </summary>
+        /// <param name="bs"></param>
         protected void RefreshListView(BaseSingleton bs)
         {
             _blw.listviewCurrent.ItemsSource = bs.AllObjects();
@@ -119,7 +156,9 @@ namespace Job_Application_Database.Classes
             view.Refresh();
         }
 
-        // Shows The Base List Window Dialog
+        /// <summary>
+        /// Shows The Base List Window Dialog
+        /// </summary>
         public void ShowDialog()
         {
             _blw.ShowDialog();

@@ -8,7 +8,6 @@ using System.Linq;
 using Job_Application_Database.IO;
 using Job_Application_Database.Singleton;
 using System.Collections.Generic;
-using Job_Application_Database.Enum;
 using System.Windows.Media;
 
 namespace Job_Application_Database
@@ -18,31 +17,49 @@ namespace Job_Application_Database
     /// </summary>
     class Main
     {
-        // The Main Window
+        /// <summary>
+        /// Reference To MainWindow
+        /// </summary>
         private MainWindow _mw;
 
-        // Reference To Companies Singleton
+        /// <summary>
+        /// Reference To Companies Singleton
+        /// </summary>
         private Companies _cm;
 
-        // Reference To Files Singleton
+        /// <summary>
+        /// Reference To Files Singleton
+        /// </summary>
         private Files _fm;
 
-        // To Keep Track Of Saved State
+        /// <summary>
+        /// To Keep Track Of Saved State
+        /// </summary>
         private bool _saved = true;
 
-        // To Keep Track Of Sorted Column
+        /// <summary>
+        /// To Keep Track Of Sorted Column
+        /// </summary>
         private GridViewColumnHeader _sortCol;
 
-        // To Keep Track Of Sorted Direction
+        /// <summary>
+        /// To Keep Track Of Sorted Direction
+        /// </summary>
         private ListSortDirection _sortDir;
 
-        // To Keep Track Of Current Sort Header
+        /// <summary>
+        /// To Keep Track Of Current Sort Header
+        /// </summary>
         private string _sortHeader = "Company";
 
-        // Current Title Of Application
+        /// <summary>
+        /// Current Title Of Application
+        /// </summary>
         private string _title = Properties.Settings.Default.MainWindowTitle;
 
-        // Default Constructor
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
         public Main()
         {
             // Create Window & Add Event Handlers
@@ -53,7 +70,12 @@ namespace Job_Application_Database
             //_mw.Closed += (sender, e) => _mw.Dispatcher.InvokeShutdown();
         }
 
-        // On Window Loaded Handler
+        /// <summary>
+        /// On Window Loaded Handler
+        /// Loads Files Sets Up Window
+        /// </summary>
+        /// <param name="sender">Object Which Called This Function</param>
+        /// <param name="e">The Arguments</param>
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             // Set Singleton References
@@ -123,7 +145,12 @@ namespace Job_Application_Database
             result.SortDescriptions.Add(new SortDescription(b.Path.Path, ListSortDirection.Ascending));
         }
 
-        // On Window Closing Handler
+        /// <summary>
+        /// Window Closing Event Method
+        /// Handles Exit Status Flow
+        /// </summary>
+        /// <param name="sender">Object Which Called This Function</param>
+        /// <param name="e">The Arguments</param>
         private void MainWindow_Closing(object sender, CancelEventArgs e)
         {
             if (!_saved)
@@ -136,7 +163,12 @@ namespace Job_Application_Database
             }
         }
 
-        // Key Down Event Handler (Hot Keys)
+        /// <summary>
+        /// Window Key Down Event Method
+        /// Handles Enter And Escape Key Presses
+        /// </summary>
+        /// <param name="sender">Object Which Called This Function</param>
+        /// <param name="e">The Arguments</param>
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.N && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
@@ -165,7 +197,12 @@ namespace Job_Application_Database
             }
         }
 
-        // Menu Item Event Handler
+        /// <summary>
+        /// Window Menu Item Event Method
+        /// Handles Menu Item Click
+        /// </summary>
+        /// <param name="sender">Object Which Called This Function</param>
+        /// <param name="e">The Arguments</param>
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (e.Source == _mw.menuitemSave)
@@ -208,7 +245,11 @@ namespace Job_Application_Database
             }
         }
 
-        // Search Text Box Text Changed Handler
+        /// <summary>
+        /// Search Text Box Text Changed Method
+        /// </summary>
+        /// <param name="sender">Object Which Called This Function</param>
+        /// <param name="e">The Arguments</param>
         private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             var filter = from Emp in _cm.AllObjects()
@@ -219,7 +260,11 @@ namespace Job_Application_Database
             RefreshListView(filter);
         }
 
-        // Search Text Box Focus Changed Handler
+        /// <summary>
+        /// Search Text Box Focus Changed Method
+        /// </summary>
+        /// <param name="sender">Object Which Called This Function</param>
+        /// <param name="e">The Arguments</param>
         private void SearchBox_FocusChanged(object sender, RoutedEventArgs e)
         {
             if (_mw.textboxSearch.IsFocused)
@@ -234,7 +279,11 @@ namespace Job_Application_Database
             }
         }
 
-        // List View Header Click Handler
+        /// <summary>
+        /// List View Header Click Method
+        /// </summary>
+        /// <param name="sender">Object Which Called This Function</param>
+        /// <param name="e">The Arguments</param>
         private void ListViewHeader_Click(object sender, RoutedEventArgs e)
         {
             GridViewColumnHeader col = e.OriginalSource as GridViewColumnHeader;
@@ -278,13 +327,23 @@ namespace Job_Application_Database
             result.SortDescriptions.Add(new SortDescription(_sortHeader, _sortDir));
         }
 
-        // List View Item Double Click Handler
+        /// <summary>
+        /// ListView Double Click Method
+        /// Handles Mouse Double Click On listviewCurrent
+        /// </summary>
+        /// <param name="sender">Object Which Called This Function</param>
+        /// <param name="e">The Arguments</param>
         private void ListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             EditCompany();
         }
 
-        // On Button Click Handler
+        /// <summary>
+        /// Window Button Click Method
+        /// Handles Button Presses
+        /// </summary>
+        /// <param name="sender">Object Which Called This Function</param>
+        /// <param name="e">The Arguments</param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (e.Source == _mw.buttonNewCompany)
@@ -317,13 +376,18 @@ namespace Job_Application_Database
             }
         }
 
-        // Refreshes The List View
+        /// <summary>
+        /// Refreshes The List View
+        /// </summary>
         private void RefreshListView()
         {
             RefreshListView(_cm.AllObjects());
         }
 
-        // Refreshes The List View By Giving It A New Source
+        /// <summary>
+        /// Refreshes The List View By Giving It A New Source
+        /// </summary>
+        /// <param name="source">The Source Of The List View</param>
         private void RefreshListView(IEnumerable<BaseInfo> source)
         {
             if (source != null)
@@ -336,7 +400,9 @@ namespace Job_Application_Database
             }
         }
 
-        // Opens File Dialog For Company List
+        /// <summary>
+        /// Opens File Dialog For Company List
+        /// </summary>
         private void OpenFile()
         {
             _fm.OpenCompanyFile();
@@ -344,14 +410,18 @@ namespace Job_Application_Database
             RefreshListView();
         }
 
-        // Saves Company List To File
+        /// <summary>
+        /// Saves Company List To File
+        /// </summary>
         private void SaveCompanyFile()
         {
             _fm.SaveCompanyFile();
             MarkSaved();
         }
 
-        // Opens The Add Company Window 
+        /// <summary>
+        /// Opens The Add Company Window 
+        /// </summary>
         private void AddCompany()
         {
             Company c = new Company();
@@ -365,7 +435,9 @@ namespace Job_Application_Database
             }
         }
 
-        // Opens The Edit Company Window
+        /// <summary>
+        /// Opens The Edit Company Window
+        /// </summary>
         private void EditCompany()
         {
             Company c = _mw.listviewCompanies.SelectedItem as Company;
@@ -381,7 +453,9 @@ namespace Job_Application_Database
             }
         }
 
-        // Deletes Selected Company From List View
+        /// <summary>
+        /// Deletes Selected Company From List View
+        /// </summary>
         private void DeleteCompany()
         {
             if (_mw.listviewCompanies.SelectedItem != null)
@@ -407,24 +481,33 @@ namespace Job_Application_Database
             }
         }
 
-        // Opens The Edit Job Window
+        /// <summary>
+        /// Opens The Edit Job Window
+        /// </summary>
         private void EditJobs()
         {
             new JobsList().ShowDialog();
         }
 
-        // Opens The Edit Rep Window
+        /// <summary>
+        /// Opens The Edit Rep Window
+        /// </summary>
         private void EditReps()
         {
             new RepsList().ShowDialog();
         }
 
-        // Opens The Edit Job Boards Window
+        /// <summary>
+        /// Opens The Edit Job Boards Window
+        /// </summary>
         private void EditBoards()
         {
-            new BoardsList().ShowDialog();
+            new JobBoardsList().ShowDialog();
         }
 
+        /// <summary>
+        /// Shows A Graph (Testing)
+        /// </summary>
         private void ShowGraph()
         {
             GraphInfo area = new AreaGraphInfo("Area Graph", Companies.Instance.StatusKeyValue(), Brushes.Purple);
@@ -460,7 +543,9 @@ namespace Job_Application_Database
 
         }
 
-        // Makes Note That Current Company Edits Are Not Saved
+        /// <summary>
+        /// Makes Note That Current Company Edits Are Not Saved
+        /// </summary>
         private void MarkUnsaved()
         {
             if (Properties.Settings.Default.AutoSave)
@@ -475,19 +560,26 @@ namespace Job_Application_Database
 
         }
 
-        // Makes Note That Current Company Edits Are Saved
+        /// <summary>
+        /// Makes Note That Current Company Edits Are Saved
+        /// </summary>
         private void MarkSaved()
         {
             _mw.Title = _title;
             _saved = true;
         }
 
-        // Shows The Main Window Dialog
+        /// <summary>
+        /// Shows The Main Window Dialog
+        /// </summary>
         public void ShowDialog()
         {
             _mw.ShowDialog();
         }
 
+        /// <summary>
+        /// Shows The Main Window
+        /// </summary>
         public void Show()
         {
             _mw.Show();

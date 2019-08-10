@@ -7,10 +7,14 @@ namespace Job_Application_Database
     /// </summary>
     public partial class MainWindow : Window
     {
-        // Exit Status Of The Window
+        /// <summary>
+        /// Exit Status Of The Window
+        /// </summary>
         public Enum.ExitStatus Exit { get; set; }
 
-        // Default Constructor
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();

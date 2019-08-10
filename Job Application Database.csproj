@@ -94,7 +94,7 @@
     <Compile Include="AreaGraphInfo.cs" />
     <Compile Include="BarGraphInfo.cs" />
     <Compile Include="ChartInfo.cs" />
-    <Compile Include="BaseCreations.cs" />
+    <Compile Include="BaseCreation.cs" />
     <Compile Include="ColumnGraphInfo.cs" />
     <Compile Include="GraphInfo.cs" />
     <Compile Include="GraphWindow.xaml.cs">
@@ -104,10 +104,10 @@
     <Compile Include="BaseList.cs" />
     <Compile Include="BaseInfo.cs" />
     <Compile Include="BaseSingleton.cs" />
-    <Compile Include="Board.cs" />
-    <Compile Include="BoardCreation.cs" />
-    <Compile Include="Boards.cs" />
-    <Compile Include="BoardsList.cs" />
+    <Compile Include="JobBoard.cs" />
+    <Compile Include="JobBoardCreation.cs" />
+    <Compile Include="JobBoards.cs" />
+    <Compile Include="JobBoardsList.cs" />
     <Compile Include="Companies.cs" />
     <Compile Include="CompanyCreation.cs" />
     <Compile Include="Enums.cs" />
@@ -165,7 +165,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
