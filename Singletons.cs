@@ -10,19 +10,29 @@ namespace Job_Application_Database.Singleton
     /// </summary>
     public abstract class Singleton<T> where T : class, new()
     {
-        // The Lazy Construction Of The Instance
+        /// <summary>
+        /// The Lazy Construction Of The Instance
+        /// </summary>
         private static readonly Lazy<T> _instance = new Lazy<T>(() => CreateInstance());
 
-        // To Tell If _allobjectnames Needs To Be Refreshed
+        /// <summary>
+        /// To Tell If _allobjectnames Needs To Be Refreshed
+        /// </summary>
         protected bool _needsRefresh = false;
 
-        // Hash Table To Store All BaseInfo
+        /// <summary>
+        /// Hash Table To Store All BaseInfo
+        /// </summary>
         protected Hashtable _table = new Hashtable();
 
-        // List To Store All BaseInfo Names
+        /// <summary>
+        /// List To Store All BaseInfo Names
+        /// </summary>
         protected List<string> _allobjectnames;
 
-        // The Instance Of The Singleton
+        /// <summary>
+        /// The Instance Of The Singleton
+        /// </summary>
         public static T Instance
         {
             get
@@ -31,20 +41,27 @@ namespace Job_Application_Database.Singleton
             }
         }
 
-        // Creation Of The Instance
+        /// <summary>
+        /// Creation Of The Instance
+        /// </summary>
+        /// <returns></returns>
         private static T CreateInstance()
         {
             return Activator.CreateInstance(typeof(T), true) as T;
         }
 
-        // Default Constructor
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
         protected Singleton()
         {
             _table = new Hashtable();
             _allobjectnames = new List<string>();
         }
 
-        // The Size Of The Hash Table
+        /// <summary>
+        /// The Size Of The Hash Table
+        /// </summary>
         public int Count
         {
             get
@@ -53,10 +70,14 @@ namespace Job_Application_Database.Singleton
             }
         }
 
-        // Used To Initialized The Hash Table With BaseInfo
+        /// <summary>
+        /// Used To Initialized The Hash Table With BaseInfo
+        /// </summary>
         public virtual void InitObjectList() { }
 
-        // Refreshes The Names List
+        /// <summary>
+        /// Refreshes The Names List
+        /// </summary>
         protected void Refresh()
         {
             if (_needsRefresh)
@@ -72,7 +93,10 @@ namespace Job_Application_Database.Singleton
             }
         }
 
-        // Gets All Of The BaseInfo As A List
+        /// <summary>
+        /// Gets All Of The BaseInfo As A List
+        /// </summary>
+        /// <returns>A List\<BaseInfo\> Of Objects</returns>
         public List<BaseInfo> AllObjects()
         {
             List<BaseInfo> list = new List<BaseInfo>();
@@ -89,34 +113,51 @@ namespace Job_Application_Database.Singleton
             return list;
         }
 
-        // Adds BaseInfo To The Hash Table
+        /// <summary>
+        /// Adds BaseInfo To The Hash Table
+        /// </summary>
+        /// <param name="k">The BaseInfo To Add</param>
         public void AddObject(BaseInfo k)
         {
             _table.Add(k.ID, k);
             _needsRefresh = true;
         }
 
-        // Removes BaseInfo From Hast Table
+        /// <summary>
+        /// Removes BaseInfo From Hast Table
+        /// </summary>
+        /// <param name="k">The BaseInfo To Remove</param>
         public void RemoveObject(BaseInfo k)
         {
             _table.Remove(k.ID);
             _needsRefresh = true;
         }
 
-        // Gets The BaseInfo With Spesified ID 
+        /// <summary>
+        /// Gets The BaseInfo With Spesified ID 
+        /// </summary>
+        /// <param name="id">The ID Of The Object</param>
+        /// <returns>The BaseInfo With Supplied ID</returns>
         public BaseInfo ObjectAt(int id)
         {
             return _table[id] as BaseInfo;
         }
 
-        // Gets All BaseInfo Names As A List
+        /// <summary>
+        /// Gets All BaseInfo Names As A List
+        /// </summary>
+        /// <returns>A List\<string\> Of All BaseInfo Names</returns>
         public List<string> AllObjectNames()
         {
             Refresh();
             return _allobjectnames;
         }
 
-        // Gets The Location Of BaseInfo In _allobjectnames From It's ID
+        /// <summary>
+        /// Gets The Location Of BaseInfo In _allobjectnames From It's ID
+        /// </summary>
+        /// <param name="id">The Id Of The BaseInfo</param>
+        /// <returns>The Index Of The BaseInfo</returns>
         public int TableToNames(int id)
         {
             Refresh();
@@ -130,7 +171,11 @@ namespace Job_Application_Database.Singleton
             return -1;
         }
 
-        // Gets The BaseInfo In _table From It's Location in _allobjectnames
+        /// <summary>
+        /// Gets The BaseInfo In _table From It's Location in _allobjectnames
+        /// </summary>
+        /// <param name="index">The Index Of The BaseInfo</param>
+        /// <returns>The BaseInfo At The Location</returns>
         public BaseInfo NamesToTable(int index)
         {
             Refresh();

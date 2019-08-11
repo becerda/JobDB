@@ -1,8 +1,6 @@
 ﻿using Job_Application_Database.IO;
 using Job_Application_Database.Singleton;
-using System.ComponentModel;
 using System.Windows;
-using System.Windows.Data;
 
 namespace Job_Application_Database.Classes
 {
@@ -11,10 +9,14 @@ namespace Job_Application_Database.Classes
     /// </summary>
     public class JobsList : BaseList
     {
-        // Base Constructor
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
         public JobsList() : base("Job", Jobs.Instance.AllObjects()) { }
 
-        // Add Job To Jobs List
+        /// <summary>
+        /// Add Job To Jobs List
+        /// </summary>
         protected override void Add()
         {
             JobCreation jcw = new JobCreation();
@@ -27,10 +29,12 @@ namespace Job_Application_Database.Classes
             }
         }
 
-        // Edit Job From Jobs List
+        /// <summary>
+        /// Edit Job From Jobs List
+        /// </summary>
         protected override void Edit()
         {
-            Job j = _blw.listviewCurrent.SelectedItem as Job;
+            Job j = BaseListWindow.listviewCurrent.SelectedItem as Job;
             if (j != null)
             {
                 JobCreation jcw = new JobCreation(j);
@@ -40,24 +44,26 @@ namespace Job_Application_Database.Classes
             }
         }
 
-        // Delete Job From Jobs List
+        /// <summary>
+        /// Delete Job From Jobs List
+        /// </summary>
         protected override void Delete()
         {
-            if (_blw.listviewCurrent.SelectedItem != null)
+            if (BaseListWindow.listviewCurrent.SelectedItem != null)
             {
                 string msg;
-                if (_blw.listviewCurrent.SelectedItems.Count > 1)
+                if (BaseListWindow.listviewCurrent.SelectedItems.Count > 1)
                 {
-                    msg = "these " + _blw.listviewCurrent.SelectedItems.Count + " Jobs?";
+                    msg = "these " + BaseListWindow.listviewCurrent.SelectedItems.Count + " Jobs?";
                 }
                 else
                 {
-                    msg = (_blw.listviewCurrent.SelectedItems[0] as IBaseInfo).Name + "?";
+                    msg = (BaseListWindow.listviewCurrent.SelectedItems[0] as IBaseInfo).Name + "?";
                 }
 
                 if (MessageBox.Show("Are you sure you want to delete " + msg, "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    foreach (BaseInfo info in _blw.listviewCurrent.SelectedItems)
+                    foreach (BaseInfo info in BaseListWindow.listviewCurrent.SelectedItems)
                     {
                         Jobs.Instance.RemoveObject(info);
                     }

@@ -1,5 +1,4 @@
-﻿
-using Job_Application_Database.Classes;
+﻿using Job_Application_Database.Classes;
 using Job_Application_Database.Enum;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,7 +10,9 @@ namespace Job_Application_Database.Singleton
     /// </summary>
     public sealed class Companies : BaseSingleton
     {
-        // The Instance Of The Jobs Singleton
+        /// <summary>
+        /// The Instance Of The Companies Singleton
+        /// </summary>
         public new static Companies Instance
         {
             get
@@ -20,7 +21,10 @@ namespace Job_Application_Database.Singleton
             }
         }
 
-        // Gets All BaseInfo In Counted KeyValuePair
+        /// <summary>
+        /// Gets All Position Types In A Counted KeyValuePair
+        /// </summary>
+        /// <returns>A List\<KeyValuePair\<string,int\>\> Of The Position Types</returns>
         public List<KeyValuePair<string, int>> PositionKeyValue()
         {
             List<KeyValuePair<string, int>> kvp = new List<KeyValuePair<string, int>>();
@@ -32,13 +36,13 @@ namespace Job_Application_Database.Singleton
 
             foreach (Company c in AllObjects())
             {
-                if (c.Position == Enum.PositionType.NA)
+                if (c.Position == PositionType.NA)
                     na++;
-                else if (c.Position == Enum.PositionType.Part)
+                else if (c.Position == PositionType.Part)
                     pt++;
-                else if (c.Position == Enum.PositionType.Full)
+                else if (c.Position == PositionType.Full)
                     ft++;
-                else if (c.Position == Enum.PositionType.Contract)
+                else if (c.Position == PositionType.Contract)
                     ct++;
             }
 
@@ -50,6 +54,10 @@ namespace Job_Application_Database.Singleton
             return kvp;
         }
 
+        /// <summary>
+        /// Gets All Application Status' In A Counted KeyValuePair
+        /// </summary>
+        /// <returns>A List\<KeyValuePair\<string,int\>\> Of Application Status'</returns>
         public List<KeyValuePair<string, int>> StatusKeyValue()
         {
             List<KeyValuePair<string, int>> kvp = new List<KeyValuePair<string, int>>();
@@ -65,21 +73,21 @@ namespace Job_Application_Database.Singleton
 
             foreach (Company c in AllObjects())
             {
-                if (c.Status.HasFlag(Status.Applied))
+                if (c.Status.HasFlag(ApplicationStatus.Applied))
                     app++;
-                if (c.Status.HasFlag(Status.Hunted))
+                if (c.Status.HasFlag(ApplicationStatus.Hunted))
                     hun++;
-                if (c.Status.HasFlag(Status.Assignment))
+                if (c.Status.HasFlag(ApplicationStatus.Assignment))
                     ass++;
-                if (c.Status.HasFlag(Status.Interview))
+                if (c.Status.HasFlag(ApplicationStatus.Interview))
                     intr++;
-                if (c.Status.HasFlag(Status.Offered))
+                if (c.Status.HasFlag(ApplicationStatus.Offered))
                     off++;
-                if (c.Status.HasFlag(Status.Accepted))
+                if (c.Status.HasFlag(ApplicationStatus.Accepted))
                     acc++;
-                if (c.Status.HasFlag(Status.Denied))
+                if (c.Status.HasFlag(ApplicationStatus.Denied))
                     den++;
-                if (c.Status.HasFlag(Status.Rejected))
+                if (c.Status.HasFlag(ApplicationStatus.Rejected))
                     rej++;
             }
 
@@ -95,6 +103,10 @@ namespace Job_Application_Database.Singleton
             return kvp;
         }
 
+        /// <summary>
+        /// Gets All Job Titles In A Counted KeyValuePair
+        /// </summary>
+        /// <returns>A List\<KeyValuePair\<string,int\>\> Of Job Titles</returns>
         public List<KeyValuePair<string, int>> JobKeyValue()
         {
             List<KeyValuePair<string, int>> kvp = new List<KeyValuePair<string, int>>();

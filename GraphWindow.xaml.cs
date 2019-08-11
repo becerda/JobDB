@@ -19,6 +19,9 @@ namespace Job_Application_Database
     /// </summary>
     public partial class GraphWindow : Window
     {
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
         public GraphWindow()
         {
             InitializeComponent();

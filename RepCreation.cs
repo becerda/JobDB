@@ -3,18 +3,27 @@
 namespace Job_Application_Database.Classes
 {
     /// <summary>
-    /// Rep creation window extended from BaseCreation
+    /// Rep Creation Window Extended From BaseCreation
     /// </summary>
     public class RepCreation : BaseCreation
     {
-        // Default Constructor
+        /// <summary>
+        /// New Rep Constructor
+        /// </summary>
         public RepCreation() : this(new Rep(), EditMode.New) { }
 
-        // Editing Constructor
+        /// <summary>
+        /// Editing Constructor
+        /// </summary>
+        /// <param name="rep">The Rep To Edit</param>
         public RepCreation(Rep rep) : this(rep, EditMode.Edit) { }
 
-        // Base Constructor
-        public RepCreation(Rep rep, EditMode mode) : base(rep, mode, "Representative", "Email") { }
+        /// <summary>
+        /// Base Constructor
+        /// </summary>
+        /// <param name="rep"></param>
+        /// <param name="mode"></param>
+        private RepCreation(Rep rep, EditMode mode) : base(rep, mode, "Representative", "Email") { }
     }
 
 }

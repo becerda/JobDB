@@ -25,16 +25,26 @@ namespace Job_Application_Database.Classes
     /// </summary>
     public abstract class BaseInfo : IBaseInfo, IEquatable<BaseInfo>, IComparable<BaseInfo>
     {
-        // The Name Of The Object
+        /// <summary>
+        /// The Name Of The Object
+        /// </summary>
         public abstract string Name { get; set; }
 
-        // A String Extra Of The Object
+        /// <summary>
+        /// A String Extra Of The Object
+        /// </summary>
         public abstract string Extra { get; set; }
 
-        // The ID Of The Object
+        /// <summary>
+        /// The ID Of The Object
+        /// </summary>
         public int ID { get; set; }
 
-        // Equals(object) Override
+        /// <summary>
+        /// Equals(object) Override
+        /// </summary>
+        /// <param name="obj">The Object To Compair To</param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             if (obj == null) return false;
@@ -43,7 +53,11 @@ namespace Job_Application_Database.Classes
             else return Equals(other);
         }
 
-        // CompareTo() Override
+        /// <summary>
+        /// CompareTo() Override
+        /// </summary>
+        /// <param name="other">The BaseInfo To Comapair To</param>
+        /// <returns></returns>
         public int CompareTo(BaseInfo other)
         {
             if (other == null)
@@ -52,20 +66,32 @@ namespace Job_Application_Database.Classes
                 return this.ID.CompareTo(other.ID);
         }
 
-        // GetHashCode() Override
+        /// <summary>
+        /// GetHashCode() Override
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             return ID;
         }
 
-        // Equals(BaseInfo) Override
+        /// <summary>
+        /// Equals(BaseInfo) Override
+        /// </summary>
+        /// <param name="other">The BaseInfo To Compair To</param>
+        /// <returns></returns>
         public bool Equals(BaseInfo other)
         {
             if (other == null) return false;
             return this.ID.Equals(other.ID);
         }
 
-        // == Operator Override
+        /// <summary>
+        /// == Operator Override
+        /// </summary>
+        /// <param name="r1">A BaseInfo Object</param>
+        /// <param name="r2">A BaseInfo Object</param>
+        /// <returns></returns>
         public static bool operator ==(BaseInfo r1, BaseInfo r2)
         {
             if (ReferenceEquals(r1, r2)) return true;
@@ -74,7 +100,12 @@ namespace Job_Application_Database.Classes
             return r1.ID == r2.ID;
         }
 
-        // != Operator Override
+        /// <summary>
+        /// != Operator Override
+        /// </summary>
+        /// <param name="r1">A BaseInfo Object</param>
+        /// <param name="r2">A BaseInfo Object</param>
+        /// <returns></returns>
         public static bool operator !=(BaseInfo r1, BaseInfo r2)
         {
             return !(r1 == r2);

@@ -5,47 +5,47 @@ using System.Windows;
 namespace Job_Application_Database.Classes
 {
     /// <summary>
-    /// Class For Displaying Reps Lists
+    /// Class For Displaying Job Boards Lists
     /// </summary>
-    public class RepsList : BaseList
+    public class JobBoardsList : BaseList
     {
         /// <summary>
         /// Base Constructor
         /// </summary>
-        public RepsList() : base("Rep", Reps.Instance.AllObjects()) { }
+        public JobBoardsList() : base("Job Board", JobBoards.Instance.AllObjects()) { }
 
         /// <summary>
-        /// Add Rep To Reps List
+        /// Add Job Board To Boards List
         /// </summary>
         protected override void Add()
         {
-            RepCreation jcw = new RepCreation();
-            jcw.ShowDialog();
-            if (jcw.Exit == Enum.ExitStatus.Ok)
+            JobBoardCreation bc = new JobBoardCreation();
+            bc.ShowDialog();
+            if (bc.Exit == Enum.ExitStatus.Ok)
             {
-                Reps.Instance.AddObject(jcw.Info);
-                Files.Instance.SaveRepFile();
-                RefreshListView(Reps.Instance);
+                JobBoards.Instance.AddObject(bc.Info);
+                Files.Instance.SaveBoardFile();
+                RefreshListView(JobBoards.Instance);
             }
         }
 
         /// <summary>
-        /// Edit Rep From Reps List
+        /// Edit Board From Job Boards List
         /// </summary>
         protected override void Edit()
         {
-            Rep r = BaseListWindow.listviewCurrent.SelectedItem as Rep;
-            if (r != null)
+            JobBoard b = BaseListWindow.listviewCurrent.SelectedItem as JobBoard;
+            if (b != null)
             {
-                RepCreation jcw = new RepCreation(r);
-                jcw.ShowDialog();
-                Files.Instance.SaveRepFile();
-                RefreshListView(Reps.Instance);
+                JobBoardCreation bc = new JobBoardCreation(b);
+                bc.ShowDialog();
+                Files.Instance.SaveBoardFile();
+                RefreshListView(JobBoards.Instance);
             }
         }
 
         /// <summary>
-        /// Delete Rep From Reps List
+        /// Delete Board From Job Boards List
         /// </summary>
         protected override void Delete()
         {
@@ -54,7 +54,7 @@ namespace Job_Application_Database.Classes
                 string msg;
                 if (BaseListWindow.listviewCurrent.SelectedItems.Count > 1)
                 {
-                    msg = "these " + BaseListWindow.listviewCurrent.SelectedItems.Count + " Reps?";
+                    msg = "these " + BaseListWindow.listviewCurrent.SelectedItems.Count + " Boards?";
                 }
                 else
                 {
@@ -65,10 +65,10 @@ namespace Job_Application_Database.Classes
                 {
                     foreach (BaseInfo info in BaseListWindow.listviewCurrent.SelectedItems)
                     {
-                        Reps.Instance.RemoveObject(info);
+                        JobBoards.Instance.RemoveObject(info);
                     }
-                    Files.Instance.SaveRepFile();
-                    RefreshListView(Reps.Instance);
+                    Files.Instance.SaveBoardFile();
+                    RefreshListView(JobBoards.Instance);
                 }
             }
         }

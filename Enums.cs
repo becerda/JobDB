@@ -2,9 +2,11 @@
 
 namespace Job_Application_Database.Enum
 {
-    // Current Position Status With A Company
+    /// <summary>
+    /// Current Application Status With A Company
+    /// </summary>
     [Flags]
-    public enum Status
+    public enum ApplicationStatus
     {
         NA = 0,
         Applied = 1,     // I Applied to company
@@ -17,7 +19,9 @@ namespace Job_Application_Database.Enum
         Rejected = 128    // Company Rejected my application
     }
 
-    // Position Type
+    /// <summary>
+    /// The Type Of Position With A Company
+    /// </summary>
     public enum PositionType
     {
         NA = 0,         // Not Applicable / Blank
@@ -26,20 +30,27 @@ namespace Job_Application_Database.Enum
         Contract = 3    // Contract
     }
 
-    // Window Exit Status
+    /// <summary>
+    /// Window Exit Status
+    /// </summary>
     public enum ExitStatus
     {
         Ok,             // Status Ok
         Cancel          // Status Cancel
     }
 
-    // Creation Window Mode
+    /// <summary>
+    /// Window Creation Mode
+    /// </summary>
     public enum EditMode
     {
         New,            // Window Mode New
         Edit            // Window Mode Edit
     }
 
+    /// <summary>
+    /// Graph Types
+    /// </summary>
     public enum SeriesType
     {
         Area,           // AreaSeries
@@ -56,24 +67,32 @@ namespace Job_Application_Database.Enum
     /// </summary>
     public static class Enums
     {
-        // Parse An Int To A Status Flag
-        public static Status ParseStatus(int status)
+        /// <summary>
+        /// Parse An Int To A Status Flag
+        /// </summary>
+        /// <param name="status">The Flag To Parse</param>
+        /// <returns></returns>
+        public static ApplicationStatus ParseStatus(int status)
         {
-            Status s = Status.NA;
+            ApplicationStatus s = ApplicationStatus.NA;
 
-            if ((status & 1) == 1) s |= Status.Applied;
-            if ((status & 2) == 2) s |= Status.Hunted;
-            if ((status & 4) == 4) s |= Status.Assignment;
-            if ((status & 8) == 8) s |= Status.Interview;
-            if ((status & 16) == 16) s |= Status.Offered;
-            if ((status & 32) == 32) s |= Status.Accepted;
-            if ((status & 64) == 64) s |= Status.Denied;
-            if ((status & 128) == 128) s |= Status.Rejected;
+            if ((status & 1) == 1) s |= ApplicationStatus.Applied;
+            if ((status & 2) == 2) s |= ApplicationStatus.Hunted;
+            if ((status & 4) == 4) s |= ApplicationStatus.Assignment;
+            if ((status & 8) == 8) s |= ApplicationStatus.Interview;
+            if ((status & 16) == 16) s |= ApplicationStatus.Offered;
+            if ((status & 32) == 32) s |= ApplicationStatus.Accepted;
+            if ((status & 64) == 64) s |= ApplicationStatus.Denied;
+            if ((status & 128) == 128) s |= ApplicationStatus.Rejected;
 
             return s;
         }
 
-        // Parse An Int To A Position Type
+        /// <summary>
+        /// Parse An Int To A Position Type
+        /// </summary>
+        /// <param name="type">The Flag To Parse</param>
+        /// <returns></returns>
         public static PositionType ParsePositionType(int type)
         {
             if (type == 1) return PositionType.Part;

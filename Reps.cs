@@ -8,7 +8,9 @@ namespace Job_Application_Database.Singleton
     /// </summary>
     public sealed class Reps : BaseSingleton
     {
-        // The Instance Of The Reps Singleton
+        /// <summary>
+        /// The Instance Of The Reps Singleton
+        /// </summary>
         public new static Reps Instance
         {
             get
@@ -17,7 +19,9 @@ namespace Job_Application_Database.Singleton
             }
         }
 
-        // Initialize The Hash Table As Empty
+        /// <summary>
+        /// Initialize The Hash Table As Empty
+        /// </summary>
         public override void InitObjectList()
         {
             _table = new Hashtable

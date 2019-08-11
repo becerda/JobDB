@@ -10,24 +10,55 @@ using System.Collections.Generic;
 
 namespace Job_Application_Database.IO
 {
+    /// <summary>
+    /// Class Handling All File Related Functions
+    /// </summary>
     public class Files
     {
+        /// <summary>
+        /// The Lazy Construction Of The Instance
+        /// </summary>
         private static readonly Lazy<Files> _fm = new Lazy<Files>(() => CreateInstance());
-        private Reps _rm;
-        private Jobs _jm;
-        private Companies _cm;
-        private Boards _bm;
 
+        /// <summary>
+        /// Reference To The Reps Singleton
+        /// </summary>
+        private Reps _rm;
+
+        /// <summary>
+        /// Reference To The Jobs Singleton
+        /// </summary>
+        private Jobs _jm;
+
+        /// <summary>
+        /// Reference To The Companies Singleton
+        /// </summary>
+        private Companies _cm;
+
+        /// <summary>
+        /// Reference To The JobBoards Singleton
+        /// </summary>
+        private JobBoards _bm;
+
+        /// <summary>
+        /// The Name Of The File To Save To
+        /// </summary>
         private string _saveFile;
 
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
         private Files()
         {
             _jm = Jobs.Instance;
             _rm = Reps.Instance;
             _cm = Companies.Instance;
-            _bm = Boards.Instance;
+            _bm = JobBoards.Instance;
         }
 
+        /// <summary>
+        /// The Instance Of Files Singleton
+        /// </summary>
         public static Files Instance
         {
             get
@@ -36,41 +67,66 @@ namespace Job_Application_Database.IO
             }
         }
 
+        /// <summary>
+        /// Creation Of The Instance
+        /// </summary>
+        /// <returns></returns>
         private static Files CreateInstance()
         {
             return Activator.CreateInstance(typeof(Files), true) as Files;
         }
 
+        /// <summary>
+        /// Loads The Rep File
+        /// </summary>
         public void LoadRepFile()
         {
             LoadSingletonObject<Rep>(_rm, Properties.Settings.Default.RepSaveFile);
         }
 
+        /// <summary>
+        /// Saves The Rep File
+        /// </summary>
         public void SaveRepFile()
         {
             SaveSingletonObject(_rm.AllObjects(), Properties.Settings.Default.RepSaveFile);
         }
 
+        /// <summary>
+        /// Loads The Job File
+        /// </summary>
         public void LoadJobFile()
         {
             LoadSingletonObject<Job>(_jm, Properties.Settings.Default.JobSaveFile);
         }
 
+        /// <summary>
+        /// Saves The Job File
+        /// </summary>
         public void SaveJobFile()
         {
             SaveSingletonObject(_jm.AllObjects(), Properties.Settings.Default.JobSaveFile);
         }
 
+        /// <summary>
+        /// Loads The Job Board File
+        /// </summary>
         public void LoadBoardFile()
         {
-            LoadSingletonObject<Board>(_bm, Properties.Settings.Default.BoardSaveFile);
+            LoadSingletonObject<JobBoard>(_bm, Properties.Settings.Default.BoardSaveFile);
         }
 
+        /// <summary>
+        /// Saves The Job Board File
+        /// </summary>
         public void SaveBoardFile()
         {
             SaveSingletonObject(_bm.AllObjects(), Properties.Settings.Default.BoardSaveFile);
         }
 
+        /// <summary>
+        /// Opens The Company File
+        /// </summary>
         public void OpenCompanyFile()
         {
             OpenFileDialog ofd = new OpenFileDialog();
@@ -88,6 +144,10 @@ namespace Job_Application_Database.IO
 
         }
 
+        /// <summary>
+        /// Loads A Specified File
+        /// </summary>
+        /// <param name="filepath">The File Path To Load</param>
         public void LoadCompanyFile(string filepath)
         {
             _saveFile = filepath;
@@ -110,7 +170,7 @@ namespace Job_Application_Database.IO
                     string position = match.Groups["position"].Value;
                     Enum.PositionType p = Enums.ParsePositionType(Int32.Parse(position));
                     string status = match.Groups["status"].Value;
-                    Enum.Status s = Enums.ParseStatus(Int32.Parse(status));
+                    Enum.ApplicationStatus s = Enums.ParseStatus(Int32.Parse(status));
                     string date = match.Groups["date"].Value;
                     string[] dates = date.Split('-');
                     string location = match.Groups["location"].Value;
@@ -122,6 +182,9 @@ namespace Job_Application_Database.IO
             }
         }
 
+        /// <summary>
+        /// Saves The Company File
+        /// </summary>
         public void SaveCompanyFile()
         {
             if (_saveFile == null)
@@ -144,6 +207,11 @@ namespace Job_Application_Database.IO
             SaveSingletonObject(_cm.AllObjects(), _saveFile);
         }
 
+        /// <summary>
+        /// Saves A Singleton's Object Data
+        /// </summary>
+        /// <param name="list">The Data To Save</param>
+        /// <param name="filename">The File Name</param>
         private void SaveSingletonObject(List<BaseInfo> list, string filename)
         {
             string json = String.Empty;
@@ -156,6 +224,12 @@ namespace Job_Application_Database.IO
             File.WriteAllText(filename, json);
         }
 
+        /// <summary>
+        /// Loads A Singleton's Object Data
+        /// </summary>
+        /// <typeparam name="T">The Type Of Object Data</typeparam>
+        /// <param name="bs">The Singleton To Save To</param>
+        /// <param name="filename">The File To Load From</param>
         private void LoadSingletonObject<T>(BaseSingleton bs, string filename)
         {
             if (File.Exists(filename))
@@ -179,6 +253,9 @@ namespace Job_Application_Database.IO
             }
         }
 
+        /// <summary>
+        /// Saves All Files
+        /// </summary>
         public void FullSave()
         {
             SaveCompanyFile();

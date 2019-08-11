@@ -1,4 +1,5 @@
-﻿using Job_Application_Database.Singleton;
+﻿using Job_Application_Database.Enum;
+using Job_Application_Database.Singleton;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,52 +13,84 @@ namespace Job_Application_Database.Classes
     /// <summary>
     /// Base Class For Displaying Singleton Lists
     /// </summary>
-    public abstract class BaseList
+    public abstract class BaseList : BaseWindow
     {
-        // The Base List Window
-        protected BaseListWindow _blw;
-
-        // The Exit Status Of Base List Window
-        public Enum.ExitStatus Exit
+        /// <summary>
+        /// Reference To The Base List Window
+        /// </summary>
+        protected BaseListWindow BaseListWindow
         {
             get
             {
-                return _blw.Exit;
+                return (BaseListWindow)base.Window;
+            }
+        }
+
+        /// <summary>
+        /// The Exit Status Of Base List Window
+        /// </summary>
+        public override ExitStatus Exit
+        {
+            get
+            {
+                return BaseListWindow.Exit;
             }
             set
             {
-                _blw.Exit = value;
+                BaseListWindow.Exit = value;
             }
         }
 
-        // Default Constructor
-        public BaseList(String title, List<BaseInfo> info)
+        /// <summary>
+        /// Construtor To Create A New BaseListWindow
+        /// </summary>
+        /// <param name="title">The Title Of The Window</param>
+        /// <param name="info">The Source</param>
+        public BaseList(String title, List<BaseInfo> info) : base(new BaseListWindow(), title)
         {
+            BaseListWindow.Loaded += Window_Loaded;
+            BaseListWindow.Closing += Window_Closing;
+            BaseListWindow.KeyDown += Window_KeyDown;
 
-            _blw = new BaseListWindow();
-
-            _blw.Title = "Edit " + title + "s";
-            _blw.buttonAdd.Content = "Add " + title;
-            _blw.buttonDelete.Content = "Delete " + title;
-            _blw.buttonEdit.Content = "Edit " + title;
-
-            Style s = new Style();
-            s.Setters.Add(new EventSetter(Control.MouseDoubleClickEvent, new MouseButtonEventHandler(ListViewItem_MouseDoubleClick)));
-            _blw.listviewCurrent.ItemContainerStyle = s;
-            _blw.listviewCurrent.ItemsSource = info;
-
-            _blw.buttonAdd.Click += Button_Click;
-            _blw.buttonDelete.Click += Button_Click;
-            _blw.buttonEdit.Click += Button_Click;
-            _blw.Closing += Window_Closing;
-            _blw.KeyDown += new KeyEventHandler(BaseListWindow_KeyDown);
+            BaseListWindow.listviewCurrent.ItemsSource = info;
+            BaseListWindow.Title = "Edit " + title + "s";
+            BaseListWindow.buttonAdd.Content = "Add " + title;
+            BaseListWindow.buttonDelete.Content = "Delete " + title;
+            BaseListWindow.buttonEdit.Content = "Edit " + title;
         }
 
-        // On Window Closing Handler
-        private void Window_Closing(object sender, CancelEventArgs e) { }
+        /// <summary>
+        /// Overrided Window Loaded Event Method
+        /// </summary>
+        /// <param name="sender">Object Which Called This Function</param>
+        /// <param name="e">The Arguments</param>
+        protected override void Window_Loaded(object sender, RoutedEventArgs e)
+        {
 
-        // Key Down Event Handler (Hot Keys)
-        private void BaseListWindow_KeyDown(object sender, KeyEventArgs e)
+            Style s = new Style();
+            s.Setters.Add(new EventSetter(Control.MouseDoubleClickEvent, new MouseButtonEventHandler(Element_DoubleClick)));
+            BaseListWindow.listviewCurrent.ItemContainerStyle = s;
+
+            BaseListWindow.buttonAdd.Click += Element_Click;
+            BaseListWindow.buttonDelete.Click += Element_Click;
+            BaseListWindow.buttonEdit.Click += Element_Click;
+        }
+
+        /// <summary>
+        /// Window Closing Event Method
+        /// Handles Exit Status Flow
+        /// </summary>
+        /// <param name="sender">Object Which Called This Function</param>
+        /// <param name="e">The Arguments</param>
+        protected override void Window_Closing(object sender, CancelEventArgs e) { }
+
+        /// <summary>
+        /// Window Key Down Event Method
+        /// Handles Enter And Escape Key Presses
+        /// </summary>
+        /// <param name="sender">Object Which Called This Function</param>
+        /// <param name="e">The Arguments</param>
+        protected override void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.N && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
             {
@@ -73,57 +106,71 @@ namespace Job_Application_Database.Classes
             }
             else if (e.Key == Key.Escape)
             {
-                _blw.Close();
+                BaseListWindow.Close();
             }
         }
 
-        // On Button Clicked Handler
-        private void Button_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Window Button Click Method
+        /// Handles Button Presses
+        /// </summary>
+        /// <param name="sender">Object Which Called This Function</param>
+        /// <param name="e">The Arguments</param>
+        protected override void Element_Click(object sender, RoutedEventArgs e)
         {
-            if (e.Source == _blw.buttonAdd)
+            if (e.Source == BaseListWindow.buttonAdd)
             {
                 Add();
             }
-            else if (e.Source == _blw.buttonDelete)
+            else if (e.Source == BaseListWindow.buttonDelete)
             {
                 Delete();
             }
-            else if (e.Source == _blw.buttonEdit)
+            else if (e.Source == BaseListWindow.buttonEdit)
             {
                 Edit();
             }
 
-            Exit = Enum.ExitStatus.Ok;
+            e.Handled = true;
+            Exit = ExitStatus.Ok;
         }
 
-        // List View Item Double Click Handler
-        private void ListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        /// <summary>
+        /// ListView Double Click Method
+        /// Handles Mouse Double Click On listviewCurrent
+        /// </summary>
+        /// <param name="sender">Object Which Called This Function</param>
+        /// <param name="e">The Arguments</param>
+        protected override void Element_DoubleClick(object sender, MouseButtonEventArgs e)
         {
             Edit();
         }
 
-        // Adds A New BaseInfo To A Singleton
+        /// <summary>
+        /// Adds A New BaseInfo To A Singleton
+        /// </summary>
         protected abstract void Add();
 
-        // Deletes A BaseInfo From A Singleton
+        /// <summary>
+        /// Deletes A BaseInfo From A Singleton
+        /// </summary>
         protected abstract void Delete();
 
-        // Edits A BaseInfo From A Singleton
+        /// <summary>
+        /// Edits A BaseInfo From A Singleton
+        /// </summary>
         protected abstract void Edit();
 
-        // Refreshes The List View
+        /// <summary>
+        /// Refreshes The List View
+        /// </summary>
+        /// <param name="bs"></param>
         protected void RefreshListView(BaseSingleton bs)
         {
-            _blw.listviewCurrent.ItemsSource = bs.AllObjects();
-            ICollectionView view = CollectionViewSource.GetDefaultView(_blw.listviewCurrent.ItemsSource);
+            BaseListWindow.listviewCurrent.ItemsSource = bs.AllObjects();
+            ICollectionView view = CollectionViewSource.GetDefaultView(BaseListWindow.listviewCurrent.ItemsSource);
             view.Refresh();
         }
 
-        // Shows The Base List Window Dialog
-        public void ShowDialog()
-        {
-            _blw.ShowDialog();
-        }
     }
-
 }

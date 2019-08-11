@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Job_Application_Database"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen" 
         ResizeMode="NoResize"
@@ -37,7 +38,7 @@
             <Button x:Name="buttonDelete" Content="Delete Job" Margin="10,10,20,10" Grid.Column="2" Grid.Row="1" Width="100" Height="Auto" VerticalAlignment="Center"/>
             <Button x:Name="buttonEdit" Content="Edit Job" Margin="10,10,20,10" Grid.Column="2" Grid.Row="2" Width="100" Height="Auto" VerticalAlignment="Center"/>
         </Grid>
-        
-        
+
+        <local:UserControlExitStatus x:Name="ExitStatus" Exit="Cancel"/>
     </Grid>
 </Window>

@@ -1,9 +1,11 @@
 ﻿using Job_Application_Database.Enum;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.DataVisualization.Charting;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace Job_Application_Database.Classes
@@ -11,7 +13,7 @@ namespace Job_Application_Database.Classes
     /// <summary>
     /// Class That Controls Graph Usage
     /// </summary>
-    class GraphWindowHolder
+    class GraphHolder : BaseWindow
     {
         /// <summary>
         /// To Keep Track Of The Number Of Charts
@@ -51,20 +53,34 @@ namespace Job_Application_Database.Classes
         /// <summary>
         /// The Reference To GraphWindow
         /// </summary>
-        protected GraphWindow Wind { get; set; }
+        protected GraphWindow GraphWindow
+        {
+            get
+            {
+                return (GraphWindow)base.Window;
+            }
+        }
+
+        /// <summary>
+        /// The Exit Status Of GraphWindow
+        /// </summary>
+        public override ExitStatus Exit { get; set; }
 
         /// <summary>
         /// Default Constructor
         /// </summary>
-        public GraphWindowHolder() { Init("Graphs"); }
+        public GraphHolder() : base(new GraphWindow(), "Graphs")
+        {
+            Charts = new Hashtable();
+        }
 
         /// <summary>
         /// Constructor To Set The Window Title
         /// </summary>
         /// <param name="wtitle"></param>
-        public GraphWindowHolder(string wtitle)
+        public GraphHolder(string wtitle) : base(new GraphWindow(), wtitle)
         {
-            Init(wtitle);
+            Charts = new Hashtable();
         }
 
         /// <summary>
@@ -72,21 +88,40 @@ namespace Job_Application_Database.Classes
         /// </summary>
         /// <param name="wtitle">The Title Of The Window</param>
         /// <param name="chart">The Chart To Be Added</param>
-        public GraphWindowHolder(string wtitle, ChartInfo chart)
+        public GraphHolder(string wtitle, ChartInfo chart) : base(new GraphWindow(), wtitle)
         {
-            Init(wtitle);
+            Charts = new Hashtable();
             AddChart(chart);
         }
 
         /// <summary>
-        /// Sets Up The Window And Charts Hashtable
+        /// Overrided Window Loaded Event Method
         /// </summary>
-        /// <param name="title">The Title Of The Window</param>
-        private void Init(string title)
+        /// <param name="sender">The Object That Called Triggered This Event</param>
+        /// <param name="e">The Event Arguments</param>
+        protected override void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Wind = new GraphWindow();
-            Charts = new Hashtable();
-            Wind.Title = title;
+            
+        }
+
+        /// <summary>
+        /// Overrided Window Closing Event Method
+        /// </summary>
+        /// <param name="sender">The Object That Called Triggered This Event</param>
+        /// <param name="e">The Event Arguments</param>
+        protected override void Window_Closing(object sender, CancelEventArgs e)
+        {
+            
+        }
+
+        /// <summary>
+        /// Overrided Window Key Down Event Method
+        /// </summary>
+        /// <param name="sender">The Object That Called Triggered This Event</param>
+        /// <param name="e">The Event Arguments</param>
+        protected override void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+
         }
 
         /// <summary>
@@ -95,7 +130,7 @@ namespace Job_Application_Database.Classes
         /// <param name="chart">The Chart To Add To The Window</param>
         public void AddChart(ChartInfo chart)
         {
-            Wind.Grid.Children.Add(chart.Chart);
+            GraphWindow.Grid.Children.Add(chart.Chart);
             Grid.SetRow(chart.Chart, _row);
             Grid.SetColumn(chart.Chart, _col++);
 
@@ -119,22 +154,6 @@ namespace Job_Application_Database.Classes
 
             ShowChart();
 
-        }
-
-        /// <summary>
-        /// Shows GraphWindow's Dialog
-        /// </summary>
-        public void ShowDialog()
-        {
-            Wind.ShowDialog();
-        }
-
-        /// <summary>
-        /// Shows GraphWindow
-        /// </summary>
-        public void Show()
-        {
-            Wind.Show();
         }
 
         /// <summary>
@@ -192,5 +211,6 @@ namespace Job_Application_Database.Classes
         {
             ((Chart)Charts[id]).Visibility = Visibility.Hidden;
         }
+
     }
 }
