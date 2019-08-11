@@ -9,28 +9,30 @@ using Job_Application_Database.IO;
 using Job_Application_Database.Singleton;
 using System.Collections.Generic;
 using System.Windows.Media;
+using Job_Application_Database.Enum;
 
 namespace Job_Application_Database
 {
     /// <summary>
     /// Starting Point For Program
     /// </summary>
-    class Main
+    class Main : BaseWindow
     {
         /// <summary>
         /// Reference To MainWindow
         /// </summary>
-        private MainWindow _mw;
+        private MainWindow MainWindow
+        {
+            get
+            {
+                return (MainWindow)base.Window;
+            }
+        }
 
         /// <summary>
-        /// Reference To Companies Singleton
+        /// The Exit Status Of MainWindow
         /// </summary>
-        private Companies _cm;
-
-        /// <summary>
-        /// Reference To Files Singleton
-        /// </summary>
-        private Files _fm;
+        public override ExitStatus Exit { get; set; }
 
         /// <summary>
         /// To Keep Track Of Saved State
@@ -55,20 +57,12 @@ namespace Job_Application_Database
         /// <summary>
         /// Current Title Of Application
         /// </summary>
-        private string _title = Properties.Settings.Default.MainWindowTitle;
+        private static string _title = Properties.Settings.Default.MainWindowTitle;
 
         /// <summary>
         /// Default Constructor
         /// </summary>
-        public Main()
-        {
-            // Create Window & Add Event Handlers
-            _mw = new MainWindow();
-            _mw.Loaded += MainWindow_Loaded;
-            _mw.Closing += MainWindow_Closing;
-            _mw.KeyDown += MainWindow_KeyDown;
-            //_mw.Closed += (sender, e) => _mw.Dispatcher.InvokeShutdown();
-        }
+        public Main() : base(new MainWindow(), _title) { }
 
         /// <summary>
         /// On Window Loaded Handler
@@ -76,82 +70,78 @@ namespace Job_Application_Database
         /// </summary>
         /// <param name="sender">Object Which Called This Function</param>
         /// <param name="e">The Arguments</param>
-        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        protected override void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            // Set Singleton References
-            _cm = Companies.Instance;
-            _fm = Files.Instance;
-
             // Add Event Handlers To Views
             //////////////////////////////////
 
             // Menu Item Events
-            _mw.menuitemOpen.Click += MenuItem_Click;
-            _mw.menuitemSave.Click += MenuItem_Click;
-            _mw.menuitemExit.Click += MenuItem_Click;
-            _mw.menuitemNew.Click += MenuItem_Click;
-            _mw.menuitemEdit.Click += MenuItem_Click;
-            _mw.menuitemDelete.Click += MenuItem_Click;
-            _mw.menuItemAutoload.Click += MenuItem_Click;
-            _mw.menuItemAutoSave.Click += MenuItem_Click;
+            MainWindow.menuitemOpen.Click += Element_Click;
+            MainWindow.menuitemSave.Click += Element_Click;
+            MainWindow.menuitemExit.Click += Element_Click;
+            MainWindow.menuitemNew.Click += Element_Click;
+            MainWindow.menuitemEdit.Click += Element_Click;
+            MainWindow.menuitemDelete.Click += Element_Click;
+            MainWindow.menuItemAutoload.Click += Element_Click;
+            MainWindow.menuItemAutoSave.Click += Element_Click;
 
             // Search Text Box Events
-            _mw.textboxSearch.TextChanged += SearchBox_TextChanged;
-            _mw.textboxSearch.LostFocus += SearchBox_FocusChanged;
-            _mw.textboxSearch.GotFocus += SearchBox_FocusChanged;
+            MainWindow.textboxSearch.TextChanged += Element_TextChanged;
+            MainWindow.textboxSearch.LostFocus += Element_FocusChanged;
+            MainWindow.textboxSearch.GotFocus += Element_FocusChanged;
 
             // List View Header Events
-            _mw.listviewCompanies.AddHandler(GridViewColumnHeader.ClickEvent, new RoutedEventHandler(ListViewHeader_Click));
-            _mw.listviewCompanies.MouseDoubleClick += ListViewItem_MouseDoubleClick;
+            MainWindow.listviewCompanies.AddHandler(GridViewColumnHeader.ClickEvent, new RoutedEventHandler(Element_Click));
+            MainWindow.listviewCompanies.MouseDoubleClick += Element_DoubleClick;
 
             // Button Events
-            _mw.buttonNewCompany.Click += Button_Click;
-            _mw.buttonEditCompany.Click += Button_Click;
-            _mw.buttonDeleteCompany.Click += Button_Click;
-            _mw.buttonEditJobs.Click += Button_Click;
-            _mw.buttonEditReps.Click += Button_Click;
-            _mw.buttonEditBoards.Click += Button_Click;
-            _mw.buttonShowGraph.Click += Button_Click;
+            MainWindow.buttonNewCompany.Click += Element_Click;
+            MainWindow.buttonEditCompany.Click += Element_Click;
+            MainWindow.buttonDeleteCompany.Click += Element_Click;
+            MainWindow.buttonEditJobs.Click += Element_Click;
+            MainWindow.buttonEditReps.Click += Element_Click;
+            MainWindow.buttonEditBoards.Click += Element_Click;
+            MainWindow.buttonShowGraph.Click += Element_Click;
 
 
             // Start Up Functionality
             //////////////////////////////////
 
             // Load Rep, Job, and Board Files;
-            _fm.LoadRepFile();
-            _fm.LoadJobFile();
-            _fm.LoadBoardFile();
+            Files.Instance.LoadRepFile();
+            Files.Instance.LoadJobFile();
+            Files.Instance.LoadBoardFile();
 
             // Auto Load Last Company File If Enabled
             if (Properties.Settings.Default.AutoLoadLastFile)
             {
-                _mw.menuItemAutoload.IsChecked = true;
+                MainWindow.menuItemAutoload.IsChecked = true;
                 if (Properties.Settings.Default.LastLoadedFile.Length > 1)
                 {
-                    _fm.LoadCompanyFile(Properties.Settings.Default.LastLoadedFile);
+                    Files.Instance.LoadCompanyFile(Properties.Settings.Default.LastLoadedFile);
                 }
             }
 
             // Auto Save Company File If Enabled
             if (Properties.Settings.Default.AutoSave)
-                _mw.menuItemAutoSave.IsChecked = true;
-            _mw.listviewCompanies.ItemsSource = _cm.AllObjects();
+                MainWindow.menuItemAutoSave.IsChecked = true;
+            MainWindow.listviewCompanies.ItemsSource = Companies.Instance.AllObjects();
             RefreshListView();
 
             // Sorts List Alphabetically
-            Binding b = _mw.gridviewcolCompany.DisplayMemberBinding as Binding;
-            ICollectionView result = CollectionViewSource.GetDefaultView(_mw.listviewCompanies.ItemsSource);
+            Binding b = MainWindow.gridviewcolCompany.DisplayMemberBinding as Binding;
+            ICollectionView result = CollectionViewSource.GetDefaultView(MainWindow.listviewCompanies.ItemsSource);
             result.SortDescriptions.Clear();
             result.SortDescriptions.Add(new SortDescription(b.Path.Path, ListSortDirection.Ascending));
         }
 
         /// <summary>
-        /// Window Closing Event Method
+        /// Overrided Window Closing Event Method
         /// Handles Exit Status Flow
         /// </summary>
         /// <param name="sender">Object Which Called This Function</param>
         /// <param name="e">The Arguments</param>
-        private void MainWindow_Closing(object sender, CancelEventArgs e)
+        protected override void Window_Closing(object sender, CancelEventArgs e)
         {
             if (!_saved)
             {
@@ -169,7 +159,7 @@ namespace Job_Application_Database
         /// </summary>
         /// <param name="sender">Object Which Called This Function</param>
         /// <param name="e">The Arguments</param>
-        private void MainWindow_KeyDown(object sender, KeyEventArgs e)
+        protected override void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.N && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
             {
@@ -198,47 +188,62 @@ namespace Job_Application_Database
         }
 
         /// <summary>
+        /// Overrided Click Event Method
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected override void Element_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender.GetType() == typeof(MenuItem))
+                MenuItem_Click(e);
+            else if (sender.GetType() == typeof(Button))
+                Button_Click(e);
+            else if (sender.GetType() == typeof(ListView))
+                ListViewHeader_Click(e);
+        }
+
+        /// <summary>
         /// Window Menu Item Event Method
         /// Handles Menu Item Click
         /// </summary>
         /// <param name="sender">Object Which Called This Function</param>
         /// <param name="e">The Arguments</param>
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        private void MenuItem_Click(RoutedEventArgs e)
         {
-            if (e.Source == _mw.menuitemSave)
+            if (e.Source == MainWindow.menuitemSave)
             {
                 SaveCompanyFile();
             }
-            else if (e.Source == _mw.menuitemOpen)
+            else if (e.Source == MainWindow.menuitemOpen)
             {
                 OpenFile();
             }
-            else if (e.Source == _mw.menuitemExit)
+            else if (e.Source == MainWindow.menuitemExit)
             {
-                _mw.Close();
+                MainWindow.Close();
             }
-            else if (e.Source == _mw.menuitemNew)
+            else if (e.Source == MainWindow.menuitemNew)
             {
                 AddCompany();
             }
-            else if (e.Source == _mw.menuitemEdit)
+            else if (e.Source == MainWindow.menuitemEdit)
             {
                 EditCompany();
             }
-            else if (e.Source == _mw.menuitemDelete)
+            else if (e.Source == MainWindow.menuitemDelete)
             {
                 DeleteCompany();
             }
-            else if (e.Source == _mw.menuItemAutoload)
+            else if (e.Source == MainWindow.menuItemAutoload)
             {
-                if (_mw.menuItemAutoload.IsChecked)
+                if (MainWindow.menuItemAutoload.IsChecked)
                     Properties.Settings.Default.AutoLoadLastFile = true;
                 else
                     Properties.Settings.Default.AutoLoadLastFile = false;
             }
-            else if (e.Source == _mw.menuItemAutoSave)
+            else if (e.Source == MainWindow.menuItemAutoSave)
             {
-                if (_mw.menuItemAutoSave.IsChecked)
+                if (MainWindow.menuItemAutoSave.IsChecked)
                     Properties.Settings.Default.AutoSave = true;
                 else
                     Properties.Settings.Default.AutoSave = false;
@@ -246,36 +251,40 @@ namespace Job_Application_Database
         }
 
         /// <summary>
-        /// Search Text Box Text Changed Method
+        /// Window Button Click Method
+        /// Handles Button Presses
         /// </summary>
         /// <param name="sender">Object Which Called This Function</param>
         /// <param name="e">The Arguments</param>
-        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void Button_Click(RoutedEventArgs e)
         {
-            var filter = from Emp in _cm.AllObjects()
-                         let name = Emp.Name
-                         where name.ToUpper().StartsWith(_mw.textboxSearch.Text.ToUpper())
-                         select Emp;
-
-            RefreshListView(filter);
-        }
-
-        /// <summary>
-        /// Search Text Box Focus Changed Method
-        /// </summary>
-        /// <param name="sender">Object Which Called This Function</param>
-        /// <param name="e">The Arguments</param>
-        private void SearchBox_FocusChanged(object sender, RoutedEventArgs e)
-        {
-            if (_mw.textboxSearch.IsFocused)
+            if (e.Source == MainWindow.buttonNewCompany)
             {
-                _mw.textboxSearch.Text = "";
+                AddCompany();
             }
-            else
+            else if (e.Source == MainWindow.buttonEditCompany)
             {
-                _mw.textboxSearch.TextChanged -= SearchBox_TextChanged;
-                _mw.textboxSearch.Text = "Search...";
-                _mw.textboxSearch.TextChanged += SearchBox_TextChanged;
+                EditCompany();
+            }
+            else if (e.Source == MainWindow.buttonDeleteCompany)
+            {
+                DeleteCompany();
+            }
+            else if (e.Source == MainWindow.buttonEditJobs)
+            {
+                EditJobs();
+            }
+            else if (e.Source == MainWindow.buttonEditReps)
+            {
+                EditReps();
+            }
+            else if (e.Source == MainWindow.buttonEditBoards)
+            {
+                EditBoards();
+            }
+            else if (e.Source == MainWindow.buttonShowGraph)
+            {
+                ShowGraph();
             }
         }
 
@@ -284,7 +293,7 @@ namespace Job_Application_Database
         /// </summary>
         /// <param name="sender">Object Which Called This Function</param>
         /// <param name="e">The Arguments</param>
-        private void ListViewHeader_Click(object sender, RoutedEventArgs e)
+        private void ListViewHeader_Click(RoutedEventArgs e)
         {
             GridViewColumnHeader col = e.OriginalSource as GridViewColumnHeader;
 
@@ -307,11 +316,11 @@ namespace Job_Application_Database
 
             if (_sortDir == ListSortDirection.Ascending)
             {
-                col.Column.HeaderTemplate = _mw.Resources["ArrowUp"] as DataTemplate;
+                col.Column.HeaderTemplate = MainWindow.Resources["ArrowUp"] as DataTemplate;
             }
             else
             {
-                col.Column.HeaderTemplate = _mw.Resources["ArrowDown"] as DataTemplate;
+                col.Column.HeaderTemplate = MainWindow.Resources["ArrowDown"] as DataTemplate;
             }
 
             _sortHeader = string.Empty;
@@ -322,57 +331,53 @@ namespace Job_Application_Database
                 _sortHeader = b.Path.Path;
             }
 
-            ICollectionView result = CollectionViewSource.GetDefaultView(_mw.listviewCompanies.ItemsSource);
+            ICollectionView result = CollectionViewSource.GetDefaultView(MainWindow.listviewCompanies.ItemsSource);
             result.SortDescriptions.Clear();
             result.SortDescriptions.Add(new SortDescription(_sortHeader, _sortDir));
         }
 
         /// <summary>
-        /// ListView Double Click Method
+        /// Overrided Element Double Click Method
         /// Handles Mouse Double Click On listviewCurrent
         /// </summary>
         /// <param name="sender">Object Which Called This Function</param>
         /// <param name="e">The Arguments</param>
-        private void ListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        protected override void Element_DoubleClick(object sender, MouseButtonEventArgs e)
         {
             EditCompany();
         }
 
         /// <summary>
-        /// Window Button Click Method
-        /// Handles Button Presses
+        /// Overrided Element Text Changed Method
         /// </summary>
         /// <param name="sender">Object Which Called This Function</param>
         /// <param name="e">The Arguments</param>
-        private void Button_Click(object sender, RoutedEventArgs e)
+        protected override void Element_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (e.Source == _mw.buttonNewCompany)
+            var filter = from Emp in Companies.Instance.AllObjects()
+                         let name = Emp.Name
+                         where name.ToUpper().StartsWith(MainWindow.textboxSearch.Text.ToUpper())
+                         select Emp;
+
+            RefreshListView(filter);
+        }
+
+        /// <summary>
+        /// Overrided Element Text Focus Changed Method
+        /// </summary>
+        /// <param name="sender">Object Which Called This Function</param>
+        /// <param name="e">The Arguments</param>
+        protected override void Element_FocusChanged(object sender, RoutedEventArgs e)
+        {
+            if (MainWindow.textboxSearch.IsFocused)
             {
-                AddCompany();
+                MainWindow.textboxSearch.Text = "";
             }
-            else if (e.Source == _mw.buttonEditCompany)
+            else
             {
-                EditCompany();
-            }
-            else if (e.Source == _mw.buttonDeleteCompany)
-            {
-                DeleteCompany();
-            }
-            else if (e.Source == _mw.buttonEditJobs)
-            {
-                EditJobs();
-            }
-            else if (e.Source == _mw.buttonEditReps)
-            {
-                EditReps();
-            }
-            else if (e.Source == _mw.buttonEditBoards)
-            {
-                EditBoards();
-            }
-            else if (e.Source == _mw.buttonShowGraph)
-            {
-                ShowGraph();
+                MainWindow.textboxSearch.TextChanged -= Element_TextChanged;
+                MainWindow.textboxSearch.Text = "Search...";
+                MainWindow.textboxSearch.TextChanged += Element_TextChanged;
             }
         }
 
@@ -381,7 +386,7 @@ namespace Job_Application_Database
         /// </summary>
         private void RefreshListView()
         {
-            RefreshListView(_cm.AllObjects());
+            RefreshListView(Companies.Instance.AllObjects());
         }
 
         /// <summary>
@@ -392,11 +397,11 @@ namespace Job_Application_Database
         {
             if (source != null)
             {
-                _mw.listviewCompanies.ItemsSource = source;
-                ICollectionView view = CollectionViewSource.GetDefaultView(_mw.listviewCompanies.ItemsSource);
+                MainWindow.listviewCompanies.ItemsSource = source;
+                ICollectionView view = CollectionViewSource.GetDefaultView(MainWindow.listviewCompanies.ItemsSource);
                 view.Refresh();
                 view.SortDescriptions.Add(new SortDescription(_sortHeader, _sortDir));
-                _mw.labelCount.Content = "Count: " + source.ToList<BaseInfo>().Count;
+                MainWindow.labelCount.Content = "Count: " + source.ToList<BaseInfo>().Count;
             }
         }
 
@@ -405,7 +410,7 @@ namespace Job_Application_Database
         /// </summary>
         private void OpenFile()
         {
-            _fm.OpenCompanyFile();
+            Files.Instance.OpenCompanyFile();
             //_mw.listviewCompanies.ItemsSource = _cm.AllObjects();
             RefreshListView();
         }
@@ -415,7 +420,7 @@ namespace Job_Application_Database
         /// </summary>
         private void SaveCompanyFile()
         {
-            _fm.SaveCompanyFile();
+            Files.Instance.SaveCompanyFile();
             MarkSaved();
         }
 
@@ -429,7 +434,7 @@ namespace Job_Application_Database
             aec.ShowDialog();
             if (aec.Exit == Enum.ExitStatus.Ok)
             {
-                _cm.AddObject(aec.Company);
+                Companies.Instance.AddObject(aec.Company);
                 RefreshListView();
                 MarkUnsaved();
             }
@@ -440,7 +445,7 @@ namespace Job_Application_Database
         /// </summary>
         private void EditCompany()
         {
-            Company c = _mw.listviewCompanies.SelectedItem as Company;
+            Company c = MainWindow.listviewCompanies.SelectedItem as Company;
             if (c != null)
             {
                 CompanyCreation aec = new CompanyCreation(ref c, Enum.EditMode.Edit);
@@ -458,22 +463,22 @@ namespace Job_Application_Database
         /// </summary>
         private void DeleteCompany()
         {
-            if (_mw.listviewCompanies.SelectedItem != null)
+            if (MainWindow.listviewCompanies.SelectedItem != null)
             {
                 string msg;
-                if (_mw.listviewCompanies.SelectedItems.Count > 1)
+                if (MainWindow.listviewCompanies.SelectedItems.Count > 1)
                 {
-                    msg = "these " + _mw.listviewCompanies.SelectedItems.Count + " companies?";
+                    msg = "these " + MainWindow.listviewCompanies.SelectedItems.Count + " companies?";
                 }
                 else
                 {
-                    msg = (_mw.listviewCompanies.SelectedItems[0] as Company).Name + "?";
+                    msg = (MainWindow.listviewCompanies.SelectedItems[0] as Company).Name + "?";
                 }
                 if (MessageBox.Show("Are you sure you want to delete " + msg, "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    foreach (Company comp in _mw.listviewCompanies.SelectedItems)
+                    foreach (Company comp in MainWindow.listviewCompanies.SelectedItems)
                     {
-                        _cm.RemoveObject(comp);
+                        Companies.Instance.RemoveObject(comp);
                     }
                     RefreshListView();
                     MarkUnsaved();
@@ -530,8 +535,8 @@ namespace Job_Application_Database
             ChartInfo sc = new ChartInfo("Scatter Chart");
             sc.AddGraph(scatter);
 
-            GraphWindowHolder bg = new GraphWindowHolder("Statistics");
-            GraphWindowHolder bg2 = new GraphWindowHolder("Window 2");
+            GraphHolder bg = new GraphHolder("Statistics");
+            GraphHolder bg2 = new GraphHolder("Window 2");
             bg.AddChart(ac);
             bg.AddChart(bc);
             bg.AddChart(cc);
@@ -554,7 +559,7 @@ namespace Job_Application_Database
             }
             else
             {
-                _mw.Title = _title + "*";
+                MainWindow.Title = _title + "*";
                 _saved = false;
             }
 
@@ -565,26 +570,9 @@ namespace Job_Application_Database
         /// </summary>
         private void MarkSaved()
         {
-            _mw.Title = _title;
+            MainWindow.Title = _title;
             _saved = true;
         }
 
-        /// <summary>
-        /// Shows The Main Window Dialog
-        /// </summary>
-        public void ShowDialog()
-        {
-            _mw.ShowDialog();
-        }
-
-        /// <summary>
-        /// Shows The Main Window
-        /// </summary>
-        public void Show()
-        {
-            _mw.Show();
-        }
-
     }
-
 }

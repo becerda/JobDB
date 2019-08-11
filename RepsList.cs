@@ -34,7 +34,7 @@ namespace Job_Application_Database.Classes
         /// </summary>
         protected override void Edit()
         {
-            Rep r = _blw.listviewCurrent.SelectedItem as Rep;
+            Rep r = BaseListWindow.listviewCurrent.SelectedItem as Rep;
             if (r != null)
             {
                 RepCreation jcw = new RepCreation(r);
@@ -49,21 +49,21 @@ namespace Job_Application_Database.Classes
         /// </summary>
         protected override void Delete()
         {
-            if (_blw.listviewCurrent.SelectedItem != null)
+            if (BaseListWindow.listviewCurrent.SelectedItem != null)
             {
                 string msg;
-                if (_blw.listviewCurrent.SelectedItems.Count > 1)
+                if (BaseListWindow.listviewCurrent.SelectedItems.Count > 1)
                 {
-                    msg = "these " + _blw.listviewCurrent.SelectedItems.Count + " Reps?";
+                    msg = "these " + BaseListWindow.listviewCurrent.SelectedItems.Count + " Reps?";
                 }
                 else
                 {
-                    msg = (_blw.listviewCurrent.SelectedItems[0] as IBaseInfo).Name + "?";
+                    msg = (BaseListWindow.listviewCurrent.SelectedItems[0] as IBaseInfo).Name + "?";
                 }
 
                 if (MessageBox.Show("Are you sure you want to delete " + msg, "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    foreach (BaseInfo info in _blw.listviewCurrent.SelectedItems)
+                    foreach (BaseInfo info in BaseListWindow.listviewCurrent.SelectedItems)
                     {
                         Reps.Instance.RemoveObject(info);
                     }

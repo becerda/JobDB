@@ -58,6 +58,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Controls.DataVisualization.Toolkit, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\System.Windows.Controls.DataVisualization.Toolkit.4.0.0.0\lib\net40-Client\System.Windows.Controls.DataVisualization.Toolkit.dll</HintPath>
     </Reference>
@@ -67,6 +68,7 @@
     <Reference Include="System.Windows.Controls.Layout.Toolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\WPFToolkit.3.5.50211.1\lib\System.Windows.Controls.Layout.Toolkit.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -95,12 +97,16 @@
     <Compile Include="BarGraphInfo.cs" />
     <Compile Include="ChartInfo.cs" />
     <Compile Include="BaseCreation.cs" />
+    <Compile Include="UserControlExitStatus.xaml.cs">
+      <DependentUpon>UserControlExitStatus.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WindowHolder.cs" />
     <Compile Include="ColumnGraphInfo.cs" />
     <Compile Include="GraphInfo.cs" />
     <Compile Include="GraphWindow.xaml.cs">
       <DependentUpon>GraphWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GraphWindowHolder.cs" />
+    <Compile Include="GraphHolder.cs" />
     <Compile Include="BaseList.cs" />
     <Compile Include="BaseInfo.cs" />
     <Compile Include="BaseSingleton.cs" />
@@ -160,6 +166,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="BaseCreationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControlExitStatus.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

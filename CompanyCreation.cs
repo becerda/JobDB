@@ -13,12 +13,18 @@ namespace Job_Application_Database
     /// <summary>
     /// Company Creation 
     /// </summary>
-    class CompanyCreation
+    class CompanyCreation : BaseWindow
     {
         /// <summary>
         /// The Reference To The Company Creation Window
         /// </summary>
-        private CompanyCreationWindow _ccw;
+        private CompanyCreationWindow CompanyCreationWindow
+        {
+            get
+            {
+                return (CompanyCreationWindow)base.Window;
+            }
+        }
 
         /// <summary>
         /// The Application Status Of The Company
@@ -33,15 +39,15 @@ namespace Job_Application_Database
         /// <summary>
         /// The Exit Status Of The Window
         /// </summary>
-        public ExitStatus Exit
+        public override ExitStatus Exit
         {
             get
             {
-                return _ccw.Exit;
+                return CompanyCreationWindow.Exit;
             }
             set
             {
-                _ccw.Exit = value;
+                CompanyCreationWindow.Exit = value;
             }
         }
 
@@ -57,11 +63,11 @@ namespace Job_Application_Database
         {
             get
             {
-                return _ccw.textboxName.Text;
+                return CompanyCreationWindow.textboxName.Text;
             }
             set
             {
-                _ccw.textboxName.Text = value;
+                CompanyCreationWindow.textboxName.Text = value;
             }
         }
 
@@ -72,11 +78,11 @@ namespace Job_Application_Database
         {
             get
             {
-                return _ccw.textboxWebsite.Text;
+                return CompanyCreationWindow.textboxWebsite.Text;
             }
             set
             {
-                _ccw.textboxWebsite.Text = value;
+                CompanyCreationWindow.textboxWebsite.Text = value;
             }
         }
 
@@ -87,7 +93,7 @@ namespace Job_Application_Database
         {
             get
             {
-                int idx = _ccw.comboboxRep.SelectedIndex;
+                int idx = CompanyCreationWindow.comboboxRep.SelectedIndex;
                 if (idx < 0) idx = 0;
                 return Reps.Instance.ObjectAt(idx) as Rep;
             }
@@ -100,7 +106,7 @@ namespace Job_Application_Database
         {
             get
             {
-                int idx = _ccw.comboboxJob.SelectedIndex;
+                int idx = CompanyCreationWindow.comboboxJob.SelectedIndex;
                 if (idx < 0) idx = 0;
                 return Jobs.Instance.NamesToTable(idx) as Job;
             }
@@ -113,7 +119,7 @@ namespace Job_Application_Database
         {
             get
             {
-                int idx = _ccw.comboboxBoard.SelectedIndex;
+                int idx = CompanyCreationWindow.comboboxBoard.SelectedIndex;
                 if (idx < 0) idx = 0;
                 return JobBoards.Instance.NamesToTable(idx) as JobBoard;
             }
@@ -126,11 +132,11 @@ namespace Job_Application_Database
         {
             get
             {
-                return _ccw.textboxLocation.Text;
+                return CompanyCreationWindow.textboxLocation.Text;
             }
             set
             {
-                _ccw.textboxLocation.Text = value;
+                CompanyCreationWindow.textboxLocation.Text = value;
             }
         }
 
@@ -141,7 +147,7 @@ namespace Job_Application_Database
         {
             get
             {
-                string[] date = _ccw.datepickerAppDate.Text.Split('/');
+                string[] date = CompanyCreationWindow.datepickerAppDate.Text.Split('/');
                 int year = Int32.Parse(date[2]);
                 int month = Int32.Parse(date[0]);
                 int day = Int32.Parse(date[1]);
@@ -156,28 +162,28 @@ namespace Job_Application_Database
         {
             get
             {
-                _status = _ccw.checkboxApplied.IsChecked == true ? (_status | ApplicationStatus.Applied) : (_status & ~ApplicationStatus.Applied);
-                _status = _ccw.checkboxHunted.IsChecked == true ? (_status | ApplicationStatus.Hunted) : (_status & ~ApplicationStatus.Hunted);
-                _status = _ccw.checkboxAssign.IsChecked == true ? (_status | ApplicationStatus.Assignment) : (_status & ~ApplicationStatus.Assignment);
-                _status = _ccw.checkboxInterview.IsChecked == true ? (_status | ApplicationStatus.Interview) : (_status & ~ApplicationStatus.Interview);
-                _status = _ccw.checkboxOffered.IsChecked == true ? (_status | ApplicationStatus.Offered) : (_status & ~ApplicationStatus.Offered);
-                _status = _ccw.checkboxAccepted.IsChecked == true ? (_status | ApplicationStatus.Accepted) : (_status & ~ApplicationStatus.Accepted);
-                _status = _ccw.checkboxDenied.IsChecked == true ? (_status | ApplicationStatus.Denied) : (_status & ~ApplicationStatus.Denied);
-                _status = _ccw.checkboxRejected.IsChecked == true ? (_status | ApplicationStatus.Rejected) : (_status & ~ApplicationStatus.Rejected);
+                _status = CompanyCreationWindow.checkboxApplied.IsChecked == true ? (_status | ApplicationStatus.Applied) : (_status & ~ApplicationStatus.Applied);
+                _status = CompanyCreationWindow.checkboxHunted.IsChecked == true ? (_status | ApplicationStatus.Hunted) : (_status & ~ApplicationStatus.Hunted);
+                _status = CompanyCreationWindow.checkboxAssign.IsChecked == true ? (_status | ApplicationStatus.Assignment) : (_status & ~ApplicationStatus.Assignment);
+                _status = CompanyCreationWindow.checkboxInterview.IsChecked == true ? (_status | ApplicationStatus.Interview) : (_status & ~ApplicationStatus.Interview);
+                _status = CompanyCreationWindow.checkboxOffered.IsChecked == true ? (_status | ApplicationStatus.Offered) : (_status & ~ApplicationStatus.Offered);
+                _status = CompanyCreationWindow.checkboxAccepted.IsChecked == true ? (_status | ApplicationStatus.Accepted) : (_status & ~ApplicationStatus.Accepted);
+                _status = CompanyCreationWindow.checkboxDenied.IsChecked == true ? (_status | ApplicationStatus.Denied) : (_status & ~ApplicationStatus.Denied);
+                _status = CompanyCreationWindow.checkboxRejected.IsChecked == true ? (_status | ApplicationStatus.Rejected) : (_status & ~ApplicationStatus.Rejected);
 
                 return _status;
             }
             set
             {
                 {
-                    if (value.HasFlag(ApplicationStatus.Applied)) _ccw.checkboxApplied.IsChecked = true;
-                    if (value.HasFlag(ApplicationStatus.Hunted)) _ccw.checkboxHunted.IsChecked = true;
-                    if (value.HasFlag(ApplicationStatus.Assignment)) _ccw.checkboxAssign.IsChecked = true;
-                    if (value.HasFlag(ApplicationStatus.Interview)) _ccw.checkboxInterview.IsChecked = true;
-                    if (value.HasFlag(ApplicationStatus.Offered)) _ccw.checkboxOffered.IsChecked = true;
-                    if (value.HasFlag(ApplicationStatus.Accepted)) _ccw.checkboxAccepted.IsChecked = true;
-                    if (value.HasFlag(ApplicationStatus.Denied)) _ccw.checkboxDenied.IsChecked = true;
-                    if (value.HasFlag(ApplicationStatus.Rejected)) _ccw.checkboxRejected.IsChecked = true;
+                    if (value.HasFlag(ApplicationStatus.Applied)) CompanyCreationWindow.checkboxApplied.IsChecked = true;
+                    if (value.HasFlag(ApplicationStatus.Hunted)) CompanyCreationWindow.checkboxHunted.IsChecked = true;
+                    if (value.HasFlag(ApplicationStatus.Assignment)) CompanyCreationWindow.checkboxAssign.IsChecked = true;
+                    if (value.HasFlag(ApplicationStatus.Interview)) CompanyCreationWindow.checkboxInterview.IsChecked = true;
+                    if (value.HasFlag(ApplicationStatus.Offered)) CompanyCreationWindow.checkboxOffered.IsChecked = true;
+                    if (value.HasFlag(ApplicationStatus.Accepted)) CompanyCreationWindow.checkboxAccepted.IsChecked = true;
+                    if (value.HasFlag(ApplicationStatus.Denied)) CompanyCreationWindow.checkboxDenied.IsChecked = true;
+                    if (value.HasFlag(ApplicationStatus.Rejected)) CompanyCreationWindow.checkboxRejected.IsChecked = true;
                 }
             }
         }
@@ -189,7 +195,7 @@ namespace Job_Application_Database
         {
             get
             {
-                return _ccw.textboxNotes.Text;
+                return CompanyCreationWindow.textboxNotes.Text;
             }
         }
 
@@ -200,11 +206,11 @@ namespace Job_Application_Database
         {
             get
             {
-                if (_ccw.radiobuttonPartTime.IsChecked == true)
+                if (CompanyCreationWindow.radiobuttonPartTime.IsChecked == true)
                     _pt = PositionType.Part;
-                else if (_ccw.radiobuttonFullTime.IsChecked == true)
+                else if (CompanyCreationWindow.radiobuttonFullTime.IsChecked == true)
                     _pt = PositionType.Full;
-                else if (_ccw.radiobuttonContract.IsChecked == true)
+                else if (CompanyCreationWindow.radiobuttonContract.IsChecked == true)
                     _pt = PositionType.Contract;
                 else
                     _pt = PositionType.NA;
@@ -214,13 +220,13 @@ namespace Job_Application_Database
             set
             {
                 if (value == PositionType.Part)
-                    _ccw.radiobuttonPartTime.IsChecked = true;
+                    CompanyCreationWindow.radiobuttonPartTime.IsChecked = true;
                 else if (value == PositionType.Full)
-                    _ccw.radiobuttonFullTime.IsChecked = true;
+                    CompanyCreationWindow.radiobuttonFullTime.IsChecked = true;
                 else if (value == PositionType.Contract)
-                    _ccw.radiobuttonContract.IsChecked = true;
+                    CompanyCreationWindow.radiobuttonContract.IsChecked = true;
                 else
-                    _ccw.radiobuttonNA.IsChecked = true;
+                    CompanyCreationWindow.radiobuttonNA.IsChecked = true;
             }
         }
 
@@ -234,77 +240,14 @@ namespace Job_Application_Database
         /// </summary>
         /// <param name="company">The Company To Edit</param>
         /// <param name="mode">The Editing Mode</param>
-        public CompanyCreation(ref Company company, EditMode mode)
+        public CompanyCreation(ref Company company, EditMode mode) : base(new CompanyCreationWindow(), "")
         {
             Company = company;
             Mode = mode;
-            _ccw = new CompanyCreationWindow();
 
-            _ccw.textboxName.Text = Company.Name;
-            _ccw.textboxWebsite.Text = Company.WebSite;
-            _ccw.comboboxRep.SelectedIndex = Company.RepID;
-            _ccw.comboboxJob.SelectedIndex = Company.JobID;
-            _ccw.textboxLocation.Text = Company.Location;
-            _ccw.datepickerAppDate.SelectedDate = Company.AppDate;
-
-            if (Company.Status.HasFlag(ApplicationStatus.Applied)) _ccw.checkboxApplied.IsChecked = true;
-            if (Company.Status.HasFlag(ApplicationStatus.Hunted)) _ccw.checkboxHunted.IsChecked = true;
-            if (Company.Status.HasFlag(ApplicationStatus.Assignment)) _ccw.checkboxAssign.IsChecked = true;
-            if (Company.Status.HasFlag(ApplicationStatus.Interview)) _ccw.checkboxInterview.IsChecked = true;
-            if (Company.Status.HasFlag(ApplicationStatus.Offered)) _ccw.checkboxOffered.IsChecked = true;
-            if (Company.Status.HasFlag(ApplicationStatus.Accepted)) _ccw.checkboxAccepted.IsChecked = true;
-            if (Company.Status.HasFlag(ApplicationStatus.Denied)) _ccw.checkboxDenied.IsChecked = true;
-            if (Company.Status.HasFlag(ApplicationStatus.Rejected)) _ccw.checkboxRejected.IsChecked = true;
-
-            if (Company.Position == PositionType.Part) _ccw.radiobuttonPartTime.IsChecked = true;
-            else if (Company.Position == PositionType.Full) _ccw.radiobuttonFullTime.IsChecked = true;
-            else if (Company.Position == PositionType.Contract) _ccw.radiobuttonContract.IsChecked = true;
-            else _ccw.radiobuttonNA.IsChecked = true;
-
-            _ccw.textboxNotes.Text = Company.Notes;
-
-
-            if (Mode == EditMode.New)
-            {
-                _ccw.Title = "Add New Company";
-
-            }
-            else if (Mode == EditMode.Edit)
-            {
-                _ccw.Title = "Edit " + Company.Name;
-                _ccw.buttonCreate.Content = "Save";
-            }
-
-            _ccw.KeyDown += new KeyEventHandler(Window_KeyDown);
-            _ccw.buttonCreate.Click += Button_Click;
-            _ccw.buttonCancel.Click += Button_Click;
-            _ccw.buttonAddRep.Click += Button_Click;
-            _ccw.buttonAddTitle.Click += Button_Click;
-            _ccw.buttonAddBoard.Click += Button_Click;
-            _ccw.Closing += Window_Closing;
-            _ccw.Loaded += Window_Loaded;
-
-            _ccw.comboboxBoard.DisplayMemberPath = "Name";
-            _ccw.comboboxBoard.ItemsSource = JobBoards.Instance.AllObjects();
-            _ccw.comboboxBoard.SelectedIndex = JobBoards.Instance.TableToNames(Company.BoardID);
-
-            _ccw.comboboxJob.DisplayMemberPath = "Name";
-            _ccw.comboboxJob.ItemsSource = Jobs.Instance.AllObjects();
-            _ccw.comboboxJob.SelectedIndex = Jobs.Instance.TableToNames(Company.JobID);
-
-            _ccw.comboboxRep.DisplayMemberPath = "Name";
-            _ccw.comboboxRep.ItemsSource = Reps.Instance.AllObjects();
-            _ccw.comboboxRep.SelectedIndex = Reps.Instance.TableToNames(Company.RepID);
-
-            _ccw.textboxName.GotFocus += TextBox_GotFocus;
-            _ccw.textboxWebsite.GotFocus += TextBox_GotFocus;
-            _ccw.textboxLocation.GotFocus += TextBox_GotFocus;
-            _ccw.textboxNotes.GotFocus += TextBox_GotFocus;
-
-            _ccw.textboxName.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(TextInput_MouseDown);
-            _ccw.textboxWebsite.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(TextInput_MouseDown);
-            _ccw.textboxLocation.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(TextInput_MouseDown);
-            _ccw.textboxNotes.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(TextInput_MouseDown);
+            CompanyCreationWindow.Loaded += Window_Loaded;
+            CompanyCreationWindow.Closing += Window_Closing;
+            CompanyCreationWindow.KeyDown += Window_KeyDown;
         }
 
         /// <summary>
@@ -313,12 +256,83 @@ namespace Job_Application_Database
         /// </summary>
         /// <param name="sender">Object Which Called This Function</param>
         /// <param name="e">The Arguments</param>
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        protected override void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            CompanyCreationWindow.textboxName.Text = Company.Name;
+            CompanyCreationWindow.textboxWebsite.Text = Company.WebSite;
+            CompanyCreationWindow.comboboxRep.SelectedIndex = Company.RepID;
+            CompanyCreationWindow.comboboxJob.SelectedIndex = Company.JobID;
+            CompanyCreationWindow.textboxLocation.Text = Company.Location;
+            CompanyCreationWindow.datepickerAppDate.SelectedDate = Company.AppDate;
+
+            if (Company.Status.HasFlag(ApplicationStatus.Applied)) CompanyCreationWindow.checkboxApplied.IsChecked = true;
+            if (Company.Status.HasFlag(ApplicationStatus.Hunted)) CompanyCreationWindow.checkboxHunted.IsChecked = true;
+            if (Company.Status.HasFlag(ApplicationStatus.Assignment)) CompanyCreationWindow.checkboxAssign.IsChecked = true;
+            if (Company.Status.HasFlag(ApplicationStatus.Interview)) CompanyCreationWindow.checkboxInterview.IsChecked = true;
+            if (Company.Status.HasFlag(ApplicationStatus.Offered)) CompanyCreationWindow.checkboxOffered.IsChecked = true;
+            if (Company.Status.HasFlag(ApplicationStatus.Accepted)) CompanyCreationWindow.checkboxAccepted.IsChecked = true;
+            if (Company.Status.HasFlag(ApplicationStatus.Denied)) CompanyCreationWindow.checkboxDenied.IsChecked = true;
+            if (Company.Status.HasFlag(ApplicationStatus.Rejected)) CompanyCreationWindow.checkboxRejected.IsChecked = true;
+
+            if (Company.Position == PositionType.Part) CompanyCreationWindow.radiobuttonPartTime.IsChecked = true;
+            else if (Company.Position == PositionType.Full) CompanyCreationWindow.radiobuttonFullTime.IsChecked = true;
+            else if (Company.Position == PositionType.Contract) CompanyCreationWindow.radiobuttonContract.IsChecked = true;
+            else CompanyCreationWindow.radiobuttonNA.IsChecked = true;
+
+            CompanyCreationWindow.textboxNotes.Text = Company.Notes;
+
+            CompanyCreationWindow.buttonCreate.Click += Element_Click;
+            CompanyCreationWindow.buttonCancel.Click += Element_Click;
+            CompanyCreationWindow.buttonAddRep.Click += Element_Click;
+            CompanyCreationWindow.buttonAddTitle.Click += Element_Click;
+            CompanyCreationWindow.buttonAddBoard.Click += Element_Click;
+
+            CompanyCreationWindow.comboboxBoard.DisplayMemberPath = "Name";
+            CompanyCreationWindow.comboboxBoard.ItemsSource = JobBoards.Instance.AllObjects();
+            CompanyCreationWindow.comboboxBoard.SelectedIndex = JobBoards.Instance.TableToNames(Company.BoardID);
+
+            CompanyCreationWindow.comboboxJob.DisplayMemberPath = "Name";
+            CompanyCreationWindow.comboboxJob.ItemsSource = Jobs.Instance.AllObjects();
+            CompanyCreationWindow.comboboxJob.SelectedIndex = Jobs.Instance.TableToNames(Company.JobID);
+
+            CompanyCreationWindow.comboboxRep.DisplayMemberPath = "Name";
+            CompanyCreationWindow.comboboxRep.ItemsSource = Reps.Instance.AllObjects();
+            CompanyCreationWindow.comboboxRep.SelectedIndex = Reps.Instance.TableToNames(Company.RepID);
+
+            CompanyCreationWindow.textboxName.GotFocus += Element_FocusChanged;
+            CompanyCreationWindow.textboxWebsite.GotFocus += Element_FocusChanged;
+            CompanyCreationWindow.textboxLocation.GotFocus += Element_FocusChanged;
+            CompanyCreationWindow.textboxNotes.GotFocus += Element_FocusChanged;
+
+            CompanyCreationWindow.textboxName.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(Element_MouseDown);
+            CompanyCreationWindow.textboxWebsite.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(Element_MouseDown);
+            CompanyCreationWindow.textboxLocation.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(Element_MouseDown);
+            CompanyCreationWindow.textboxNotes.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(Element_MouseDown);
+
             if (Mode == EditMode.New)
             {
-                _ccw.textboxName.Focus();
-                _ccw.textboxName.SelectAll();
+                CompanyCreationWindow.Title = "Add New Company";
+                CompanyCreationWindow.textboxName.Focus();
+                CompanyCreationWindow.textboxName.SelectAll();
+            }
+            else if (Mode == EditMode.Edit)
+            {
+                CompanyCreationWindow.Title = "Edit " + Company.Name;
+                CompanyCreationWindow.buttonCreate.Content = "Save";
+            }
+        }
+
+        /// <summary>
+        /// Window Closing Event Method
+        /// Handles Exit Status Flow
+        /// </summary>
+        /// <param name="sender">Object Which Called This Function</param>
+        /// <param name="e">The Arguments</param>
+        protected override void Window_Closing(object sender, CancelEventArgs e)
+        {
+            if (Exit == ExitStatus.Ok)
+            {
+                SaveCompanyDetails();
             }
         }
 
@@ -328,51 +342,20 @@ namespace Job_Application_Database
         /// </summary>
         /// <param name="sender">Object Which Called This Function</param>
         /// <param name="e">The Arguments</param>
-        private void Window_KeyDown(object sender, KeyEventArgs e)
+        protected override void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
                 SaveCompanyDetails();
                 Exit = ExitStatus.Ok;
-                _ccw.Close();
+                CompanyCreationWindow.Close();
             }
             else if (e.Key == Key.Escape)
             {
                 Exit = ExitStatus.Cancel;
-                _ccw.Close();
+                CompanyCreationWindow.Close();
             }
 
-        }
-
-        /// <summary>
-        /// Window Text Input Event Method
-        /// Used With Window Loaded To Prevent Selection Of Text To Disappear
-        /// </summary>
-        /// <param name="sender">Object Which Called This Function</param>
-        /// <param name="e">The Arguments</param>
-        private void TextInput_MouseDown(object sender, MouseEventArgs e)
-        {
-            var tb = sender as TextBox;
-            if (e.OriginalSource.GetType().Name == "TextBoxView")
-            {
-                e.Handled = true;
-                tb.Focus();
-            }
-
-        }
-
-        /// <summary>
-        /// Window Closing Event Method
-        /// Handles Exit Status Flow
-        /// </summary>
-        /// <param name="sender">Object Which Called This Function</param>
-        /// <param name="e">The Arguments</param>
-        private void Window_Closing(object sender, CancelEventArgs e)
-        {
-            if (Exit == ExitStatus.Ok)
-            {
-                SaveCompanyDetails();
-            }
         }
 
         /// <summary>
@@ -381,27 +364,27 @@ namespace Job_Application_Database
         /// </summary>
         /// <param name="sender">Object Which Called This Function</param>
         /// <param name="e">The Arguments</param>
-        private void Button_Click(object sender, RoutedEventArgs e)
+        protected override void Element_Click(object sender, RoutedEventArgs e)
         {
-            if (e.Source == _ccw.buttonCreate)
+            if (e.Source == CompanyCreationWindow.buttonCreate)
             {
                 Exit = ExitStatus.Ok;
-                _ccw.Close();
+                CompanyCreationWindow.Close();
             }
-            else if (e.Source == _ccw.buttonCancel)
+            else if (e.Source == CompanyCreationWindow.buttonCancel)
             {
                 Exit = ExitStatus.Cancel;
-                _ccw.Close();
+                CompanyCreationWindow.Close();
             }
-            else if (e.Source == _ccw.buttonAddRep)
+            else if (e.Source == CompanyCreationWindow.buttonAddRep)
             {
                 EditReps();
             }
-            else if (e.Source == _ccw.buttonAddTitle)
+            else if (e.Source == CompanyCreationWindow.buttonAddTitle)
             {
                 EditJobs();
             }
-            else if (e.Source == _ccw.buttonAddBoard)
+            else if (e.Source == CompanyCreationWindow.buttonAddBoard)
             {
                 EditBoards();
             }
@@ -413,9 +396,26 @@ namespace Job_Application_Database
         /// </summary>
         /// <param name="sender">Object Which Called This Function</param>
         /// <param name="e">The Arguments</param>
-        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
+        protected override void Element_FocusChanged(object sender, RoutedEventArgs e)
         {
             ((TextBox)sender).SelectAll();
+        }
+
+        /// <summary>
+        /// Window Text Input Event Method
+        /// Used With Window Loaded To Prevent Selection Of Text To Disappear
+        /// </summary>
+        /// <param name="sender">Object Which Called This Function</param>
+        /// <param name="e">The Arguments</param>
+        protected override void Element_MouseDown(object sender, MouseEventArgs e)
+        {
+            var tb = sender as TextBox;
+            if (e.OriginalSource.GetType().Name == "TextBoxView")
+            {
+                e.Handled = true;
+                tb.Focus();
+            }
+
         }
 
         /// <summary>
@@ -467,7 +467,7 @@ namespace Job_Application_Database
         /// </summary>
         private void RefreshBoardCB()
         {
-            RefereshComboBox(_ccw.comboboxBoard, JobBoards.Instance);
+            RefereshComboBox(CompanyCreationWindow.comboboxBoard, JobBoards.Instance);
         }
 
         /// <summary>
@@ -475,7 +475,7 @@ namespace Job_Application_Database
         /// </summary>
         private void RefreshJobCB()
         {
-            RefereshComboBox(_ccw.comboboxJob, Jobs.Instance);
+            RefereshComboBox(CompanyCreationWindow.comboboxJob, Jobs.Instance);
         }
 
         /// <summary>
@@ -483,7 +483,7 @@ namespace Job_Application_Database
         /// </summary>
         private void RefreshRepCB()
         {
-            RefereshComboBox(_ccw.comboboxRep, Reps.Instance);
+            RefereshComboBox(CompanyCreationWindow.comboboxRep, Reps.Instance);
         }
 
         /// <summary>
@@ -498,13 +498,6 @@ namespace Job_Application_Database
             view.Refresh();
         }
 
-        /// <summary>
-        /// Calls CompanyCreationWindow's ShowDialog Method
-        /// </summary>
-        public void ShowDialog()
-        {
-            _ccw.ShowDialog();
-        }
     }
 
 }

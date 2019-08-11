@@ -7,25 +7,31 @@ namespace Job_Application_Database.Classes
     /// <summary>
     /// Job Board creation window extended from BaseCreation
     /// </summary>
-    public abstract class BaseCreation
+    public abstract class BaseCreation : BaseWindow
     {
         /// <summary>
         /// Reference To The Base Creation Window
         /// </summary>
-        private BaseCreationWindow _bcw;
+        private BaseCreationWindow BaseCreationWindow
+        {
+            get
+            {
+                return (BaseCreationWindow)base.Window;
+            }
+        }
 
         /// <summary>
         /// The Exit Status Of Base Creation Window
         /// </summary>
-        public Enum.ExitStatus Exit
+        public override ExitStatus Exit
         {
             get
             {
-                return _bcw.Exit;
+                return BaseCreationWindow.Exit;
             }
             set
             {
-                _bcw.Exit = value;
+                BaseCreationWindow.Exit = value;
             }
         }
 
@@ -41,11 +47,11 @@ namespace Job_Application_Database.Classes
         {
             get
             {
-                return _bcw.textboxName.Text;
+                return BaseCreationWindow.textboxName.Text;
             }
             set
             {
-                _bcw.textboxName.Text = value;
+                BaseCreationWindow.textboxName.Text = value;
             }
         }
 
@@ -56,11 +62,11 @@ namespace Job_Application_Database.Classes
         {
             get
             {
-                return _bcw.textboxExtra.Text;
+                return BaseCreationWindow.textboxExtra.Text;
             }
             set
             {
-                _bcw.textboxExtra.Text = value;
+                BaseCreationWindow.textboxExtra.Text = value;
             }
         }
 
@@ -71,10 +77,9 @@ namespace Job_Application_Database.Classes
         /// <param name="mode">The Editing Mode</param>
         /// <param name="title">The Title Of The Window</param>
         /// <param name="label">The Label Of The Extra String</param>
-        public BaseCreation(BaseInfo info, Enum.EditMode mode, string title, string label)
+        public BaseCreation(BaseInfo info, Enum.EditMode mode, string title, string label) : base(new BaseCreationWindow(), "")
         {
             Info = info;
-            _bcw = new BaseCreationWindow();
             string _title = string.Empty;
             string _button = string.Empty;
             if (mode == EditMode.New)
@@ -87,21 +92,44 @@ namespace Job_Application_Database.Classes
                 _title = "Edit " + info.Name + " ";
                 _button = "Save";
 
-                _bcw.textboxName.Text = info.Name;
-                _bcw.textboxExtra.Text = info.Extra;
+                BaseCreationWindow.textboxName.Text = info.Name;
+                BaseCreationWindow.textboxExtra.Text = info.Extra;
             }
 
-            _title = title;
+            _title += title;
 
-            _bcw.Title = _title;
-            _bcw.labelExtra.Content = label;
-            _bcw.textboxExtra.Text = label;
-            _bcw.buttonOk.Content = _button;
+            BaseCreationWindow.Title = _title;
+            BaseCreationWindow.labelExtra.Content = label;
+            BaseCreationWindow.textboxExtra.Text = label;
+            BaseCreationWindow.buttonOk.Content = _button;
 
-            _bcw.buttonCancel.Click += Button_Click;
-            _bcw.buttonOk.Click += Button_Click;
-            _bcw.Closing += Window_Closing;
-            _bcw.KeyDown += BaseCreationWindow_KeyDown;
+            BaseCreationWindow.Closing += Window_Closing;
+            BaseCreationWindow.KeyDown += Window_KeyDown;
+        }
+
+        /// <summary>
+        /// Overrided Window Loaded Event Method
+        /// </summary>
+        /// <param name="sender">Object Which Called This Function</param>
+        /// <param name="e">The Arguments</param>
+        protected override void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            BaseCreationWindow.buttonCancel.Click += Element_Click;
+            BaseCreationWindow.buttonOk.Click += Element_Click;
+        }
+
+        /// <summary>
+        /// Window Closing Event Method
+        /// Handles Exit Status Flow
+        /// </summary>
+        /// <param name="sender">Object Which Called This Function</param>
+        /// <param name="e">The Arguments</param>
+        protected override void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (Exit == Enum.ExitStatus.Ok)
+            {
+                SaveBaseDetails();
+            }
         }
 
         /// <summary>
@@ -110,18 +138,18 @@ namespace Job_Application_Database.Classes
         /// </summary>
         /// <param name="sender">Object Which Called This Function</param>
         /// <param name="e">The Arguments</param>
-        private void BaseCreationWindow_KeyDown(object sender, KeyEventArgs e)
+        protected override void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
             {
-                _bcw.Exit = ExitStatus.Cancel;
-                _bcw.Close();
+                BaseCreationWindow.Exit = ExitStatus.Cancel;
+                BaseCreationWindow.Close();
             }
             else if (e.Key == Key.Enter)
             {
                 SaveBaseDetails();
-                _bcw.Exit = ExitStatus.Ok;
-                _bcw.Close();
+                BaseCreationWindow.Exit = ExitStatus.Ok;
+                BaseCreationWindow.Close();
             }
         }
 
@@ -131,28 +159,14 @@ namespace Job_Application_Database.Classes
         /// </summary>
         /// <param name="sender">Object Which Called This Function</param>
         /// <param name="e">The Arguments</param>
-        protected void Button_Click(object sender, RoutedEventArgs e)
+        protected override void Element_Click(object sender, RoutedEventArgs e)
         {
-            if (e.Source == _bcw.buttonOk)
+            if (e.Source == BaseCreationWindow.buttonOk)
             {
                 Exit = Enum.ExitStatus.Ok;
             }
 
-            _bcw.Close();
-        }
-
-        /// <summary>
-        /// Window Closing Event Method
-        /// Handles Exit Status Flow
-        /// </summary>
-        /// <param name="sender">Object Which Called This Function</param>
-        /// <param name="e">The Arguments</param>
-        public void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            if (Exit == Enum.ExitStatus.Ok)
-            {
-                SaveBaseDetails();
-            }
+            BaseCreationWindow.Close();
         }
 
         /// <summary>
@@ -164,13 +178,5 @@ namespace Job_Application_Database.Classes
             Info.Extra = Extra;
         }
 
-        /// <summary>
-        /// Calls CompanyCreationWindow's ShowDialog Method
-        /// </summary>
-        public void ShowDialog()
-        {
-            _bcw.ShowDialog();
-        }
     }
-
 }
